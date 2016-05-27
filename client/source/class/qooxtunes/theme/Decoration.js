@@ -8,11 +8,24 @@
 
 ************************************************************************ */
 
-qx.Theme.define("qooxtunes.theme.Decoration",
-{
-  extend : qx.theme.indigo.Decoration,
+qx.Theme.define("qooxtunes.theme.Decoration", {
+    extend: qx.theme.indigo.Decoration,
 
-  decorations :
-  {
-  }
+    decorations: {
+        "rounded": {
+            include: "main",
+
+            style: {
+                radius: 5
+            }
+        },
+
+        "rounded_slider": {
+            include: "main",
+
+            style: {
+                radius: 3
+            }
+        }
+    }
 });

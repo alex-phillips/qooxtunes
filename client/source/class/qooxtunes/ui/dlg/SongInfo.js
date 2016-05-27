@@ -5,10 +5,11 @@ qx.Class.define("qooxtunes.ui.dlg.SongInfo",
     type: "singleton",
 
     statics: {
-      go: function(song, songIndex, okCallback, nextCallback, previousCallback) {
+      go: function(song, songIndex, okCallback, numSongs, nextCallback, previousCallback) {
         var dlg = qooxtunes.ui.dlg.SongInfo.getInstance();
         dlg.__songRow = song;
         dlg.__songIndex = songIndex;
+        dlg.__numSongs = numSongs;
         dlg.__okCallback = okCallback;
         dlg.__nextCallback = nextCallback;
         dlg.__previousCallback = previousCallback;
@@ -27,39 +28,41 @@ qx.Class.define("qooxtunes.ui.dlg.SongInfo",
     },
 
     members: {
-      __song: -1,
+      __api: null,
 
-      // used when stepping through library with next/prev
+      /**
+       * Used when stepping through library with next/prev
+       */
       __songIndex: -1,
-      __num_songs: 0,
+      __numSongs: 0,
 
-      __ok_callback: null,
+      __song: -1,
+      __okCallback: null,
       __nextCallback: null,
       __previousCallback: null,
-
       __clean: true,
 
       onKeypress: function(e) {
         if (e.getKeyIdentifier().toLowerCase() == 'enter') {
           // enter
-          this.on_btn_ok_execute();
+          this.onOkButtonExecute();
         }
         if (e.getKeyIdentifier().toLowerCase() == 'escape') {
           // escape
-          this.on_btn_cancel_execute();
+          this.onCancelButtonExecute();
         }
       },
 
       validate: function() {
-        var title = this.__tf_title.getValue().trim();
+        var title = this.__titleField.getValue().trim();
         if (title == '') {
-          qooxtunes.ui.dlg.msgbox.go(this.tr("Error"), this.tr("Title cannot be empty."));
+          qooxtunes.ui.dlg.MsgBox.go(this.tr("Error"), this.tr("Title cannot be empty."));
           return false;
         }
 
-        var artist = this.__tf_artist.getValue().trim();
+        var artist = this.__artistField.getValue().trim();
         if (artist == '') {
-          qooxtunes.ui.dlg.msgbox.go(this.tr("Error"), this.tr("Artist cannot be empty."));
+          qooxtunes.ui.dlg.MsgBox.go(this.tr("Error"), this.tr("Artist cannot be empty."));
           return false;
         }
 
@@ -76,7 +79,7 @@ qx.Class.define("qooxtunes.ui.dlg.SongInfo",
         this.loadSongDetails();
       },
 
-      on_btn_previous_execute: function() {
+      onPreviousButtonExecute: function() {
         var me = this;
         // if (!this.__clean) {
         //   if (!this.validate()) {
@@ -101,7 +104,7 @@ qx.Class.define("qooxtunes.ui.dlg.SongInfo",
       },
 
 
-      on_btn_next_execute: function() {
+      onNextButtonExecute: function() {
         var me = this;
         if (!this.__clean) {
           // if (!this.validate()) {
@@ -116,7 +119,7 @@ qx.Class.define("qooxtunes.ui.dlg.SongInfo",
         this.go_next();
       },
 
-      on_btn_ok_execute: function() {
+      onOkButtonExecute: function() {
         if (this.__clean) {
           this.close();
         }
@@ -125,83 +128,52 @@ qx.Class.define("qooxtunes.ui.dlg.SongInfo",
           return;
         }
 
-        var me = this;
-        this.save_songdetails(function() {
-          me.__ok_callback(me.gather_song_data());
-          me.close();
-        });
+        var self = this;
+        this.__api.updateSong({
+            songs: [
+              this.__song.id
+            ],
+            data: {
+              albumName: this.__albumField.getValue(),
+              albumYear: this.__yearField.getValue(),
+              artistName: this.__artistField.getValue(),
+              compilationState: this.__song.compilationState,
+              disc: this.__discNumberField.getValue(),
+              genre: this.__genreField.getValue(),
+              lyrics: this.__lyricsField.getValue(),
+              title: this.__titleField.getValue(),
+              track: this.__trackNumberField.getValue()
+            }
+          },
+          function() {
+            // self.__okCallback(self.gather_song_data());
+            self.close();
+          }
+        );
       },
 
-      on_btn_cancel_execute: function() {
+      onCancelButtonExecute: function() {
         this.close();
       },
 
-      on_input: function() {
+      onInput: function() {
         this.__clean = false;
-      },
-
-
-      on_tf_title_input: function() {
-        this.updateSongSummary();
-      },
-
-      on_tf_albumartist_input: function() {
-        this.updateSongSummary();
-      },
-
-      on_tf_album_input: function() {
-        this.updateSongSummary();
       },
 
       update_ui: function() {
         if (this.__songIndex > 0) {
-          this.__btn_previous.setEnabled(true);
+          this.__previousButton.setEnabled(true);
         }
         else {
-          this.__btn_previous.setEnabled(false);
+          this.__previousButton.setEnabled(false);
         }
 
-        if (this.__songIndex < this.__num_songs - 1) {
-          this.__btn_next.setEnabled(true);
+        if (this.__songIndex < this.__numSongs - 1) {
+          this.__nextButton.setEnabled(true);
         }
         else {
-          this.__btn_next.setEnabled(false);
+          this.__nextButton.setEnabled(false);
         }
-      },
-
-      request_songdetails: function(song_id, open_after_load) {
-        if (typeof open_after_load === 'undefined') {
-          open_after_load = false;
-        }
-
-        var rpc = qooxtunes.io.remote.xbmc.getInstance();
-
-        // note: there seems to be a bug in the GetSongDetails call that 'file' doesn't
-        // work as documented
-
-        var me = this;
-        rpc.callAsync('AudioLibrary.GetSongDetails',
-          [song_id,
-            ['title', 'artist', 'albumartist', 'genre',
-              'year', 'rating', 'album', 'track', 'duration',
-              'comment', 'lyrics', 'musicbrainztrackid', 'musicbrainzartistid',
-              'musicbrainzalbumid', 'musicbrainzalbumartistid', 'playcount',
-              'fanart', 'thumbnail', 'file', 'albumid', 'lastplayed',
-              'disc', 'genreid', 'artistid', 'displayartist', 'albumartistid']
-          ],
-          function(result) {
-
-            var songdetails = result.songdetails;
-
-            me.loadSongDetails(songdetails);
-            me.__current_song_id = song_id;
-            me.update_ui();
-
-            if (open_after_load) {
-              me.open();
-            }
-
-          });
       },
 
       gather_song_data: function() {
@@ -213,74 +185,77 @@ qx.Class.define("qooxtunes.ui.dlg.SongInfo",
 
         return {
           songId: this.__songInfo.songId,
-          title: this.__tf_title.getValue().trim(),
-          artist: this.__tf_artist.getValue().trim(),
-          album: this.__tf_album.getValue().trim(),
-          track: this.__tf_track_number.getValue().trim(),
-          disc: this.__tf_disc_number.getValue().trim(),
-          genre: this.__tf_genre.getValue().trim(),
-          year: this.__tf_year.getValue().trim()
+          title: this.__titleField.getValue().trim(),
+          artist: this.__artistField.getValue().trim(),
+          album: this.__albumField.getValue().trim(),
+          track: this.__trackNumberField.getValue().trim(),
+          disc: this.__discNumberField.getValue().trim(),
+          genre: this.__genreField.getValue().trim(),
+          year: this.__yearField.getValue().trim()
         };
       },
 
 
       save_songdetails: function(callback) {
-        var params = this.gather_song_data();
-
-        var rpc = qooxtunes.io.remote.xbmc.getInstance();
-
-        var me = this;
-        rpc.callAsync('AudioLibrary.SetSongDetails',
-          params,
-          function(result) {
-            callback();
-          });
+        // var params = this.gather_song_data();
+        //
+        // var rpc = qooxtunes.io.remote.xbmc.getInstance();
+        //
+        // var me = this;
+        // rpc.callAsync('AudioLibrary.SetSongDetails',
+        //   params,
+        //   function(result) {
+        //     callback();
+        //   });
       },
 
       updateSongSummary: function() {
-        var str_duration = qooxtunes.util.Time.intToStr(this.__songInfo.info.song.length);
+        this.__titleLabel.setValue(this.__titleField.getValue() + " (" + this.__songRow.duration + ")");
+        this.__artistLabel.setValue(this.__artistField.getValue());
+        this.__albumLabel.setValue(this.__albumField.getValue());
+        this.__playsLabel.setValue("" + this.__songRow.playCount);
+        this.__yearLabel.setValue("" + this.__songRow.year);
+        this.__discLabel.setValue("" + this.__songRow.disc);
+        this.__trackLabel.setValue("" + this.__songRow.track);
+      },
 
-        this.__l_title.setValue(this.__tf_title.getValue() + " (" + str_duration + ")");
-        this.__l_artist.setValue(this.__tf_artist.getValue());
-        this.__l_album.setValue(this.__tf_album.getValue());
+      updateArtistSummary: function() {
+        if (!this.__songInfo.artist_info.bio) {
+          return;
+        }
 
-        this.__l_plays.setValue("" + this.__songInfo.info.play_count);
+        var image = '<div style="padding: 0 10px 0 0; float: left;"><img src="' + this.__songInfo.artist_info.image + '" alt="artist image" width="200px"/></div>';
+        this.__artistSummary.setHtml(image + this.__songInfo.artist_info.bio.full);
       },
 
       loadSongDetails: function(callback) {
         var self = this;
         qooxtunes.ui.dlg.WaitPopup.show("Loading song info...");
-        qooxtunes.api.Koel.getAllSongInfo(this.__songRow.songId, function(data) {
+        this.__api.getSongInfo(this.__songRow.songId, function(data) {
           qooxtunes.ui.dlg.WaitPopup.hide();
           if (!data) {
             return callback();
           }
 
           self.__songInfo = data;
-          self.__artworkImage.setSource(self.__songInfo.info.song.album.cover);
+          self.__song = self.__api.getSongById(self.__songRow.songId);
+          self.__artworkImage.setSource(self.__song.album.cover);
 
-          self.__tf_title.setValue(self.__songInfo.info.song.title);
+          self.__titleField.setValue(self.__song.title);
+          self.__artistField.setValue(self.__song.album.artist.name);
+          self.__albumField.setValue(self.__song.album.name);
+          self.__yearField.setValue("" + self.__song.album.year);
+          self.__genreField.setValue(self.__song.genre);
+          self.__discNumberField.setValue("" + self.__song.disc);
+          self.__trackNumberField.setValue("" + self.__song.track);
 
-          // @TODO -- handle multiple artists
-          self.__tf_artist.setValue(self.__songInfo.info.song.album.artist.name);
-
-          self.__tf_album.setValue(self.__songInfo.info.song.album.name);
-
-          self.__tf_year.setValue("" + self.__songInfo.info.song.album.year);
-
-          // @TODO - handle multiple genres
-          self.__tf_genre.setValue(self.__songInfo.info.song.genre);
-
-          self.__tf_rating.setValue("");
-          self.__tf_disc_number.setValue("" + self.__songInfo.info.song.disc);
-          self.__tf_track_number.setValue("" + self.__songInfo.info.song.track);
-
-          if (!self.__songInfo.details.lyrics) {
-            self.__songInfo.details.lyrics = '';
+          if (!self.__songInfo.lyrics) {
+            self.__songInfo.lyrics = '';
           }
-          self.__lyricsField.setValue(self.__songInfo.details.lyrics.replace(/<br\s*[\/]?>/gi, '\n'));
+          self.__lyricsField.setValue(self.__songInfo.lyrics.replace(/<br\s*[\/]?>/gi, '\n'));
 
           self.updateSongSummary.call(self);
+          self.updateArtistSummary.call(self);
           if (callback) {
             callback();
           }
@@ -307,13 +282,15 @@ qx.Class.define("qooxtunes.ui.dlg.SongInfo",
       },
 
       init: function() {
+        this.__api = qooxtunes.api.Koel.getInstance();
+
         this.set({width: 534, height: 593});
 
         this.__tv_editor = new qx.ui.tabview.TabView();
 
-        this.__tvp_summary = new qx.ui.tabview.Page(this.tr("Summary"));
-        this.__tvp_summary.setLayout(new qx.ui.layout.Canvas());
-        this.__tv_editor.add(this.__tvp_summary);
+        this.__summaryPage = new qx.ui.tabview.Page(this.tr("Summary"));
+        this.__summaryPage.setLayout(new qx.ui.layout.Canvas());
+        this.__tv_editor.add(this.__summaryPage);
 
         var y = 16;
 
@@ -322,20 +299,20 @@ qx.Class.define("qooxtunes.ui.dlg.SongInfo",
         this.__artworkImage.setScale(true);
         this.__artworkImage.setWidth(120);
         this.__artworkImage.setHeight(120);
-        this.__tvp_summary.add(this.__artworkImage, {left: 16, top: y});
+        this.__summaryPage.add(this.__artworkImage, {left: 16, top: y});
 
-        this.__l_title = new qx.ui.basic.Label('');
-        this.__tvp_summary.add(this.__l_title, {left: 152, top: y});
-
-        y += 20;
-
-        this.__l_artist = new qx.ui.basic.Label('');
-        this.__tvp_summary.add(this.__l_artist, {left: 152, top: y});
+        this.__titleLabel = new qx.ui.basic.Label('');
+        this.__summaryPage.add(this.__titleLabel, {left: 152, top: y});
 
         y += 20;
 
-        this.__l_album = new qx.ui.basic.Label('');
-        this.__tvp_summary.add(this.__l_album, {left: 152, top: y});
+        this.__artistLabel = new qx.ui.basic.Label('');
+        this.__summaryPage.add(this.__artistLabel, {left: 152, top: y});
+
+        y += 20;
+
+        this.__albumLabel = new qx.ui.basic.Label('');
+        this.__summaryPage.add(this.__albumLabel, {left: 152, top: y});
 
         y += 88;
 
@@ -343,161 +320,179 @@ qx.Class.define("qooxtunes.ui.dlg.SongInfo",
 
         /*
          lb = this.buildLabel ('Kind:', true);
-         this.__tvp_summary.add (lb, { right: 380, top: y});
+         this.__summaryPage.add (lb, { right: 380, top: y});
 
          y += 16;
 
          lb = this.buildLabel ('Size:', true);
-         this.__tvp_summary.add (lb, { right: 380, top: y});
+         this.__summaryPage.add (lb, { right: 380, top: y});
 
          y += 16;
 
          lb = this.buildLabel ('Bit Rate:', true);
-         this.__tvp_summary.add (lb, { right: 380, top: y});
+         this.__summaryPage.add (lb, { right: 380, top: y});
 
          y += 16;
 
          lb = this.buildLabel ('Sample Rate:', true);
-         this.__tvp_summary.add (lb, { right: 380, top: y});
+         this.__summaryPage.add (lb, { right: 380, top: y});
 
          y += 16;
          */
 
-        lb = this.buildLabel ('Date Modified:', true);
-        this.__tvp_summary.add (lb, { right: 380, top: y});
+        lb = this.buildLabel('Year:', true);
+        this.__summaryPage.add(lb, {right: 380, top: y});
+
+        this.__yearLabel = this.buildLabel('');
+        this.__summaryPage.add(this.__yearLabel, {left: 100, top: y});
 
         y += 16;
 
         lb = this.buildLabel(this.tr('Plays:'), true);
-        this.__tvp_summary.add(lb, {right: 380, top: y});
+        this.__summaryPage.add(lb, {right: 380, top: y});
 
-        this.__l_plays = this.buildLabel('');
-        this.__tvp_summary.add(this.__l_plays, {left: 100, top: y});
+        this.__playsLabel = this.buildLabel('');
+        this.__summaryPage.add(this.__playsLabel, {left: 100, top: y});
 
         y += 16;
 
-        lb = this.buildLabel(this.tr('Last Played:'), true);
-        this.__tvp_summary.add(lb, {right: 380, top: y});
+        lb = this.buildLabel(this.tr('Disc:'), true);
+        this.__summaryPage.add(lb, {right: 380, top: y});
 
-        this.__tvp_info = new qx.ui.tabview.Page(this.tr("Info"));
-        this.__tvp_info.setLayout(new qx.ui.layout.Canvas());
-        this.__tv_editor.add(this.__tvp_info);
+        this.__discLabel = this.buildLabel('');
+        this.__summaryPage.add(this.__discLabel, {left: 100, top: y});
+
+        y += 16;
+
+        lb = this.buildLabel(this.tr('Track:'), true);
+        this.__summaryPage.add(lb, {right: 380, top: y});
+
+        this.__trackLabel = this.buildLabel('');
+        this.__summaryPage.add(this.__trackLabel, {left: 100, top: y});
+
+        this.__infoPage = new qx.ui.tabview.Page(this.tr("Info"));
+        this.__infoPage.setLayout(new qx.ui.layout.Canvas());
+        this.__tv_editor.add(this.__infoPage);
 
         this.addListener('keypress', this.onKeypress, this);
 
         var y = 16;
 
         lb = this.buildLabel(this.tr('Name'));
-        this.__tvp_info.add(lb, {top: y, left: 16});
+        this.__infoPage.add(lb, {top: y, left: 16});
         y += 14;
 
-        this.__tf_title = new qx.ui.form.TextField();
-        this.__tvp_info.add(this.__tf_title, {top: y, left: 16, right: 16});
-        this.__tf_title.addListener("input", this.on_tf_title_input, this);
-        this.__tf_title.addListener("input", this.on_input, this);
+        this.__titleField = new qx.ui.form.TextField();
+        this.__infoPage.add(this.__titleField, {top: y, left: 16, right: 16});
+        this.__titleField.addListener("input", this.onInput, this);
         y += 40;
 
         lb = this.buildLabel(this.tr('Artist'));
-        this.__tvp_info.add(lb, {top: y, left: 16});
+        this.__infoPage.add(lb, {top: y, left: 16});
 
         lb = this.buildLabel(this.tr('Year'));
-        this.__tvp_info.add(lb, {top: y, left: 410});
+        this.__infoPage.add(lb, {top: y, left: 410});
 
         y += 14;
 
-        this.__tf_artist = new qx.ui.form.TextField();
-        this.__tf_artist.setWidth(378);
-        this.__tf_artist.addListener("input", this.on_input, this);
-        this.__tvp_info.add(this.__tf_artist, {top: y, left: 16});
+        this.__artistField = new qx.ui.form.TextField();
+        this.__artistField.setWidth(378);
+        this.__artistField.addListener("input", this.onInput, this);
+        this.__infoPage.add(this.__artistField, {top: y, left: 16});
 
-        this.__tf_year = new qx.ui.form.TextField();
-        this.__tf_year.addListener("input", this.on_input, this);
-        this.__tvp_info.add(this.__tf_year, {top: y, left: 410, right: 16});
+        this.__yearField = new qx.ui.form.TextField();
+        this.__yearField.addListener("input", this.onInput, this);
+        this.__infoPage.add(this.__yearField, {top: y, left: 410, right: 16});
 
         y += 40;
 
         lb = this.buildLabel(this.tr('Album'));
-        this.__tvp_info.add(lb, {top: y, left: 16});
+        this.__infoPage.add(lb, {top: y, left: 16});
         y += 14;
 
-        this.__tf_album = new qx.ui.form.TextField();
-        this.__tf_album.addListener("input", this.on_tf_album_input, this);
-        this.__tf_album.addListener("input", this.on_input, this);
-        this.__tvp_info.add(this.__tf_album, {top: y, left: 16, right: 16});
+        this.__albumField = new qx.ui.form.TextField();
+        this.__albumField.addListener("input", this.onInput, this);
+        this.__infoPage.add(this.__albumField, {top: y, left: 16, right: 16});
         y += 40;
 
-        lb = this.buildLabel(this.tr('Comments'));
-        this.__tvp_info.add(lb, {top: y, left: 16});
-        y += 14;
-
-        this.__ta_comment = new qx.ui.form.TextArea();
-        this.__ta_comment.setHeight(60);
-        this.__ta_comment.addListener("input", this.on_input, this);
-        this.__tvp_info.add(this.__ta_comment, {top: y, left: 16, right: 16});
-
-        y += 73;
+        // lb = this.buildLabel(this.tr('Comments'));
+        // this.__infoPage.add(lb, {top: y, left: 16});
+        // y += 14;
+        //
+        // this.__ta_comment = new qx.ui.form.TextArea();
+        // this.__ta_comment.setHeight(60);
+        // this.__ta_comment.addListener("input", this.onInput, this);
+        // this.__infoPage.add(this.__ta_comment, {top: y, left: 16, right: 16});
+        //
+        // y += 73;
 
         lb = this.buildLabel(this.tr('Genre'));
-        this.__tvp_info.add(lb, {top: y, left: 16});
+        this.__infoPage.add(lb, {top: y, left: 16});
         y += 14;
 
-        this.__tf_genre = new qx.ui.form.TextField();
-        this.__tf_genre.addListener("changeValue", this.on_input, this);
-        this.__tvp_info.add(this.__tf_genre, {top: y, left: 16, right: 16});
+        this.__genreField = new qx.ui.form.TextField();
+        this.__genreField.addListener("changeValue", this.onInput, this);
+        this.__infoPage.add(this.__genreField, {top: y, left: 16, right: 16});
 
         y += 40;
-
-        lb = this.buildLabel(this.tr('Rating'));
-        this.__tvp_info.add(lb, {top: y, left: 16});
 
         lb = this.buildLabel(this.tr('Disc #'));
-        this.__tvp_info.add(lb, {top: y, left: 224});
+        this.__infoPage.add(lb, {top: y, left: 224});
 
         lb = this.buildLabel(this.tr('Track #'));
-        this.__tvp_info.add(lb, {top: y, right: 16});
+        this.__infoPage.add(lb, {top: y, right: 16});
 
         y += 14;
 
-        this.__tf_rating = new qx.ui.form.TextField();
-        this.__tf_rating.setWidth(40);
-        this.__tf_rating.addListener("input", this.on_input, this);
-        this.__tvp_info.add(this.__tf_rating, {top: y, left: 16});
+        this.__discNumberField = new qx.ui.form.TextField();
+        this.__discNumberField.setWidth(40);
+        this.__discNumberField.addListener("input", this.onInput, this);
+        this.__infoPage.add(this.__discNumberField, {top: y, left: 224});
 
-        this.__tf_disc_number = new qx.ui.form.TextField();
-        this.__tf_disc_number.setWidth(40);
-        this.__tf_disc_number.addListener("input", this.on_input, this);
-        this.__tvp_info.add(this.__tf_disc_number, {top: y, left: 224});
-
-        this.__tf_track_number = new qx.ui.form.TextField();
-        this.__tf_track_number.setWidth(40);
-        this.__tf_track_number.addListener("input", this.on_input, this);
-        this.__tvp_info.add(this.__tf_track_number, {top: y, right: 16});
+        this.__trackNumberField = new qx.ui.form.TextField();
+        this.__trackNumberField.setWidth(40);
+        this.__trackNumberField.addListener("input", this.onInput, this);
+        this.__infoPage.add(this.__trackNumberField, {top: y, right: 16});
 
         y += 40;
 
-        this.__tvp_lyrics = new qx.ui.tabview.Page(this.tr("Lyrics"));
-        this.__tvp_lyrics.setLayout(new qx.ui.layout.Canvas());
-        this.__tv_editor.add(this.__tvp_lyrics);
+        this.__artistPage = new qx.ui.tabview.Page(this.tr("Artist"));
+        this.__artistPage.setLayout(new qx.ui.layout.Canvas());
+        this.__artistSummary = new qx.ui.embed.Html();
+        this.__artistSummary.setOverflow("auto", "auto");
+        this.__artistSummary.setDecorator("main");
+        this.__artistSummary.setBackgroundColor("white");
+
+        this.__artistPage.add(this.__artistSummary, {
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0
+        });
+        this.__tv_editor.add(this.__artistPage);
+
+        this.__lyricsPage = new qx.ui.tabview.Page(this.tr("Lyrics"));
+        this.__lyricsPage.setLayout(new qx.ui.layout.Canvas());
+        this.__tv_editor.add(this.__lyricsPage);
 
         this.__lyricsField = new qx.ui.form.TextArea();
-        // this.__lyricsField.setHeight(60);
-        this.__lyricsField.addListener("input", this.on_input, this);
-        this.__tvp_lyrics.add(this.__lyricsField, {top: 0, left: 0, right: 0, bottom: 0});
+        this.__lyricsField.addListener("input", this.onInput, this);
+        this.__lyricsPage.add(this.__lyricsField, {top: 0, left: 0, right: 0, bottom: 0});
 
         this.add(this.__tv_editor, {top: 16, left: 16, right: 16, bottom: 62});
 
         var bl1 = new qx.ui.container.Composite(new qx.ui.layout.HBox(8, 'center'));
 
         // prev/next buttons
-        this.__btn_previous = new qx.ui.form.Button(this.tr("Previous"));
-        this.__btn_previous.set({width: 100});
-        this.__btn_previous.addListener("execute", this.on_btn_previous_execute, this);
-        bl1.add(this.__btn_previous);
+        this.__previousButton = new qx.ui.form.Button(this.tr("Previous"));
+        this.__previousButton.set({width: 100});
+        this.__previousButton.addListener("execute", this.onPreviousButtonExecute, this);
+        bl1.add(this.__previousButton);
 
-        this.__btn_next = new qx.ui.form.Button(this.tr("Next"));
-        this.__btn_next.set({width: 100});
-        this.__btn_next.addListener("execute", this.on_btn_next_execute, this);
-        bl1.add(this.__btn_next);
+        this.__nextButton = new qx.ui.form.Button(this.tr("Next"));
+        this.__nextButton.set({width: 100});
+        this.__nextButton.addListener("execute", this.onNextButtonExecute, this);
+        bl1.add(this.__nextButton);
 
         this.add(bl1, {left: 16, bottom: 16});
 
@@ -505,21 +500,21 @@ qx.Class.define("qooxtunes.ui.dlg.SongInfo",
         var bl2 = new qx.ui.container.Composite(new qx.ui.layout.HBox(8, 'center'));
 
         // ok and cancel buttons
-        this.__btn_ok = new qx.ui.form.Button(this.tr("OK"));
-        this.__btn_ok.set({width: 100});
-        this.__btn_ok.addListener("execute", this.on_btn_ok_execute, this);
-        bl2.add(this.__btn_ok);
+        this.__okButton = new qx.ui.form.Button(this.tr("OK"));
+        this.__okButton.set({width: 100});
+        this.__okButton.addListener("execute", this.onOkButtonExecute, this);
+        bl2.add(this.__okButton);
 
-        this.__btn_cancel = new qx.ui.form.Button(this.tr("Cancel"));
-        this.__btn_cancel.set({width: 100});
-        this.__btn_cancel.addListener("execute", this.on_btn_cancel_execute, this);
-        bl2.add(this.__btn_cancel);
+        this.__cancelButton = new qx.ui.form.Button(this.tr("Cancel"));
+        this.__cancelButton.set({width: 100});
+        this.__cancelButton.addListener("execute", this.onCancelButtonExecute, this);
+        bl2.add(this.__cancelButton);
 
         this.add(bl2, {right: 16, bottom: 16});
 
         this.addListener('appear', function() {
-          this.__tf_title.focus();
-          this.__tf_title.setTextSelection(0);
+          this.__titleField.focus();
+          this.__titleField.setTextSelection(0);
         }, this);
       }
     }

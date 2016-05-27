@@ -10,6 +10,41 @@ qx.Class.define("qooxtunes.util.Time",
         return hour + ":" + (sec > 9 ? sec : "0" + sec);
       },
 
+      totalDurationString: function(time) {
+        var sec_num = parseInt(time, 10); // don't forget the second param
+        var hours = Math.floor(sec_num / 3600);
+        var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+        var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+        // if (minutes < 10) {
+        //   minutes = "0" + minutes;
+        // }
+        // if (seconds < 10) {
+        //   seconds = "0" + seconds;
+        // }
+
+        var timeParts = [];
+        if (hours > 0) {
+          timeParts.push(hours + ' hours');
+        }
+        if (minutes > 0) {
+          timeParts.push(minutes + ' minutes');
+        }
+        if (seconds > 0) {
+          timeParts.push(seconds + ' seconds');
+        }
+
+        var retval = timeParts.join(', ');
+
+        var days = '';
+        if (hours > 24) {
+          retval = (time / 86400).toFixed(1) + ' days';
+        }
+
+        // return days + hours + ':' + minutes + ':' + seconds;
+        return retval;
+      },
+
       duration_str_to_int: function(str) {
         var xary = str.split(':');
 

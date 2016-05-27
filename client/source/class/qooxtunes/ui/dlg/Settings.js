@@ -7,15 +7,17 @@ qx.Class.define("qooxtunes.ui.dlg.Settings",
     statics: {
       go: function() {
         var dlg = qooxtunes.ui.dlg.Settings.getInstance();
-        var profile = qooxtunes.api.Koel.getProfile();
+        var profile = dlg.__api.getProfile();
         if (!dlg.isActive()) {
           dlg.fillForm(dlg.__formConfig.profile, {
             name: profile.name,
             email: profile.email
           });
-          dlg.fillForm(dlg.__formConfig.advanced, {
-            libraryPath: qooxtunes.api.Koel.getSettings().media_path
-          });
+          if (qooxtunes.api.Koel.getInstance().getProfile().is_admin) {
+            dlg.fillForm(dlg.__formConfig.advanced, {
+              libraryPath: dlg.__api.getSettings().media_path
+            });
+          }
           dlg.open();
         }
       }
@@ -30,7 +32,9 @@ qx.Class.define("qooxtunes.ui.dlg.Settings",
     },
 
     members: {
-      __ok_callback: null,
+      __api: null,
+
+      __okCallback: null,
       __clean: true,
 
       __formConfig: {
@@ -59,12 +63,6 @@ qx.Class.define("qooxtunes.ui.dlg.Settings",
             required: false,
             field: null
           }
-          // _confirmBeforeClose: {
-          //   type: 'CheckBox',
-          //   label: 'Confirm before closing?',
-          //   required: false,
-          //   field: null
-          // }
         },
         advanced: {
           libraryPath: {
@@ -136,8 +134,9 @@ qx.Class.define("qooxtunes.ui.dlg.Settings",
       },
 
       buildProfilePane: function() {
-        var profilePage = new qx.ui.tabview.Page(this.tr("Profile"));
-        profilePage.setLayout(new qx.ui.layout.VBox());
+        var profilePage = new qx.ui.tabview.Page(this.tr("Profile")),
+          layout = new qx.ui.layout.VBox();
+        profilePage.setLayout(layout);
 
         profilePage.add(this.buildLabel('Profile', true));
         var form = this.buildForm(this.__formConfig.profile);
@@ -158,7 +157,7 @@ qx.Class.define("qooxtunes.ui.dlg.Settings",
           if ((newPassword || newPasswordConfirm) && (newPassword !== newPasswordConfirm)) {
             return qooxtunes.ui.dlg.MsgBox.go('Error', 'New passwords do not match');
           }
-          qooxtunes.api.Koel.updateProfile({
+          this.__api.updateProfile({
             name: name,
             email: email,
             password: newPassword
@@ -179,13 +178,12 @@ qx.Class.define("qooxtunes.ui.dlg.Settings",
 
         profilePage.add(this.buildLabel('Preferences', true));
 
-        var preferences = qooxtunes.api.Koel.getPreferences();
         var confirmBeforeClosingCheckbox = new qx.ui.form.CheckBox();
-        if (preferences.confirmClosing) {
+        if (this.__api.getPreferenceValue('confirmClosing')) {
           confirmBeforeClosingCheckbox.setValue(true);
         }
         confirmBeforeClosingCheckbox.addListener('changeValue', function(e) {
-          qooxtunes.api.Koel.setPreferenceValue('confirmClosing', confirmBeforeClosingCheckbox.getValue());
+          this.__api.setPreferenceValue('confirmClosing', confirmBeforeClosingCheckbox.getValue());
         }, this);
         var checkBoxContainer = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
         checkBoxContainer.add(confirmBeforeClosingCheckbox, {
@@ -197,6 +195,59 @@ qx.Class.define("qooxtunes.ui.dlg.Settings",
           left: 25
         });
         profilePage.add(checkBoxContainer);
+
+        var lastFmContainer = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
+        lastFmContainer.add(this.buildLabel('Last.fm Integration', true), {
+          top: 15
+        });
+
+        if (this.__api.isLastFmEnabled()) {
+          var atom = new qx.ui.basic.Atom("This installation integrates with Last.fm.<br/>" +
+            "Connecting to your Last.fm account enables exciting features – scrobbling is one.<br/>");
+        } else {
+          var atom = new qx.ui.basic.Atom("Last.fm integration is currently not enabled.<br/>" +
+          "Be sure your Last.fm credentials are properly set in the applications config.");
+
+        }
+        atom.setRich(true);
+        lastFmContainer.add(atom, {
+          top: 30
+        });
+
+        if (this.__api.isLastFmEnabled()) {
+          var connectLastFmButton = new qx.ui.form.Button('Connect to Last.fm');
+          connectLastFmButton.addListener('execute', function() {
+            window.open(
+              '/api/lastfm/connect?jwt-token=' + this.__api.getToken(),
+              '_blank',
+              'toolbar=no,titlebar=no,location=no,width=1024,height=640'
+            );
+          }, this);
+          lastFmContainer.add(connectLastFmButton, {
+            top: 115,
+            left: 0
+          });
+
+          var disconnectLastFmButton = new qx.ui.form.Button('Disconnect from Last.fm');
+          disconnectLastFmButton.addListener('execute', function() {
+            this.__api.disconnectFromLastFm(function() {
+              window.location.reload();
+            });
+          }, this);
+          lastFmContainer.add(disconnectLastFmButton, {
+            top: 115,
+            left: 150
+          });
+
+          if (this.__api.getUserPreferenceValue('lastfm_session_key')) {
+            connectLastFmButton.setLabel('Reconnect to Last.fm');
+            disconnectLastFmButton.setEnabled(true);
+          } else {
+            disconnectLastFmButton.setEnabled(false);
+          }
+        }
+
+        profilePage.add(lastFmContainer);
 
         return profilePage;
       },
@@ -217,7 +268,7 @@ qx.Class.define("qooxtunes.ui.dlg.Settings",
           }
 
           qooxtunes.ui.dlg.WaitPopup.show(this.tr("Scanning library..."));
-          qooxtunes.api.Koel.scanLibrary(mediaPath, function(result) {
+          this.__api.scanLibrary(mediaPath, function(result) {
             qooxtunes.ui.dlg.WaitPopup.hide();
             if (result === false) {
               return qooxtunes.ui.dlg.MsgBox.go('Error', 'Scanning completed successfully!');
@@ -233,6 +284,25 @@ qx.Class.define("qooxtunes.ui.dlg.Settings",
 
         advancedPage.add(form);
 
+        var useAdvancedPlayer = new qx.ui.form.CheckBox();
+        if (qx.module.Cookie.get('use_advanced_player') === "true") {
+          useAdvancedPlayer.setValue(true);
+        }
+        useAdvancedPlayer.addListener('changeValue', function(e) {
+          qx.module.Cookie.set('use_advanced_player', e.getData(), 1000);
+          window.location.reload();
+        }, this);
+        var checkBoxContainer = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
+        checkBoxContainer.add(useAdvancedPlayer, {
+          top: 10,
+          left: 10
+        });
+        checkBoxContainer.add(this.buildLabel('Use advanced player technology (lossless support)? (requires refresh)'), {
+          top: 10,
+          left: 25
+        });
+        advancedPage.add(checkBoxContainer);
+
         return advancedPage;
       },
 
@@ -244,6 +314,8 @@ qx.Class.define("qooxtunes.ui.dlg.Settings",
       },
 
       init: function() {
+        this.__api = qooxtunes.api.Koel.getInstance();
+
         this.setLayout(new qx.ui.layout.VBox(10));
 
         this.set({
@@ -251,14 +323,14 @@ qx.Class.define("qooxtunes.ui.dlg.Settings",
           showMaximize: false,
           resizable: false,
           width: 534,
-          height: 593
+          height: 550
         });
 
         this.__tabView = new qx.ui.tabview.TabView();
 
         this.__tabView.add(this.buildProfilePane());
 
-        if (qooxtunes.api.Koel.getProfile().is_admin) {
+        if (this.__api.getProfile().is_admin) {
           this.__tabView.add(this.buildAdvancedPane());
         }
 

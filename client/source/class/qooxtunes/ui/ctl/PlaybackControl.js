@@ -1,6 +1,11 @@
 qx.Class.define("qooxtunes.ui.ctl.PlaybackControl", {
   type: 'singleton',
+
   extend: qx.ui.container.Composite,
+
+  events: {
+    'play': 'qx.event.type.Data'
+  },
 
   construct: function() {
     this.base(arguments);
@@ -8,10 +13,13 @@ qx.Class.define("qooxtunes.ui.ctl.PlaybackControl", {
   },
 
   members: {
+    __api: null,
+
     __player: null,
     __playing: false,
     __shuffled: false,
     __repeat: false,
+    __repeatOne: false,
     __current_song_id: null,
     __manipulatingScrubber: false,
     __update_interval: 500,
@@ -20,7 +28,6 @@ qx.Class.define("qooxtunes.ui.ctl.PlaybackControl", {
     __active_track: null,
     __current_playlist_id: -1,
     __current_playlist_position: -1,
-    __repeatOne: false,
 
     onBackButtonPress: function(e) {
       if (this.__player.getCurrentTime() > 5) {
@@ -54,7 +61,7 @@ qx.Class.define("qooxtunes.ui.ctl.PlaybackControl", {
       if (song) {
         this.playSong(song.songId);
       } else {
-        this.__player.setSource('');
+        this.__player.stop();
       }
     },
 
@@ -86,30 +93,55 @@ qx.Class.define("qooxtunes.ui.ctl.PlaybackControl", {
       this.__nowPlaying.append(songs);
     },
 
-    playSong: function(id) {
+    queueNext: function(songs) {
+      if (!songs) {
+        return;
+      }
+
+      this.__nowPlaying.prepend(songs);
+    },
+
+    replaceQueue: function(songs) {
+      if (!songs) {
+        return;
+      }
+
+      this.__nowPlaying.replaceQueue(songs);
+    },
+
+    playSong: function(id, time) {
       if (!id) {
         return;
       }
 
-      this.__titleLabel.setValue('Loading');
-      this.__artistLabel.setValue('-');
       this.__scrubber.setValue(0);
       this.__scrubber.setEnabled(false);
+      this.__titleLabel.setValue('Loading');
+      this.__artistLabel.setValue('-');
+      this.__timeElapsed.setValue('--:--');
+      this.__totalTimeLabel.setValue('--:--');
 
       var self = this;
-      qooxtunes.api.Koel.getSongInfo(id, function(data) {
+      this.__currentSong = this.__api.getSongById(id);
+
+      this.__api.getSongPlayInfo(id, function(data) {
         if (!data) {
           console.error(Error('Error fetching song data'));
         } else {
-          self.__titleLabel.setValue(data.song.title);
-          self.__artistLabel.setValue(data.song.album.artist.name + ' - ' + data.song.album.name);
-          self.__totalTimeLabel.setValue(qooxtunes.util.Time.intToStr(data.song.length));
-          self.__artworkImage.setSource(data.song.album.cover);
-          qooxtunes.ui.dlg.ArtworkViewer.getInstance().setSource(data.song.album.cover);
+          self.__currentSong = self.__api.getSongById(id);
+          self.__titleLabel.setValue(self.__currentSong.title);
+          self.__artistLabel.setValue(self.__currentSong.album.artist.name + ' - ' + self.__currentSong.album.name);
+          self.__totalTimeLabel.setValue(qooxtunes.util.Time.intToStr(self.__currentSong.length));
+          self.__scrubber.setMaximum(Math.floor(self.__currentSong.length));
+          self.__scrubber.setEnabled(true);
+          qooxtunes.ui.dlg.ArtworkViewer.getInstance().setSource(self.__currentSong.album.cover);
         }
       });
-      self.__player.setSource(qooxtunes.api.Koel.getSongUrl(id));
-      self.__player.play();
+
+      this.__player.setSource(this.__api.getSongById(id), this.__api.getSongUrl(id, time));
+      this.__player.play();
+      this.fireDataEvent('play', id);
+      this.__artworkImage.setSource(self.__currentSong.album.cover);
     },
 
     onPlayButtonPress: function(e) {
@@ -125,8 +157,6 @@ qx.Class.define("qooxtunes.ui.ctl.PlaybackControl", {
           this.__player.play();
         }
       }
-
-      this.updateControls();
     },
 
     onNowPlayingButtonPress: function(e) {
@@ -139,15 +169,34 @@ qx.Class.define("qooxtunes.ui.ctl.PlaybackControl", {
     },
 
     on_btn_repeat_execute: function(e) {
-      var me = this;
-      // this.__rpc.callAsync("Player.SetRepeat", [player_id, "cycle"],
-      //   function(result) {
-      //     me.update_player();
-      //   });
+      if (!this.__repeat && !this.__repeatOne) {
+        this.__repeat = true;
+        this.__nowPlaying.setRepeat('all');
+        this.__repeatButton.setIcon("qooxtunes/icon/16/loop-active-all.png");
+      } else if (this.__repeat && !this.__repeatOne) {
+        this.__repeat = false;
+        this.__repeatOne = true;
+        this.__nowPlaying.setRepeat('one');
+        this.__repeatButton.setIcon("qooxtunes/icon/16/loop-active-one.png");
+      } else {
+        this.__repeat = false;
+        this.__repeatOne = false;
+        this.__nowPlaying.setRepeat('none');
+        this.__repeatButton.setIcon("qooxtunes/icon/16/loop.png");
+      }
     },
 
     onShuffleButtonPress: function(e) {
-      this.__nowPlaying.shuffle();
+      if (this.__shuffled) {
+        this.__shuffled = false;
+        this.__nowPlaying.setShuffle(false);
+        this.__shuffleButton.setIcon("qooxtunes/icon/16/shuffle.png");
+      } else {
+        this.__shuffled = true;
+        this.__nowPlaying.setShuffle(true);
+        this.__shuffleButton.setIcon("qooxtunes/icon/16/shuffle-active.png");
+        this.__nowPlaying.shuffle();
+      }
     },
 
     onScrubberMouseDown: function(e) {
@@ -165,19 +214,19 @@ qx.Class.define("qooxtunes.ui.ctl.PlaybackControl", {
       var sec = parseInt(currTime % 60);
       this.__timeElapsed.setValue(hour + ":" + (sec > 9 ? sec : "0" + sec));
 
-      if (this.__player.getDuration() === Infinity) {
+      if (!this.__currentSong) {
         this.__scrubber.setEnabled(false);
         this.__scrubber.setValue(0);
       } else {
-        this.__scrubber.setEnabled(true);
-        this.__scrubber.setMaximum(Math.floor(this.__player.getDuration()));
         if (!this.__manipulatingScrubber) {
-          this.__scrubber.setValue(Math.floor(currTime));
+          this.__scrubber.setValue(Math.floor(this.__player.getCurrentTime()));
         }
       }
     },
 
     init: function() {
+      this.__api = qooxtunes.api.Koel.getInstance();
+
       this.__nowPlaying = new qooxtunes.ui.ctl.NowPlaying();
       this.__nowPlaying.setPosition('bottom-center');
       this.__nowPlaying.addListener('playQueuedItem', function(e) {
@@ -228,12 +277,19 @@ qx.Class.define("qooxtunes.ui.ctl.PlaybackControl", {
 
       // preload the alternate images so you don't get annoying flashes
       // the first time you click the buttons
-      // not working
-      /*qx.io.ImageLoader.load("qooxtunes/icon/24/backward-dark.png");
-      qx.io.ImageLoader.load("qooxtunes/icon/32/play-dark.png");
-      qx.io.ImageLoader.load("qooxtunes/icon/32/pause.png");
-      qx.io.ImageLoader.load("qooxtunes/icon/32/pause-dark.png");
-      qx.io.ImageLoader.load("qooxtunes/icon/24/forward-dark.png");*/
+      qx.io.ImageLoader.load("resource/qooxtunes/icon/16/shuffle.png");
+      qx.io.ImageLoader.load("resource/qooxtunes/icon/16/shuffle-active.png");
+      qx.io.ImageLoader.load("resource/qooxtunes/icon/16/loop.png");
+      qx.io.ImageLoader.load("resource/qooxtunes/icon/16/loop-active-all.png");
+      qx.io.ImageLoader.load("resource/qooxtunes/icon/16/loop-active-one.png");
+      qx.io.ImageLoader.load("resource/qooxtunes/icon/24/backward.png");
+      qx.io.ImageLoader.load("resource/qooxtunes/icon/24/backward-dark.png");
+      qx.io.ImageLoader.load("resource/qooxtunes/icon/24/forward.png");
+      qx.io.ImageLoader.load("resource/qooxtunes/icon/24/forward-dark.png");
+      qx.io.ImageLoader.load("resource/qooxtunes/icon/32/play.png");
+      qx.io.ImageLoader.load("resource/qooxtunes/icon/32/play-dark.png");
+      qx.io.ImageLoader.load("resource/qooxtunes/icon/32/pause.png");
+      qx.io.ImageLoader.load("resource/qooxtunes/icon/32/pause-dark.png");
 
       this.__cl1.add(this.__bl1, {
         top: 16,
@@ -242,7 +298,7 @@ qx.Class.define("qooxtunes.ui.ctl.PlaybackControl", {
 
       this.__cl2 = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
       this.__cl2.setBackgroundColor('#eee');
-      // this.__cl2.setDecorator('rounded');
+      this.__cl2.setDecorator('rounded');
 
       this.__artworkImage = new qx.ui.basic.Image('qooxtunes/icon/64/music.png');
       // this.__artworkImage.setDecorator(qx.ui.decoration.MSingleBorder);
@@ -281,10 +337,10 @@ qx.Class.define("qooxtunes.ui.ctl.PlaybackControl", {
         right: 8
       });
 
-      this.__btn_repeat = new qx.ui.form.Button(null, "qooxtunes/icon/16/loop.png");
-      this.__btn_repeat.setDecorator(null);
-      this.__btn_repeat.addListener("execute", this.on_btn_repeat_execute, this);
-      this.__cl2.add(this.__btn_repeat, {
+      this.__repeatButton = new qx.ui.form.Button(null, "qooxtunes/icon/16/loop.png");
+      this.__repeatButton.setDecorator(null);
+      this.__repeatButton.addListener("execute", this.on_btn_repeat_execute, this);
+      this.__cl2.add(this.__repeatButton, {
         top: 40,
         left: 76
       });
@@ -306,11 +362,11 @@ qx.Class.define("qooxtunes.ui.ctl.PlaybackControl", {
       }, this);
 
       this.__scrubber = new qx.ui.form.Slider();
-      // this.__scrubber.setDecorator('rounded_slider');
+      this.__scrubber.setDecorator('rounded_slider');
       this.__scrubber.setKnobFactor(0.001);
       this.__scrubber.setHeight(12);
       this.__scrubber.setBackgroundColor('#ccc');
-      this.__scrubber.setEnabled(false)
+      this.__scrubber.setEnabled(false);
       this.__scrubber.addListener('mousedown', this.onScrubberMouseDown, this);
       this.__scrubber.addListener('mouseup', this.onScrubberMouseUp, this);
       // this.__scrubber.addListener('changeValue', this.on_s_scrubber_changeValue, this);
@@ -328,10 +384,10 @@ qx.Class.define("qooxtunes.ui.ctl.PlaybackControl", {
         right: 92
       });
 
-      this.__btn_shuffle = new qx.ui.form.Button(null, "qooxtunes/icon/16/shuffle.png");
-      this.__btn_shuffle.setDecorator(null);
-      this.__btn_shuffle.addListener("execute", this.onShuffleButtonPress, this);
-      this.__cl2.add(this.__btn_shuffle, {
+      this.__shuffleButton = new qx.ui.form.Button(null, "qooxtunes/icon/16/shuffle.png");
+      this.__shuffleButton.setDecorator(null);
+      this.__shuffleButton.addListener("execute", this.onShuffleButtonPress, this);
+      this.__cl2.add(this.__shuffleButton, {
         top: 40,
         right: 56
       });
@@ -345,7 +401,13 @@ qx.Class.define("qooxtunes.ui.ctl.PlaybackControl", {
       });
       this.add(this.__cl3);
 
-      this.__player = new qx.bom.media.Audio();
+      if (qx.module.Cookie.get('use_advanced_player') === "true") {
+        this.__player = new qooxtunes.ui.ctl.AdvancedPlayer();
+        this.__advancedPlayer = true;
+      } else {
+        this.__player = new qooxtunes.ui.ctl.Player();
+      }
+
       this.__player.addListener('timeupdate', this.onTimeUpdate, this);
       this.__player.addListener('pause', this.updateControls, this);
       this.__player.addListener('play', this.updateControls, this);

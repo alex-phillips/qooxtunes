@@ -1,9 +1,3 @@
-/**
- #asset(audiocogs/aurora.js)
- #asset(audiocogs/flac.js)
- #asset(audiocogs/mp3.js)
- #asset(audiocogs/aac.js)
-*/
 qx.Class.define('qooxtunes.ui.ctl.Player', {
     extend: qx.core.Object,
 
@@ -21,68 +15,84 @@ qx.Class.define('qooxtunes.ui.ctl.Player', {
 
     members: {
       __player: null,
+      __transcodeStream: false,
+      __currentTime: 0,
+      __currentSong: null,
+      __currentSourceUrl: null,
+      __scrubbedTo: 0,
 
       init: function() {
+        this.__player = new qx.bom.media.Audio();
+        this.__player.addListener('play', function() {
+          this.fireEvent('play');
+        }, this);
+        this.__player.addListener('pause', function() {
+          this.fireEvent('pause');
+        }, this);
+        this.__player.addListener('ended', this.onEnd, this);
+        this.__player.addListener('timeupdate', this.onProgress, this);
       },
 
       isPaused: function() {
-        return !this.__player.playing;
+        return this.__player.isPaused();
       },
 
       pause: function() {
         this.__player.pause();
-        this.fireEvent('pause');
       },
 
       play: function() {
-        if (this.__player.playing) {
-          return;
+        if (this.__transcodeStream && this.__currentTime > 0) {
+          this.seekSource(this.__currentSourceUrl + '&time=' + this.__currentTime);
+          this.__player.play();
+        } else {
+          this.__player.play();
         }
-
-        this.__player.play();
-
-        var self = this;
-        this.__player.on('end', function() {
-          self.onEnd.call(self)
-        });
-        this.__player.on('progress', function() {
-          self.onProgress.call(self)
-        });
-        this.__player.on('error', function(error) {
-          console.log(error);
-        });
-        this.fireEvent('play');
       },
 
       getCurrentTime: function() {
-        return this.__player.currentTime / 1000;
+        if (this.__transcodeStream) {
+          return this.__currentTime;
+        }
+
+        return this.__player.getCurrentTime();
       },
 
       setCurrentTime: function(time) {
-        this.__player.seek(time);
+        if (this.__transcodeStream) {
+          var playing = !this.__player.isPaused();
+          this.__scrubbedTo = time;
+          this.seekSource(this.__currentSourceUrl + '&time=' + time);
+          if (playing) {
+            this.__player.play();
+          }
+        } else {
+          this.__player.setCurrentTime(time);
+        }
       },
 
       getDuration: function() {
-        return this.__player.duration;
+        return this.__player.getDuration();
       },
 
       getSource: function() {
-        return this.__player.asset.source.url;
+        return this.__player.getSource();
       },
 
-      setSource: function(url) {
-        if (this.__player) {
-          this.__player.stop();
-        }
+      seekSource: function(url) {
+        this.__player.setSource(url);
+      },
 
-        this.__player = AV.Player.fromURL(url);
-        this.__player.preload();
-
-        var self = this;
+      setSource: function(song, url) {
+        this.__currentTime = 0;
+        this.__scrubbedTo = 0;
+        this.__currentSong = song;
+        this.__currentSourceUrl = url;
+        this.__player.setSource(url);
       },
 
       stop: function() {
-        this.__player.stop();
+        this.__player.setSource('');
       },
 
       onEnd: function() {
@@ -90,6 +100,12 @@ qx.Class.define('qooxtunes.ui.ctl.Player', {
       },
 
       onProgress: function() {
+        if (this.getDuration() === Infinity) {
+          this.__transcodeStream = true;
+        } else {
+          this.__transcodeStream = false;
+        }
+        this.__currentTime = this.__scrubbedTo + Math.floor(this.__player.getCurrentTime());
         this.fireEvent('timeupdate');
       }
     }

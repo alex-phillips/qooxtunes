@@ -8,6 +8,8 @@ qx.Class.define("qooxtunes.ui.tabview.page.Music",
     },
 
     members: {
+      __api: null,
+
       __filterTimeout: null,
       __searchField: null,
 
@@ -36,6 +38,9 @@ qx.Class.define("qooxtunes.ui.tabview.page.Music",
         } else if ((matches = searchValue.match(/title\s*=(.+)/)) != null) {
           searchValue = matches[1].trim();
           column = 'title';
+        } else if ((matches = searchValue.match(/genre\s*=(.+)/)) != null) {
+          searchValue = matches[1].trim();
+          column = 'genre';
         }
 
         this.__libraryPanel.getTable().search(searchValue, column);
@@ -48,16 +53,19 @@ qx.Class.define("qooxtunes.ui.tabview.page.Music",
         } else {
           this.__libraryPanel.getTable().loadPlaylist(id);
         }
+        this.performSearch();
       },
 
       init: function() {
+        this.__api = qooxtunes.api.Koel.getInstance();
+
         this.setLayout(new qx.ui.layout.VBox());
 
         this.__toolbar = new qx.ui.toolbar.ToolBar();
 
         var p1 = new qx.ui.toolbar.Part();
 
-        this.__playlistsButton = new qx.ui.form.ToggleButton(this.tr ("Playlists"));
+        this.__playlistsButton = new qx.ui.form.ToggleButton(this.tr("Playlists"));
         this.__playlistsButton.setValue(true);
         this.__playlistsButton.addListener("changeValue", function(e) {
           if (e.getData()) {
@@ -71,13 +79,21 @@ qx.Class.define("qooxtunes.ui.tabview.page.Music",
         this.__toolbar.add(this.__playlistsButton);
         this.__toolbar.addSpacer();
 
-        this.__searchField = new qx.ui.form.TextField ();
-        this.__searchField.setValue ('');
-        this.__searchField.setWidth (200);
-        this.__searchField.addListener ('input', this.onSearchFieldInput, this);
-        this.__searchField.setAlignY ("middle");
-        this.__searchField.setMarginRight (8);
+        this.__searchField = new qx.ui.form.TextField();
+        this.__searchField.setValue('');
+        this.__searchField.setWidth(200);
+        this.__searchField.addListener('input', this.onSearchFieldInput, this);
+        this.__searchField.setAlignY("middle");
+        this.__searchField.setMarginRight(8);
+        this.__searchField.setPlaceholder('Search');
         this.__toolbar.add(this.__searchField);
+
+        this.__searchField.addListener('focusin', function() {
+
+        }, this);
+        this.__searchField.addListener('focusout', function() {
+
+        }, this);
 
         this.add(this.__toolbar);
 
@@ -86,13 +102,13 @@ qx.Class.define("qooxtunes.ui.tabview.page.Music",
 
         var self = this;
         qooxtunes.ui.dlg.WaitPopup.show("Loading music library...");
-        qooxtunes.api.Koel.getData(function(data) {
+        this.__api.getData(function(data) {
           qooxtunes.ui.dlg.WaitPopup.hide();
 
           self.__playlistsPanel = new qooxtunes.ui.pnl.Playlists();
-          self.__libraryPanel = new qooxtunes.ui.pnl.MusicLibrary();
           self.__playlistsPanel.addListener('playlistSelected', self.onPlaylistSelected, self);
 
+          self.__libraryPanel = new qooxtunes.ui.pnl.MusicLibrary();
           self.__libraryPanel.getTable().addListener('searchChanged', self.onSearchFieldInput, self);
 
           pane.add(self.__playlistsPanel, 0);

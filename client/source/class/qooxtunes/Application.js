@@ -25,6 +25,7 @@ qx.Class.define("qooxtunes.Application",
      */
 
     members: {
+      __api: null,
       __loggedIn: false,
 
       /**
@@ -51,20 +52,21 @@ qx.Class.define("qooxtunes.Application",
          -------------------------------------------------------------------------
          */
 
+        this.__api = qooxtunes.api.Koel.getInstance();
         this.setUpLogin();
       },
 
       close: function() {
         this.base(arguments);
 
-        if (this.__loggedIn && qooxtunes.api.Koel.getPreferenceValue('confirmClosing')) {
+        if (this.__loggedIn && this.__api.getPreferenceValue('confirmClosing')) {
           return "";
         }
       },
 
       logout: function() {
         var self = this;
-        qooxtunes.api.Koel.logout(function(err) {
+        this.__api.logout(function(err) {
           self.__loggedIn = false;
           window.location.reload();
         });

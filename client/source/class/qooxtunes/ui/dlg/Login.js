@@ -37,6 +37,8 @@ qx.Class.define("qooxtunes.ui.dlg.Login",
     },
 
     members: {
+      __api: null,
+
       __emailField: null,
       __passwordField: null,
       __okButton: null,
@@ -55,11 +57,13 @@ qx.Class.define("qooxtunes.ui.dlg.Login",
       },
 
       init: function() {
+        this.__api = qooxtunes.api.Koel.getInstance();
+
         this.__emailField.setValue('');
         this.__passwordField.setValue('');
 
         var self = this;
-        qooxtunes.api.Koel.ping(function(result) {
+        this.__api.ping(function(result) {
           if (result) {
             self.fireEvent('login');
           } else {
@@ -83,7 +87,7 @@ qx.Class.define("qooxtunes.ui.dlg.Login",
         }
 
         var self = this;
-        qooxtunes.api.Koel.login({
+        this.__api.login({
           email: email,
           password: password
         }, function(result) {

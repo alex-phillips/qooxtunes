@@ -13,11 +13,11 @@ qx.Class.define("qooxtunes.ui.ctl.NowPlaying",
     },
 
     members: {
-      repeat: false,
-
+      __repeat: false,
       __queue: [],
       __previous: [],
       __nowPlaying: null,
+      __shuffleOn: false,
 
       append: function(songs) {
         if (songs instanceof Array) {
@@ -26,7 +26,17 @@ qx.Class.define("qooxtunes.ui.ctl.NowPlaying",
           this.__queue.push(songs);
         }
 
-        this.update(this.__queue);
+        this.update();
+      },
+
+      prepend: function(songs) {
+        if (songs instanceof Array) {
+          this.__queue = songs.concat(this.__queue);
+        } else {
+          this.__queue.unshift(songs);
+        }
+
+        this.update();
       },
 
       update: function() {
@@ -75,9 +85,10 @@ qx.Class.define("qooxtunes.ui.ctl.NowPlaying",
         var self = this;
         return function() {
           for (var i = 0; i <= index; i++) {
-            var song = self.getNext();
+            var song = self.getNext(true);
           }
 
+          self.update();
           self.fireDataEvent('playQueuedItem', song.songId);
         }
       },
@@ -89,9 +100,38 @@ qx.Class.define("qooxtunes.ui.ctl.NowPlaying",
         this.update();
       },
 
+      replaceQueue: function(songs) {
+        this.__previous = [];
+        this.__queue = songs;
+
+        if (this.__shuffleOn) {
+          this.shuffle();
+        }
+
+        this.update();
+      },
+
+      setRepeat: function(type) {
+        switch (type) {
+          case 'all':
+          case 'one':
+            this.__repeat = type;
+            break;
+          default:
+            this.__repeat = false;
+            break;
+        }
+      },
+
+      setShuffle: function(enabled) {
+        this.__shuffleOn = enabled ? true : false;
+        if (this.__shuffleOn) {
+          this.shuffle();
+        }
+      },
+
       shuffle: function() {
         this.__queue = shuffle(this.__queue);
-        this.__previous = shuffle(this.__previous);
         this.update();
 
         function shuffle(array) {
@@ -114,17 +154,29 @@ qx.Class.define("qooxtunes.ui.ctl.NowPlaying",
         }
       },
 
-      getNext: function() {
+      getNext: function(overrideRepeat) {
+        if (this.__repeat === 'one' && !overrideRepeat) {
+          return this.__nowPlaying;
+        }
+
         if (this.__nowPlaying) {
           this.__previous.unshift(this.__nowPlaying);
         }
 
-        this.__nowPlaying = this.__queue.shift();
-
         if (this.__queue.length === 0) {
-          this.__queue = this.__previous;
+          if (!this.__repeat) {
+            return null;
+          }
+
+          this.__queue = this.__previous.reverse();
           this.__previous = [];
+
+          if (this.__shuffleOn) {
+            this.shuffle();
+          }
         }
+
+        this.__nowPlaying = this.__queue.shift();
 
         this.update();
 
@@ -147,10 +199,10 @@ qx.Class.define("qooxtunes.ui.ctl.NowPlaying",
         this.set({
           width: 320,
           height: 500,
-          autoHide: false
+          autoHide: true
         });
 
-        this.__itemPane = new qx.ui.container.Composite(new qx.ui.layout.VBox(0, null, qx.ui.MSingleBorder));
+        this.__itemPane = new qx.ui.container.Composite(new qx.ui.layout.VBox(0, null));
 
         this.add(new qx.ui.container.Scroll(this.__itemPane), {edge: 0});
         this.update();

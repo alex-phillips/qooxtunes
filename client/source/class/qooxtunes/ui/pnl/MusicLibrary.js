@@ -46,7 +46,6 @@ qx.Class.define("qooxtunes.ui.pnl.MusicLibrary",
         this.__lb_playlist = new qx.ui.basic.Label('');
         this.__lb_playlist.setFont(new qx.bom.Font(24, ['Tahoma', 'Lucida Sans Unicode', 'sans-serif']));
         this.__lb_playlist.setAlignY("middle");
-        this.__lb_playlist.setMarginLeft(4);
         this.__tb_playlist.add(this.__lb_playlist, {flex: 1});
 
         this.__tb_playlist.addSpacer();
@@ -59,18 +58,12 @@ qx.Class.define("qooxtunes.ui.pnl.MusicLibrary",
         this.__tb_playlist.add(p1);
         this.__spc_playlist.add(this.__tb_playlist);
 
-        // this.__l_playlist = new qooxtunes.ui.ctl.list.Songs(this.__libraryTable);
-        // this.__l_playlist.setDraggable(true);
-        // this.__l_playlist.setDroppable(true);
-        // this.__l_playlist.addListener('keypress', this.on_l_playlist_keypress, this);
-        // this.__spc_playlist.add(this.__l_playlist, {flex: 1});
-
         pane.add(this.__spc_library, 1);
         pane.add(this.__spc_playlist, 0);
 
         this.__spc_playlist.exclude();
 
-        this.add(pane, {edge: 8});
+        this.add(pane, {edge: 0});
 
         this.__libraryTable.loadAll();
       }
