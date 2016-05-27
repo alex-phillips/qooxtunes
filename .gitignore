@@ -1,3 +1,5 @@
 /node_modules/
 /client/node_modules/
 /client/qx/*
+/client/build/
+/client/source/scripts/
