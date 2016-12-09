@@ -9,6 +9,8 @@ qx.Class.define("qooxtunes.api.Koel",
     },
 
     members: {
+      streamLossless: false,
+
       __token: '',
       __data: null,
       __songs: {},
@@ -31,6 +33,7 @@ qx.Class.define("qooxtunes.api.Koel",
         qx.lang.Array.append(playlist.songs, songIds);
 
         var request = new qx.io.remote.Request('/api/playlist/' + id + '/sync', 'PUT', 'application/json');
+        request.setProhibitCaching(false);
         request.setRequestHeader('Authorization', 'Bearer ' + this.getToken());
         request.setRequestHeader("Accept", "application/json");
         request.setRequestHeader("content-type", "application/json");
@@ -67,6 +70,7 @@ qx.Class.define("qooxtunes.api.Koel",
         }
 
         var request = new qx.io.remote.Request('/api/playlist/' + id + '/sync', 'PUT', 'application/json');
+        request.setProhibitCaching(false);
         request.setRequestHeader('Authorization', 'Bearer ' + this.getToken());
         request.setRequestHeader("Accept", "application/json");
         request.setRequestHeader("content-type", "application/json");
@@ -86,6 +90,7 @@ qx.Class.define("qooxtunes.api.Koel",
       createPlaylist: function(name, callback) {
         var self = this;
         var request = new qx.io.remote.Request('/api/playlist', 'POST', 'application/json');
+        request.setProhibitCaching(false);
         request.setRequestHeader('Authorization', 'Bearer ' + this.getToken());
         request.setRequestHeader("Accept", "application/json");
         request.setRequestHeader("content-type", "application/json");
@@ -112,6 +117,7 @@ qx.Class.define("qooxtunes.api.Koel",
       deletePlaylist: function(id, callback) {
         var self = this;
         var request = new qx.io.remote.Request('/api/playlist/' + id, 'DELETE', 'application/json');
+        request.setProhibitCaching(false);
         request.setRequestHeader('Authorization', 'Bearer ' + this.getToken());
         request.setRequestHeader("Accept", "application/json");
         request.setRequestHeader("content-type", "application/json");
@@ -145,7 +151,7 @@ qx.Class.define("qooxtunes.api.Koel",
         request.addListener('completed', function(e) {
           if (e.getContent().token) {
             self.__token = e.getContent().token;
-            qx.bom.Cookie.set('token', e.getContent().token);
+            qx.bom.Cookie.set('token', e.getContent().token, 365);
 
             return callback(true)
           }
@@ -162,6 +168,7 @@ qx.Class.define("qooxtunes.api.Koel",
       logout: function(callback) {
         var self = this;
         var request = new qx.io.remote.Request('/api/me', 'DELETE', 'application/json');
+        request.setProhibitCaching(false);
         request.setRequestHeader("Accept", "application/json");
         request.setRequestHeader("content-type", "application/json");
         request.setRequestHeader('Authorization', 'Bearer ' + this.getToken());
@@ -172,13 +179,14 @@ qx.Class.define("qooxtunes.api.Koel",
       },
 
       /**
-       * Fetch data from server
+       * Fetch data from server and build local song data
        *
        * @param callback
        */
       fetchData: function(callback) {
         var self = this;
         var request = new qx.io.remote.Request('/api/data', 'GET', 'application/json');
+        request.setProhibitCaching(false);
         request.setRequestHeader('Authorization', 'Bearer ' + this.getToken());
         request.setRequestHeader("Accept", "application/json");
         request.setRequestHeader("content-type", "application/json");
@@ -188,13 +196,13 @@ qx.Class.define("qooxtunes.api.Koel",
 
           for (var i = 0; i < self.__data.artists.length; i++) {
             var artist = JSON.parse(JSON.stringify(self.__data.artists[i]));
+            self.__artists[artist.id] = artist;
             for (var j = 0; j < artist.albums.length; j++) {
               var album = JSON.parse(JSON.stringify(artist.albums[j]));
+              self.__albums[album.id] = album;
               for (var k = 0; k < album.songs.length; k++) {
                 var song = JSON.parse(JSON.stringify(album.songs[k]));
 
-                self.__artists[artist.id] = artist;
-                self.__albums[album.id] = album;
                 self.__songs[song.id] = {
                   id: song.id,
                   title: song.title,
@@ -205,12 +213,14 @@ qx.Class.define("qooxtunes.api.Koel",
                   search_value: song.title + ' ' + artist.name + ' ' + album.name,
                   genre: song.genre,
                   length: song.length,
-                  compilationState: album.is_compilation ? 1 : 0,
+                  artist_id: album.is_compilation ? song.contributing_artist_id : artist.id,
+                  date_added: new Date(song.created_at),
                   album: {
                     id: album.id,
                     cover: album.cover,
                     name: album.name,
                     year: album.year,
+                    compilationState: album.is_compilation ? 1 : 0,
                     artist: {
                       id: artist.id,
                       image: artist.image,
@@ -233,6 +243,7 @@ qx.Class.define("qooxtunes.api.Koel",
 
       disconnectFromLastFm: function(callback) {
         var request = new qx.io.remote.Request('/api/lastfm/disconnect', 'DELETE', 'application/json');
+        request.setProhibitCaching(false);
         request.setRequestHeader("Accept", "application/json");
         request.setRequestHeader("content-type", "application/json");
         request.setRequestHeader('Authorization', 'Bearer ' + this.getToken());
@@ -310,13 +321,13 @@ qx.Class.define("qooxtunes.api.Koel",
         return preferences;
       },
 
-      getPreferenceValue: function(key) {
+      getPreferenceValue: function(key, defaultValue) {
         var preferences = this.getPreferences();
         if (preferences[key]) {
           return preferences[key];
         }
 
-        return null;
+        return defaultValue === undefined ? null : defaultValue;
       },
 
       savePreferences: function(data) {
@@ -340,6 +351,7 @@ qx.Class.define("qooxtunes.api.Koel",
       getSongInfo: function(id, callback) {
         var infoData = null;
         var infoRequest = new qx.io.remote.Request('/api/' + id + '/info', 'GET', 'application/json');
+        infoRequest.setProhibitCaching(false);
         infoRequest.setRequestHeader('Authorization', 'Bearer ' + this.getToken());
         infoRequest.setRequestHeader("Accept", "application/json");
         infoRequest.setRequestHeader("content-type", "application/json");
@@ -356,6 +368,7 @@ qx.Class.define("qooxtunes.api.Koel",
 
       getSongPlayInfo: function(id, callback) {
         var request = new qx.io.remote.Request('/api/interaction/play', 'POST', 'application/json');
+        request.setProhibitCaching(false);
         request.setRequestHeader('Authorization', 'Bearer ' + this.getToken());
         request.setRequestHeader("Accept", "application/json");
         request.setRequestHeader("content-type", "application/json");
@@ -373,7 +386,21 @@ qx.Class.define("qooxtunes.api.Koel",
       },
 
       getSongUrl: function(songId, time) {
-        return '/api/' + songId + '/play?jwt-token=' + this.getToken() + '&time=' + time;
+        var url = '/api/' + songId + '/play/';
+
+        if (this.streamLossless) {
+          url += '0/';
+        }
+
+        var query = [
+          'jwt-token=' + this.getToken()
+        ];
+
+        if (time && time > 0) {
+          query.push('time=' + time);
+        }
+
+        return url + '?' + query.join('&');
       },
 
       /**
@@ -396,6 +423,7 @@ qx.Class.define("qooxtunes.api.Koel",
        */
       ping: function(callback) {
         var request = new qx.io.remote.Request('/api/', 'GET', 'application/json');
+        request.setProhibitCaching(false);
         request.setRequestHeader('Authorization', 'Bearer ' + this.getToken());
         request.setRequestHeader("Accept", "application/json");
         request.setRequestHeader("content-type", "application/json");
@@ -411,6 +439,7 @@ qx.Class.define("qooxtunes.api.Koel",
 
       scanLibrary: function(path, callback) {
         var request = new qx.io.remote.Request('/api/settings', 'POST', 'application/json');
+        request.setProhibitCaching(false);
         request.setRequestHeader('Authorization', 'Bearer ' + this.getToken());
         request.setRequestHeader("Accept", "application/json");
         request.setRequestHeader("content-type", "application/json");
@@ -429,6 +458,7 @@ qx.Class.define("qooxtunes.api.Koel",
 
       updateProfile: function(data, callback) {
         var request = new qx.io.remote.Request('/api/me', 'PUT', 'application/json');
+        request.setProhibitCaching(false);
         request.setRequestHeader('Authorization', 'Bearer ' + this.getToken());
         request.setRequestHeader("Accept", "application/json");
         request.setRequestHeader("content-type", "application/json");
@@ -452,15 +482,18 @@ qx.Class.define("qooxtunes.api.Koel",
         request.send();
       },
 
-      favorite: function(songId, callback) {
-        var request = new qx.io.remote.Request('/api/interaction/like', 'POST', 'application/json');
+      favorite: function(songIds, callback) {
+        var request = new qx.io.remote.Request('/api/interaction/batch/like', 'POST', 'application/json');
+        request.setProhibitCaching(false);
         request.setRequestHeader('Authorization', 'Bearer ' + this.getToken());
         request.setRequestHeader("Accept", "application/json");
         request.setRequestHeader("content-type", "application/json");
         request.setTimeout(60000);
+
         request.setData(JSON.stringify({
-          song: songId
+          songs: songIds
         }));
+
         request.addListener('completed', function(e) {
           callback(e.getContent());
         });
@@ -469,9 +502,31 @@ qx.Class.define("qooxtunes.api.Koel",
         });
         request.send();
       },
-      
+
+      unfavorite: function(songIds, callback) {
+        var request = new qx.io.remote.Request('/api/interaction/batch/unlike', 'POST', 'application/json');
+        request.setProhibitCaching(false);
+        request.setRequestHeader('Authorization', 'Bearer ' + this.getToken());
+        request.setRequestHeader("Accept", "application/json");
+        request.setRequestHeader("content-type", "application/json");
+        request.setTimeout(60000);
+
+        request.setData(JSON.stringify({
+          songs: songIds
+        }));
+
+        request.addListener('completed', function(e) {
+          callback(true);
+        });
+        request.addListener('failed', function(e) {
+          callback(false);
+        });
+        request.send();
+      },
+
       updateSong: function(data, callback) {
         var request = new qx.io.remote.Request('/api/songs', 'PUT', 'application/json');
+        request.setProhibitCaching(false);
         request.setRequestHeader('Authorization', 'Bearer ' + this.getToken());
         request.setRequestHeader("Accept", "application/json");
         request.setRequestHeader("content-type", "application/json");
@@ -484,6 +539,18 @@ qx.Class.define("qooxtunes.api.Koel",
           callback(false);
         });
         request.send();
+      },
+
+      downloadSongs: function(songIds) {
+        var query = [
+          'jwt-token=' + this.getToken(),
+        ];
+        for (var i = 0; i < songIds.length; i++) {
+          query.push('songs[]=' + songIds[i]);
+        }
+        query = '?' + query.join('&');
+
+        window.open('/api/download/songs' + query);
       }
     }
   });

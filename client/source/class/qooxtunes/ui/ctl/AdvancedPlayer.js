@@ -22,6 +22,7 @@ qx.Class.define('qooxtunes.ui.ctl.AdvancedPlayer', {
     members: {
       __player: null,
       __currentSong: null,
+      __volume: 1,
 
       init: function() {
       },
@@ -56,11 +57,18 @@ qx.Class.define('qooxtunes.ui.ctl.AdvancedPlayer', {
       },
 
       getCurrentTime: function() {
-        return this.__player.currentTime / 1000;
+        return this.__player.currentTime;
       },
 
       setCurrentTime: function(time) {
         this.__player.seek(time);
+      },
+
+      setVolume: function(value) {
+        this.__volume = value;
+        if (this.__player) {
+          this.__player.volume = this.__volume;
+        }
       },
 
       getDuration: function() {
@@ -77,6 +85,7 @@ qx.Class.define('qooxtunes.ui.ctl.AdvancedPlayer', {
         }
 
         this.__player = AV.Player.fromURL(url);
+        this.__player.volume = this.__volume;
         this.__player.preload();
         this.__currentSong = song;
       },

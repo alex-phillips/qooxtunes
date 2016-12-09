@@ -27,7 +27,7 @@ qx.Class.define("qooxtunes.ui.ctl.MenuBar",
 
         this.__api = qooxtunes.api.Koel.getInstance();
 
-        this.__applicationMenuButton = new qx.ui.menubar.Button("qooxtunes", null, this.getApplicationMenu());
+        this.__applicationMenuButton = new qx.ui.menubar.Button("myMusic", null, this.getApplicationMenu());
         this.__fileMenuButton = new qx.ui.menubar.Button("File", null, this.getFileMenu());
 
         this.add(this.__applicationMenuButton);
@@ -39,7 +39,7 @@ qx.Class.define("qooxtunes.ui.ctl.MenuBar",
 
         var aboutCmd = new qx.ui.command.Command();
         aboutCmd.addListener("execute", function() {
-          qooxtunes.ui.dlg.MsgBox.go("About", "qooxtunes version 1.0.0<br/><br/>Backend: koel");
+          qooxtunes.ui.dlg.MsgBox.go("About", "myMusic version 1.0.0");
         }, this);
         var aboutButton = new qx.ui.menu.Button("About", 'icon/16/actions/help-about.png', aboutCmd);
 

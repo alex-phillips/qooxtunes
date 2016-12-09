@@ -7,6 +7,8 @@ qx.Class.define("qooxtunes.ui.dlg.Standard",
 
       this.set({
         modal: true,
+        allowMinimize: false,
+        allowMaximize: false,
         showClose: false,
         showMaximize: false,
         showMinimize: false,
@@ -20,4 +22,3 @@ qx.Class.define("qooxtunes.ui.dlg.Standard",
       }
     }
   });
-

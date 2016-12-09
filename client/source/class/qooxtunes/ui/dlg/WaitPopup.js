@@ -23,8 +23,8 @@ qx.Class.define("qooxtunes.ui.dlg.WaitPopup", {
     this.base(arguments);
 
     this.__blocker = new qx.bom.Blocker();
-    this.__blocker.setBlockerColor("#D5D5D5");
-    this.__blocker.setBlockerOpacity(0.5);
+    // this.__blocker.setBlockerColor("#D5D5D5");
+    this.__blocker.setBlockerOpacity(0);
 
     this.set({
       height: 64,

@@ -14,7 +14,7 @@ qx.Class.define("qooxtunes.ui.dlg.Settings",
             email: profile.email
           });
           if (qooxtunes.api.Koel.getInstance().getProfile().is_admin) {
-            dlg.fillForm(dlg.__formConfig.advanced, {
+            dlg.fillForm(dlg.__formConfig.admin, {
               libraryPath: dlg.__api.getSettings().media_path
             });
           }
@@ -64,10 +64,16 @@ qx.Class.define("qooxtunes.ui.dlg.Settings",
             field: null
           }
         },
-        advanced: {
+        admin: {
           libraryPath: {
             type: 'TextField',
             label: 'Library Path',
+            required: true,
+            field: null
+          },
+          bitrate: {
+            type: 'TextField',
+            label: 'Transcode Bitrate',
             required: true,
             field: null
           }
@@ -92,7 +98,11 @@ qx.Class.define("qooxtunes.ui.dlg.Settings",
         return lb;
       },
 
-      buildForm: function(config, submitCallback) {
+      buildForm: function(config, spacing, submitCallback) {
+        if (!spacing) {
+          spacing = 40;
+        }
+
         var container = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
         container.setWidth(478);
 
@@ -113,7 +123,7 @@ qx.Class.define("qooxtunes.ui.dlg.Settings",
             right: 10
           });
 
-          y += 40;
+          y += spacing;
         }
 
         return container;
@@ -179,11 +189,11 @@ qx.Class.define("qooxtunes.ui.dlg.Settings",
         profilePage.add(this.buildLabel('Preferences', true));
 
         var confirmBeforeClosingCheckbox = new qx.ui.form.CheckBox();
-        if (this.__api.getPreferenceValue('confirmClosing')) {
+        if (qooxtunes.util.Preferences.getInstance().get('confirmClosing', false)) {
           confirmBeforeClosingCheckbox.setValue(true);
         }
         confirmBeforeClosingCheckbox.addListener('changeValue', function(e) {
-          this.__api.setPreferenceValue('confirmClosing', confirmBeforeClosingCheckbox.getValue());
+          qooxtunes.util.Preferences.getInstance().set('confirmClosing', confirmBeforeClosingCheckbox.getValue());
         }, this);
         var checkBoxContainer = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
         checkBoxContainer.add(confirmBeforeClosingCheckbox, {
@@ -252,16 +262,81 @@ qx.Class.define("qooxtunes.ui.dlg.Settings",
         return profilePage;
       },
 
-      buildAdvancedPane: function() {
-        var advancedPage = new qx.ui.tabview.Page(this.tr("Advanced"));
-        advancedPage.setLayout(new qx.ui.layout.VBox());
+      buildUsersPane: function() {
+        var usersPage = new qx.ui.tabview.Page(this.tr("Users"));
+        adminPage.setLayout(new qx.ui.layout.VBox());
 
-        advancedPage.add(this.buildLabel('Media Library', true));
+        var usersScroller = new qx.ui.container.Scroll().set({
+          width: 425,
+          height: 400
+        });
+        usersScroller.setDecorator(new qx.ui.decoration.Decorator().set({
+          width: 1,
+          color: '#000000',
+          style: 'solid'}
+        ));
+        usersContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox(4, 'top'));
 
-        var form = this.buildForm(this.__formConfig.advanced);
+        usersPage.add(usersScroller);
+
+        // var form = this.buildForm(this.__formConfig.admin, 60);
+        // var scanButton = new qx.ui.form.Button('Scan');
+        // scanButton.addListener("execute", function(){
+        //   var mediaPath = this.__formConfig.admin.libraryPath.field.getValue();
+        //
+        //   if (!mediaPath) {
+        //     return qooxtunes.ui.dlg.MsgBox.go('Error', 'Please specify the location of your media');
+        //   }
+        //
+        //   qooxtunes.ui.dlg.WaitPopup.show(this.tr("Scanning library..."));
+        //   this.__api.scanLibrary(mediaPath, function(result) {
+        //     qooxtunes.ui.dlg.WaitPopup.hide();
+        //     if (result === false) {
+        //       return qooxtunes.ui.dlg.MsgBox.go('Error', 'Scanning completed successfully!');
+        //     }
+        //
+        //     qooxtunes.ui.dlg.MsgBox.go('Success', 'There was a problem scanning the library.');
+        //   });
+        // }, this);
+        // form.add(scanButton, {
+        //   top: 54,
+        //   right: 10
+        // });
+        //
+        // adminPage.add(form);
+        //
+        // var useAdvancedPlayer = new qx.ui.form.CheckBox();
+        // if (qooxtunes.util.Preferences.getInstance().get('player.advanced', false)) {
+        //   useAdvancedPlayer.setValue(true);
+        // }
+        // useAdvancedPlayer.addListener('changeValue', function(e) {
+        //   qooxtunes.util.Preferences.getInstance().set('player.advanced', e.getData());
+        //   window.location.reload();
+        // }, this);
+        // var checkBoxContainer = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
+        // checkBoxContainer.add(useAdvancedPlayer, {
+        //   top: 10,
+        //   left: 10
+        // });
+        // checkBoxContainer.add(this.buildLabel('Use advanced player technology (lossless support)? (requires refresh)'), {
+        //   top: 10,
+        //   left: 25
+        // });
+        // adminPage.add(checkBoxContainer);
+        //
+        return usersPage;
+      },
+
+      buildAdminPane: function() {
+        var adminPage = new qx.ui.tabview.Page(this.tr("Admin"));
+        adminPage.setLayout(new qx.ui.layout.VBox());
+
+        adminPage.add(this.buildLabel('Media Library', true));
+
+        var form = this.buildForm(this.__formConfig.admin, 60);
         var scanButton = new qx.ui.form.Button('Scan');
         scanButton.addListener("execute", function(){
-          var mediaPath = this.__formConfig.advanced.libraryPath.field.getValue();
+          var mediaPath = this.__formConfig.admin.libraryPath.field.getValue();
 
           if (!mediaPath) {
             return qooxtunes.ui.dlg.MsgBox.go('Error', 'Please specify the location of your media');
@@ -282,14 +357,14 @@ qx.Class.define("qooxtunes.ui.dlg.Settings",
           right: 10
         });
 
-        advancedPage.add(form);
+        adminPage.add(form);
 
         var useAdvancedPlayer = new qx.ui.form.CheckBox();
-        if (qx.module.Cookie.get('use_advanced_player') === "true") {
+        if (qooxtunes.util.Preferences.getInstance().get('player.advanced', false)) {
           useAdvancedPlayer.setValue(true);
         }
         useAdvancedPlayer.addListener('changeValue', function(e) {
-          qx.module.Cookie.set('use_advanced_player', e.getData(), 1000);
+          qooxtunes.util.Preferences.getInstance().set('player.advanced', e.getData());
           window.location.reload();
         }, this);
         var checkBoxContainer = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
@@ -301,9 +376,9 @@ qx.Class.define("qooxtunes.ui.dlg.Settings",
           top: 10,
           left: 25
         });
-        advancedPage.add(checkBoxContainer);
+        adminPage.add(checkBoxContainer);
 
-        return advancedPage;
+        return adminPage;
       },
 
       onKeypress: function(e) {
@@ -331,7 +406,8 @@ qx.Class.define("qooxtunes.ui.dlg.Settings",
         this.__tabView.add(this.buildProfilePane());
 
         if (this.__api.getProfile().is_admin) {
-          this.__tabView.add(this.buildAdvancedPane());
+          this.__tabView.add(this.buildAdminPane());
+          // this.__tabView.add(this.buildUsersPane());
         }
 
         this.add(this.__tabView, {flex: 1});

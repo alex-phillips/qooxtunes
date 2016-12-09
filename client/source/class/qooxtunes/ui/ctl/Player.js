@@ -43,6 +43,7 @@ qx.Class.define('qooxtunes.ui.ctl.Player', {
 
       play: function() {
         if (this.__transcodeStream && this.__currentTime > 0) {
+          this.__scrubbedTo = this.__currentTime;
           this.seekSource(this.__currentSourceUrl + '&time=' + this.__currentTime);
           this.__player.play();
         } else {
@@ -52,13 +53,14 @@ qx.Class.define('qooxtunes.ui.ctl.Player', {
 
       getCurrentTime: function() {
         if (this.__transcodeStream) {
-          return this.__currentTime;
+          return this.__currentTime * 1000;
         }
 
-        return this.__player.getCurrentTime();
+        return this.__player.getCurrentTime() * 1000;
       },
 
       setCurrentTime: function(time) {
+        time = time / 1000;
         if (this.__transcodeStream) {
           var playing = !this.__player.isPaused();
           this.__scrubbedTo = time;
@@ -89,6 +91,10 @@ qx.Class.define('qooxtunes.ui.ctl.Player', {
         this.__currentSong = song;
         this.__currentSourceUrl = url;
         this.__player.setSource(url);
+      },
+
+      setVolume: function(value) {
+        this.__player.setVolume(value / 100);
       },
 
       stop: function() {

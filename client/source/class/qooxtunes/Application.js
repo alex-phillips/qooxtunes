@@ -59,7 +59,7 @@ qx.Class.define("qooxtunes.Application",
       close: function() {
         this.base(arguments);
 
-        if (this.__loggedIn && this.__api.getPreferenceValue('confirmClosing')) {
+        if (this.__loggedIn && qooxtunes.util.Preferences.getInstance().get('confirmClosing', false)) {
           return "";
         }
       },
@@ -86,8 +86,8 @@ qx.Class.define("qooxtunes.Application",
 
       setUpUI: function() {
         this.__loggedIn = true;
-        this.pc_main = qooxtunes.ui.ctl.PlaybackControl.getInstance ();
-        this.getRoot().add (this.pc_main, { top: 41, left: 8, right: 8 });
+        this.playbackControl = qooxtunes.ui.ctl.PlaybackControl.getInstance();
+        this.getRoot().add(this.playbackControl, { top: 41, left: 8, right: 8 });
 
         this.tvMain = new qooxtunes.ui.tabview.Main();
         this.getRoot().add(this.tvMain, {top: 125, left: 8, right: 8, bottom: 8});

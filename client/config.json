@@ -74,17 +74,23 @@
     // If you want to tweak a job setting, see the following sample where
     // the "format" feature of the "build-script" job is overridden.
     // To see a list of available jobs, invoke 'generate.py x'.
-    /*
-    ,"build-script" :
+    "build-script" :
     {
       "compile-options" :
       {
+        "uris" :
+        {
+          // NOTE: these only change where the JS references files, not what is
+          // built in the index.html file. You need to change those 'initial'
+          // paths manually.
+          "script" : "/mymusic/script",
+          "resource" : "/mymusic/resource"
+        },
         "code" :
         {
-          "format" : false
+          "format" : true
         }
       }
     }
-    */
   }
 }

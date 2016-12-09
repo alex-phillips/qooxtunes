@@ -137,7 +137,7 @@ qx.Class.define("qooxtunes.ui.dlg.SongInfo",
               albumName: this.__albumField.getValue(),
               albumYear: this.__yearField.getValue(),
               artistName: this.__artistField.getValue(),
-              compilationState: this.__song.compilationState,
+              compilationState: this.__song.album.compilationState,
               disc: this.__discNumberField.getValue(),
               genre: this.__genreField.getValue(),
               lyrics: this.__lyricsField.getValue(),
@@ -214,9 +214,9 @@ qx.Class.define("qooxtunes.ui.dlg.SongInfo",
         this.__artistLabel.setValue(this.__artistField.getValue());
         this.__albumLabel.setValue(this.__albumField.getValue());
         this.__playsLabel.setValue("" + this.__songRow.playCount);
-        this.__yearLabel.setValue("" + this.__songRow.year);
-        this.__discLabel.setValue("" + this.__songRow.disc);
-        this.__trackLabel.setValue("" + this.__songRow.track);
+        this.__yearLabel.setValue("" + (this.__songRow.year ? this.__songRow.year : ''));
+        this.__discLabel.setValue("" + (this.__songRow.disc ? this.__songRow.disc : ''));
+        this.__trackLabel.setValue("" + (this.__songRow.track ? this.__songRow.track : ''));
       },
 
       updateArtistSummary: function() {
@@ -244,9 +244,9 @@ qx.Class.define("qooxtunes.ui.dlg.SongInfo",
           self.__titleField.setValue(self.__song.title);
           self.__artistField.setValue(self.__song.album.artist.name);
           self.__albumField.setValue(self.__song.album.name);
-          self.__yearField.setValue("" + self.__song.album.year);
-          self.__genreField.setValue(self.__song.genre);
-          self.__discNumberField.setValue("" + self.__song.disc);
+          self.__yearField.setValue("" + (self.__song.album.year ? self.__song.album.year : ''));
+          self.__genreField.setValue(self.__song.genre ? self.__song.genre : '');
+          self.__discNumberField.setValue("" + (self.__song.disc ? self.__song.disc : ''));
           self.__trackNumberField.setValue("" + self.__song.track);
 
           if (!self.__songInfo.lyrics) {
