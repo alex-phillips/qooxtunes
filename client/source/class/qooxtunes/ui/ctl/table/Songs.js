@@ -961,6 +961,10 @@ qx.Class.define("qooxtunes.ui.ctl.table.Songs",
               break;
             }
           default:
+            if (key.length > 1) {
+              break;
+            }
+
             clearTimeout(this.__typeSearchTimeout);
 
             switch (key) {
