@@ -961,7 +961,7 @@ qx.Class.define("qooxtunes.ui.ctl.table.Songs",
               break;
             }
           default:
-            if (key.length > 1) {
+            if (key.length > 1 && key !== 'space') {
               break;
             }
 
