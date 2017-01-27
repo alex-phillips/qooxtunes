@@ -211,7 +211,7 @@ qx.Class.define("qooxtunes.api.Koel",
                   track: song.track,
                   rating: null,
                   search_value: song.title + ' ' + artist.name + ' ' + album.name,
-                  genre: song.genre,
+                  genre: song.genre_id ? self.getGenreById(song.genre_id) : '',
                   length: song.length,
                   artist_id: album.is_compilation ? song.contributing_artist_id : artist.id,
                   date_added: new Date(song.created_at),
@@ -281,6 +281,18 @@ qx.Class.define("qooxtunes.api.Koel",
 
       getArtistById: function(id) {
         return this.__artists[id];
+      },
+
+      getGenreById: function(id) {
+        var retval = '';
+        for (var i = 0; i < this.__data.genres.length; i++) {
+          if (this.__data.genres[i].id === id) {
+            retval = this.__data.genres[i].name;
+            break;
+          }
+        }
+
+        return retval;
       },
 
       getPlaylistById: function(id) {
