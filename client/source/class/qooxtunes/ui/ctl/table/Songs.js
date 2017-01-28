@@ -132,7 +132,7 @@ qx.Class.define("qooxtunes.ui.ctl.table.Songs",
         }
 
         for (var i = 0; i < items.length; i++) {
-          totalTime += qooxtunes.util.Time.duration_str_to_int(items[i].duration);
+          totalTime += qooxtunes.util.Time.durationStringToInt(items[i].duration);
         }
 
         this.setAdditionalStatusBarText(': ' + qooxtunes.util.Time.totalDurationString(totalTime));
@@ -209,6 +209,11 @@ qx.Class.define("qooxtunes.ui.ctl.table.Songs",
           for (var i = 0; i < sortKey.length; i++) {
             var aVal = a[sortKey[i]];
             var bVal = b[sortKey[i]];
+
+            if (sortKey[i] === self.__columnIndex['duration']) {
+              aVal = qooxtunes.util.Time.durationStringToInt(aVal);
+              bVal = qooxtunes.util.Time.durationStringToInt(bVal);
+            }
 
             if (aVal && isNaN(aVal)) {
               aVal = aVal.toLowerCase().replace(/^(a|an|the)\s+/, '');
@@ -348,6 +353,19 @@ qx.Class.define("qooxtunes.ui.ctl.table.Songs",
               self.__columnIndex['track'],
               self.__columnIndex['disc'],
               self.__columnIndex['songId']
+            ]);
+          }
+        });
+
+        this.__tableModel.setSortMethods(self.__columnIndex['duration'], {
+          ascending: function(row1, row2) {
+            return multiSort(row1, row2, [
+              self.__columnIndex['duration']
+            ]);
+          },
+          descending: function(row1, row2) {
+            return -multiSort(row1, row2, [
+              self.__columnIndex['duration']
             ]);
           }
         });
