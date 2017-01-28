@@ -4,10 +4,20 @@ qx.Class.define("qooxtunes.util.Time",
 
     statics: {
       intToStr: function(ts) {
-        var hour = Math.floor(ts / 60);
+        var hour = Math.floor(ts / 3600);
+        var min = Math.floor(ts / 60);
         var sec = parseInt(ts % 60);
 
-        return hour + ":" + (sec > 9 ? sec : "0" + sec);
+        var retval = min + ":" + (sec > 9 ? sec : "0" + sec);
+
+        if (hour > 0) {
+          if (min < 10) {
+            min = '0' + min;
+          }
+          retval = hour + ':' + min + ":" + (sec > 9 ? sec : "0" + sec);
+        }
+
+        return retval;
       },
 
       totalDurationString: function(time) {
@@ -45,20 +55,23 @@ qx.Class.define("qooxtunes.util.Time",
         return retval;
       },
 
-      duration_str_to_int: function(str) {
+      durationStringToInt: function(str) {
         var xary = str.split(':');
 
-        if (xary.length == 1) {
+        if (xary.length === 1) {
           return parseInt(xary[0]);
         }
 
-        if (xary.length == 2) {
+        if (xary.length === 2) {
           return parseInt(xary[0]) * 60 + parseInt(xary[1]);
         }
 
-        if (xary.length == 2) {
+        if (xary.length === 3) {
           return parseInt(xary[0]) * 3600 + parseInt(xary[1]) * 60 + parseInt(xary[2]);
         }
+
+        console.log('bad length of ' + xary.length);
+        console.log(xary)
 
         return 0;
       }
