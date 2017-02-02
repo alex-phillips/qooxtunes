@@ -9,7 +9,7 @@ var envinfo = {"qx.application":"qooxtunes.Application","qx.revision":"","qx.the
 for (var k in envinfo) qx.$$environment[k] = envinfo[k];
 
 if (!qx.$$libraries) qx.$$libraries = {};
-var libinfo = {"__out__":{"sourceUri":"script"},"qooxtunes":{"resourceUri":"../source/resource","sourceUri":"../source/class"},"qx":{"resourceUri":"../qx/qooxdoo-5.0.2-sdk/framework/source/resource","sourceUri":"../qx/qooxdoo-5.0.2-sdk/framework/source/class","sourceViewUri":"https://github.com/qooxdoo/qooxdoo/blob/%{qxGitBranch}/framework/source/class/%{classFilePath}#L%{lineNumber}"}};
+var libinfo = {"__out__":{"sourceUri":"script"},"qooxtunes":{"resourceUri":"../source/resource","sourceUri":"../source/class"},"qx":{"resourceUri":"../qooxdoo-5.0.2-sdk/framework/source/resource","sourceUri":"../qooxdoo-5.0.2-sdk/framework/source/class","sourceViewUri":"https://github.com/qooxdoo/qooxdoo/blob/%{qxGitBranch}/framework/source/class/%{classFilePath}#L%{lineNumber}"}};
 for (var k in libinfo) qx.$$libraries[k] = libinfo[k];
 
 qx.$$resources = {};
