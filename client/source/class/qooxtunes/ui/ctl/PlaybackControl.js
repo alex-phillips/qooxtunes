@@ -54,6 +54,9 @@ qx.Class.define("qooxtunes.ui.ctl.PlaybackControl", {
     },
 
     songEnded: function() {
+      if (!qooxtunes.util.Preferences.getInstance().get('privateSession', false)) {
+        this.__api.scrobble(this.__currentSongId);
+      }
       var song = this.__nowPlaying.getNext();
       if (song) {
         this.playSong(song.songId);

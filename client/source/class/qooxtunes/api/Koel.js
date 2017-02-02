@@ -346,6 +346,24 @@ qx.Class.define("qooxtunes.api.Koel",
         qx.module.Cookie.set('preferences_' + this.__data.currentUser.id, JSON.stringify(data), 1000);
       },
 
+      scrobble: function(songId) {
+        var infoData = null;
+        var infoRequest = new qx.io.remote.Request('/api/' + songId + '/scrobble/' + parseInt(Date.now() / 1000), 'POST', 'application/json');
+        infoRequest.setProhibitCaching(false);
+        infoRequest.setRequestHeader('Authorization', 'Bearer ' + this.getToken());
+        infoRequest.setRequestHeader("Accept", "application/json");
+        infoRequest.setRequestHeader("content-type", "application/json");
+        infoRequest.setTimeout(60000);
+        infoRequest.addListener('completed', function(e) {
+          console.log('Successfully scrobbled song ' + songId);
+        });
+        infoRequest.addListener('failed', function(e) {
+          infoData = false;
+        });
+
+        infoRequest.send();
+      },
+
       setPreferenceValue: function(key, value) {
         var preferences = this.getPreferences();
         preferences[key] = value;

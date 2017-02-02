@@ -206,6 +206,24 @@ qx.Class.define("qooxtunes.ui.dlg.Settings",
         });
         profilePage.add(checkBoxContainer);
 
+        var privateSessionCheckbox = new qx.ui.form.CheckBox();
+        if (qooxtunes.util.Preferences.getInstance().get('privateSession', false)) {
+          privateSessionCheckbox.setValue(true);
+        }
+        privateSessionCheckbox.addListener('changeValue', function(e) {
+          qooxtunes.util.Preferences.getInstance().set('privateSession', privateSessionCheckbox.getValue());
+        }, this);
+        var privateCheckBoxContainer = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
+        privateCheckBoxContainer.add(privateSessionCheckbox, {
+          top: 15,
+          left: 10
+        });
+        privateCheckBoxContainer.add(this.buildLabel('Private Session (prevent scrobbling)'), {
+          top: 15,
+          left: 25
+        });
+        profilePage.add(privateCheckBoxContainer);
+
         var lastFmContainer = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
         lastFmContainer.add(this.buildLabel('Last.fm Integration', true), {
           top: 15
