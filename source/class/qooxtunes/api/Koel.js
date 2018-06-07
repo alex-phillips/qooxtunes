@@ -213,7 +213,7 @@ qx.Class.define("qooxtunes.api.Koel",
                   search_value: song.title + ' ' + artist.name + ' ' + album.name,
                   genre: song.genre_id ? self.getGenreById(song.genre_id) : '',
                   length: song.length,
-                  artist_id: album.is_compilation ? song.contributing_artist_id : artist.id,
+                  artist_id: song.contributing_artist_id ? song.contributing_artist_id : artist.id,
                   date_added: new Date(song.created_at),
                   album: {
                     id: album.id,

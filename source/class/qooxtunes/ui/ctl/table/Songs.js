@@ -407,9 +407,9 @@ qx.Class.define("qooxtunes.ui.ctl.table.Songs",
           for (var id in songs) {
             var song = songs[id],
               artist = song.album.artist;
-            if (song.album.compilationState) {
+            // if (song.album.compilationState) {
               artist = self.__api.getArtistById(song.artist_id);
-            }
+            // }
 
             rowData.push({
               songId: song.id,
