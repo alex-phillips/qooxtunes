@@ -57,7 +57,7 @@ qx.Class.define("qooxtunes.ui.tabview.page.Music",
       },
 
       init: function() {
-        this.__api = qooxtunes.api.Koel.getInstance();
+        this.__api = qooxtunes.api.API.get();
 
         this.setLayout(new qx.ui.layout.VBox());
 

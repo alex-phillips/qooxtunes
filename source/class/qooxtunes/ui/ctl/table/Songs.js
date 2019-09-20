@@ -1017,7 +1017,7 @@ qx.Class.define("qooxtunes.ui.ctl.table.Songs",
       },
 
       init: function() {
-        this.__api = qooxtunes.api.Koel.getInstance();
+        this.__api = qooxtunes.api.API.get();
 
         var sm = this.getSelectionModel();
 

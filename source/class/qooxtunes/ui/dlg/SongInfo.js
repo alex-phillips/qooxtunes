@@ -282,7 +282,7 @@ qx.Class.define("qooxtunes.ui.dlg.SongInfo",
       },
 
       init: function() {
-        this.__api = qooxtunes.api.Koel.getInstance();
+        this.__api = qooxtunes.api.API.get();
 
         this.set({width: 534, height: 593});
 

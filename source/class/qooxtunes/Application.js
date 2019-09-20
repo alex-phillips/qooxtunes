@@ -52,7 +52,7 @@ qx.Class.define("qooxtunes.Application",
          -------------------------------------------------------------------------
          */
 
-        this.__api = qooxtunes.api.Koel.getInstance();
+        this.__api = qooxtunes.api.API.get();
         this.setUpLogin();
       },
 

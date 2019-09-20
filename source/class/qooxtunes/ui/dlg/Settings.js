@@ -13,7 +13,7 @@ qx.Class.define("qooxtunes.ui.dlg.Settings",
             name: profile.name,
             email: profile.email
           });
-          if (qooxtunes.api.Koel.getInstance().getProfile().is_admin) {
+          if (qooxtunes.api.API.get().getProfile().is_admin) {
             dlg.fillForm(dlg.__formConfig.admin, {
               libraryPath: dlg.__api.getSettings().media_path
             });
@@ -407,7 +407,7 @@ qx.Class.define("qooxtunes.ui.dlg.Settings",
       },
 
       init: function() {
-        this.__api = qooxtunes.api.Koel.getInstance();
+        this.__api = qooxtunes.api.API.get();
 
         this.setLayout(new qx.ui.layout.VBox(10));
 

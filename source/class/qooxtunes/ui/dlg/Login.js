@@ -57,7 +57,7 @@ qx.Class.define("qooxtunes.ui.dlg.Login",
       },
 
       init: function() {
-        this.__api = qooxtunes.api.Koel.getInstance();
+        this.__api = qooxtunes.api.API.get();
 
         this.__emailField.setValue('');
         this.__passwordField.setValue('');

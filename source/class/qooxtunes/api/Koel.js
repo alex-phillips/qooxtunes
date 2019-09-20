@@ -50,6 +50,10 @@ qx.Class.define("qooxtunes.api.Koel",
         request.send();
       },
 
+      getCoverArt: function (id) {
+        return this.__songs[id].album.cover;
+      },
+
       removeSongsFromPlaylist: function(id, songs, callback) {
         var playlist = null;
         for (var i = 0; i < this.__data.playlists.length; i++) {

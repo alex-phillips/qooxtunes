@@ -77,7 +77,7 @@ qx.Class.define("qooxtunes.ui.pnl.Playlists",
       },
 
       init: function() {
-        this.__api = qooxtunes.api.Koel.getInstance();
+        this.__api = qooxtunes.api.API.get();
 
         this.setLayout(new qx.ui.layout.Canvas());
         this.set({

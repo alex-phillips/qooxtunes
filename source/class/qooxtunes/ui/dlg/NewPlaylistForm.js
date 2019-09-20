@@ -36,7 +36,7 @@ qx.Class.define("qooxtunes.ui.dlg.NewPlaylistForm",
       __htmlMessage: null,
 
       init: function() {
-        this.__api = qooxtunes.api.Koel.getInstance();
+        this.__api = qooxtunes.api.API.get();
 
         var xfont = new qx.bom.Font(11, ['Tahoma', 'Lucida Sans Unicode', 'sans-serif']);
 

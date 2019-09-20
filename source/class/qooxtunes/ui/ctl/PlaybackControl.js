@@ -124,32 +124,42 @@ qx.Class.define("qooxtunes.ui.ctl.PlaybackControl", {
       var self = this;
       this.__currentSong = this.__api.getSongById(id);
 
-      this.__api.getSongPlayInfo(id, function(data) {
-        if (!data) {
-          console.error(Error('Error fetching song data'));
-        } else {
-          if (data.song_id !== self.__currentSongId) {
-            return;
-          }
-
-          self.__currentSong = self.__api.getSongById(id);
-          self.__titleLabel.setValue(self.__currentSong.title);
-          self.__artistLabel.setValue(self.__api.getArtistById(self.__currentSong.artist_id).name + ' - ' + self.__currentSong.album.name);
-          self.__totalTimeLabel.setValue(qooxtunes.util.Time.intToStr(self.__currentSong.length));
-          self.__scrubber.set({
-            minimum: 0,
-            maximum: parseInt(self.__currentSong.length * 1000),
-            enabled: true
-          });
-          qooxtunes.ui.dlg.ArtworkViewer.getInstance().setSource(self.__currentSong.album.cover);
-        }
+      this.__titleLabel.setValue(this.__currentSong.title);
+      this.__artistLabel.setValue(this.__api.getArtistById(this.__currentSong.artist_id).name + ' - ' + this.__currentSong.album.name);
+      this.__totalTimeLabel.setValue(qooxtunes.util.Time.intToStr(this.__currentSong.length));
+      qooxtunes.ui.dlg.ArtworkViewer.getInstance().setSource(this.__api.getCoverArt(this.__currentSong.id));
+      self.__scrubber.set({
+        minimum: 0,
+        maximum: parseInt(this.__currentSong.length * 1000),
+        enabled: true
       });
+
+      // this.__api.getSongPlayInfo(id, function(data) {
+      //   if (!data) {
+      //     console.error(Error('Error fetching song data'));
+      //   } else {
+      //     if (data.song_id !== self.__currentSongId) {
+      //       return;
+      //     }
+
+      //     self.__currentSong = self.__api.getSongById(id);
+      //     self.__titleLabel.setValue(self.__currentSong.title);
+      //     self.__artistLabel.setValue(self.__api.getArtistById(self.__currentSong.artist_id).name + ' - ' + self.__currentSong.album.name);
+      //     self.__totalTimeLabel.setValue(qooxtunes.util.Time.intToStr(self.__currentSong.length));
+      //     self.__scrubber.set({
+      //       minimum: 0,
+      //       maximum: parseInt(self.__currentSong.length * 1000),
+      //       enabled: true
+      //     });
+
+      //   }
+      // });
 
       this.__currentSongId = id;
       this.__player.setSource(this.__api.getSongById(id), this.__api.getSongUrl(id, time));
       this.__player.play();
       this.fireDataEvent('play', id);
-      this.__artworkImage.setSource(self.__currentSong.album.cover);
+      this.__artworkImage.setSource(this.__api.getCoverArt(this.__currentSong.id));
     },
 
     onPlayButtonPress: function(e) {
@@ -277,7 +287,7 @@ qx.Class.define("qooxtunes.ui.ctl.PlaybackControl", {
     },
 
     init: function() {
-      this.__api = qooxtunes.api.Koel.getInstance();
+      this.__api = qooxtunes.api.API.get();
 
       this.__nowPlaying = new qooxtunes.ui.ctl.NowPlaying();
       this.__nowPlaying.setPosition('bottom-center');

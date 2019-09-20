@@ -25,7 +25,7 @@ qx.Class.define("qooxtunes.ui.ctl.MenuBar",
          #asset(qx/icon/${qx.icontheme}/16/categories/system.png)
          */
 
-        this.__api = qooxtunes.api.Koel.getInstance();
+        this.__api = qooxtunes.api.API.get();
 
         this.__applicationMenuButton = new qx.ui.menubar.Button("myMusic", null, this.getApplicationMenu());
         this.__fileMenuButton = new qx.ui.menubar.Button("File", null, this.getFileMenu());
