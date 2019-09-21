@@ -9,8 +9,7 @@ qx.Class.define("qooxtunes.ui.dlg.Login",
     construct: function (login_message) {
       this.base(arguments, "Login");
 
-      this.set({ width: 240, height: 210 });
-
+      this.set({ width: 240, height: 220 });
 
       this.__serverTypeSelect = new qooxtunes.ui.ctl.SelectBox();
       this.__serverTypeSelect.addItem("Subsonic", "subsonic");
@@ -26,12 +25,12 @@ qx.Class.define("qooxtunes.ui.dlg.Login",
       this.__emailField = new qx.ui.form.TextField();
       this.__emailField.set({ width: null, placeholder: 'email' });
       this.__emailField.addListener("keypress", this.onEmailKeypress, this);
-      this.add(this.__emailField, { left: 18, top: 81, right: 18 });
+      this.add(this.__emailField, { left: 18, top: 86, right: 18 });
 
       this.__passwordField = new qx.ui.form.PasswordField();
       this.__passwordField.set({ width: null, placeholder: 'password' });
       this.__passwordField.addListener("keypress", this.onPasswordKeypress, this);
-      this.add(this.__passwordField, { left: 18, top: 105, right: 18 });
+      this.add(this.__passwordField, { left: 18, top: 120, right: 18 });
 
       if (login_message) {
         var lb3 = new qx.ui.basic.Label("<p>" + login_message + "</p>");
@@ -110,6 +109,13 @@ qx.Class.define("qooxtunes.ui.dlg.Login",
           qooxtunes.ui.dlg.MsgBox.go("Please enter your email and password.");
           return;
         }
+
+        console.log('attempting to login: ', {
+          username: email,
+          password: password,
+          url: url,
+          serverType: serverType
+        })
 
         this.__api = qooxtunes.api.API.get(serverType);
 

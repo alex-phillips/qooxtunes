@@ -20,7 +20,7 @@ qx.$$g = {}
 
 qx.$$loader = {
   parts : {"boot":[0]},
-  packages : {"0":{"uris":["__out__:qooxtunes.1868a3e22ea3.js"]}},
+  packages : {"0":{"uris":["__out__:qooxtunes.66ebe021b430.js"]}},
   urisBefore : [],
   cssBefore : [],
   boot : "boot",
@@ -9643,29 +9643,29 @@ else {u=null;}
 ;}
 });}
 )();
-(function(){var a="Please enter your email and password.",b='serverType',c='',d="Koel",f="Login",g='enter',h="execute",i="subsonic",j="qooxtunes.ui.dlg.Login",k="qx.event.type.Event",l="changeSelection",m="Subsonic",n='login',o="",p='email',q='appear',r='url',s='password',t="keypress",u="<p>",v="</p>",w="koel",x="OK";qx.Class.define(j,{extend:qooxtunes.ui.dlg.Standard,events:{"login":k},construct:function(y){qooxtunes.ui.dlg.Standard.call(this,f);this.set({width:240,height:210});this.__oK=new qooxtunes.ui.ctl.SelectBox();this.__oK.addItem(m,i);this.__oK.addItem(d,w);this.__oK.addListener(l,this.onServerTypeChange,this);this.add(this.__oK,{left:18,top:18,right:18});this.__oL=new qx.ui.form.TextField();this.__oL.set({width:null,placeholder:r});this.__oL.addListener(t,this.onUrlKeypress,this);this.add(this.__oL,{left:18,top:52,right:18});this.__oM=new qx.ui.form.TextField();this.__oM.set({width:null,placeholder:p});this.__oM.addListener(t,this.onEmailKeypress,this);this.add(this.__oM,{left:18,top:81,right:18});this.__oN=new qx.ui.form.PasswordField();this.__oN.set({width:null,placeholder:s});this.__oN.addListener(t,this.onPasswordKeypress,this);this.add(this.__oN,{left:18,top:105,right:18});if(y){var z=new qx.ui.basic.Label(u+y+v);this.add(z,{left:9,top:62});}
-;this.__oO=new qx.ui.form.Button(x);this.__oO.set({enabled:false});this.__oO.addListener(h,this.login,this);this.add(this.__oO,{bottom:7,right:18});this.addListener(q,function(){this.__oM.focus();}
+(function(){var a="Please enter your email and password.",b='serverType',c='',d="Koel",f="Login",g='attempting to login: ',h='enter',i="execute",j="subsonic",k="qooxtunes.ui.dlg.Login",l="qx.event.type.Event",m="changeSelection",n="Subsonic",o='login',p="",q='email',r='appear',s='url',t='password',u="keypress",v="<p>",w="</p>",x="koel",y="OK";qx.Class.define(k,{extend:qooxtunes.ui.dlg.Standard,events:{"login":l},construct:function(z){qooxtunes.ui.dlg.Standard.call(this,f);this.set({width:240,height:220});this.__oK=new qooxtunes.ui.ctl.SelectBox();this.__oK.addItem(n,j);this.__oK.addItem(d,x);this.__oK.addListener(m,this.onServerTypeChange,this);this.add(this.__oK,{left:18,top:18,right:18});this.__oL=new qx.ui.form.TextField();this.__oL.set({width:null,placeholder:s});this.__oL.addListener(u,this.onUrlKeypress,this);this.add(this.__oL,{left:18,top:52,right:18});this.__oM=new qx.ui.form.TextField();this.__oM.set({width:null,placeholder:q});this.__oM.addListener(u,this.onEmailKeypress,this);this.add(this.__oM,{left:18,top:86,right:18});this.__oN=new qx.ui.form.PasswordField();this.__oN.set({width:null,placeholder:t});this.__oN.addListener(u,this.onPasswordKeypress,this);this.add(this.__oN,{left:18,top:120,right:18});if(z){var A=new qx.ui.basic.Label(v+z+w);this.add(A,{left:9,top:62});}
+;this.__oO=new qx.ui.form.Button(y);this.__oO.set({enabled:false});this.__oO.addListener(i,this.login,this);this.add(this.__oO,{bottom:7,right:18});this.addListener(r,function(){this.__oM.focus();}
 ,this);}
-,members:{__mv:null,__oK:null,__oL:null,__oM:null,__oN:null,__oO:null,__oP:false,checkFields:function(){var B=this.__oM.getValue();var A=this.__oN.getValue();if((B==null||B==o)||(A==null||A==o)){this.__oO.set({enabled:false});}
+,members:{__mv:null,__oK:null,__oL:null,__oM:null,__oN:null,__oO:null,__oP:false,checkFields:function(){var C=this.__oM.getValue();var B=this.__oN.getValue();if((C==null||C==p)||(B==null||B==p)){this.__oO.set({enabled:false});}
 else {this.__oO.set({enabled:true});}
 ;}
-,init:function(){var D=qx.bom.Cookie.get(b);var C=qx.bom.Cookie.get(r);this.__oM.setValue(c);this.__oN.setValue(c);if(D&&C){qooxtunes.api.API.serverType=D;this.__mv=qooxtunes.api.API.get(D);var self=this;return this.__mv.ping(function(E){if(E){self.fireEvent(n);}
+,init:function(){var E=qx.bom.Cookie.get(b);var D=qx.bom.Cookie.get(s);this.__oM.setValue(c);this.__oN.setValue(c);if(E&&D){qooxtunes.api.API.serverType=E;this.__mv=qooxtunes.api.API.get(E);var self=this;return this.__mv.ping(function(F){if(F){self.fireEvent(o);}
 else {self.open();self.__oP=true;}
 ;}
 );}
 ;this.open();this.__oP=true;}
 ,login:function(event){if(!this.__oO.getEnabled()){return;}
-;var G=this.__oK.getSelectedValue();var F=this.__oL.getValue();var I=this.__oM.getValue();var H=this.__oN.getValue();if(I==null||I==o||H==null||H==o){qooxtunes.ui.dlg.MsgBox.go(a);return;}
-;this.__mv=qooxtunes.api.API.get(G);var self=this;this.__mv.login({url:F,username:I,email:I,password:H},function(J){if(J){qx.bom.Cookie.set(b,G,365);qx.bom.Cookie.set(r,F,365);self.close();self.__oP=false;self.fireEvent(n);}
+;var H=this.__oK.getSelectedValue();var G=this.__oL.getValue();var J=this.__oM.getValue();var I=this.__oN.getValue();if(J==null||J==p||I==null||I==p){qooxtunes.ui.dlg.MsgBox.go(a);return;}
+;console.log(g,{username:J,password:I,url:G,serverType:H});this.__mv=qooxtunes.api.API.get(H);var self=this;this.__mv.login({url:G,username:J,email:J,password:I},function(K){if(K){qx.bom.Cookie.set(b,H,365);qx.bom.Cookie.set(s,G,365);self.close();self.__oP=false;self.fireEvent(o);}
 ;}
 );}
-,onUrlKeypress:function(e){this.checkFields();if(e.getKeyIdentifier().toLowerCase()==g){this.login(null);}
+,onUrlKeypress:function(e){this.checkFields();if(e.getKeyIdentifier().toLowerCase()==h){this.login(null);}
 ;}
-,onEmailKeypress:function(e){this.checkFields();if(e.getKeyIdentifier().toLowerCase()==g){this.login(null);}
+,onEmailKeypress:function(e){this.checkFields();if(e.getKeyIdentifier().toLowerCase()==h){this.login(null);}
 ;}
-,onPasswordKeypress:function(e){this.checkFields();if(e.getKeyIdentifier().toLowerCase()==g){this.login(null);}
+,onPasswordKeypress:function(e){this.checkFields();if(e.getKeyIdentifier().toLowerCase()==h){this.login(null);}
 ;}
-,onServerTypeChange:function(e){var K=this.__oK.getSelectedValue();qooxtunes.api.API.serverType=K;console.log(K);}
+,onServerTypeChange:function(e){var L=this.__oK.getSelectedValue();qooxtunes.api.API.serverType=L;console.log(L);}
 }});}
 )();
 (function(){var a="",b="qx.ui.form.MForm",c="Boolean",d="_applyValid",f="changeLocale",g="changeRequired",h="changeValid",i="qx.dynlocale",j="changeInvalidMessage",k="String",l="invalid";qx.Mixin.define(b,{construct:function(){if(qx.core.Environment.get(i)){qx.locale.Manager.getInstance().addListener(f,this.__oQ,this);}
