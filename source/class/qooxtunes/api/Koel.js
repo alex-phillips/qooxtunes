@@ -585,6 +585,10 @@ qx.Class.define("qooxtunes.api.Koel",
         query = '?' + query.join('&');
 
         window.open('/api/download/songs' + query);
+      },
+
+      supportsEditing: function () {
+        return true;
       }
     }
   });

@@ -11,10 +11,9 @@ qx.Class.define("qooxtunes.api.Subsonic",
     members: {
       streamLossless: false,
 
-      _username: 'admin',
-      _password: 'MDf!%n$WPxGbdKiYGn%ZAEe6v%m#MmC$Zk&4AfxQadok@ExJ8vu#krsP&e&M5vQeAq%k',
-      _url: 'https://as.w00t.cloud',
-      _port: '443',
+      _username: '',
+      _password: '',
+      _url: '',
       _md5Auth: true,
 
       __token: '',
@@ -137,36 +136,22 @@ qx.Class.define("qooxtunes.api.Subsonic",
       },
 
       addSongsToPlaylist: function (id, songIds, callback) {
-        var playlist = null;
-        for (var i = 0; i < this.__data.playlists.length; i++) {
-          if (this.__data.playlists[i].id === id) {
-            playlist = this.__data.playlists[i];
-            break;
-          }
-        }
-
-        if (!playlist) {
-          return callback(false);
-        }
-
-        qx.lang.Array.append(playlist.songs, songIds);
-
-        var request = new qx.io.remote.Request('/api/playlist/' + id + '/sync', 'PUT', 'application/json');
-        request.setProhibitCaching(false);
-        request.setRequestHeader('Authorization', 'Bearer ' + this.getToken());
-        request.setRequestHeader("Accept", "application/json");
-        request.setRequestHeader("content-type", "application/json");
-        request.setTimeout(60000);
-        request.setData(JSON.stringify({
-          songs: playlist.songs
-        }));
-        request.addListener('completed', function (e) {
-          callback(true);
-        });
-        request.addListener('failed', function (e) {
-          callback(false);
-        });
-        request.send();
+        var self = this;
+        Promise.all(songIds.map(function (songId) {
+          return new Promise(function (resolve, request) {
+            var request = new qx.io.request.Xhr(self._buildUrl('updatePlaylist', {
+              playlistId: id,
+              songIdToAdd: songId
+            }));
+            request.addListener('success', resolve);
+            request.send();
+          });
+        }))
+          .then(function () {
+            self._getPlaylists(function() {
+              callback(true);
+            });
+          });
       },
 
       removeSongsFromPlaylist: function (id, songs, callback) {
@@ -245,6 +230,20 @@ qx.Class.define("qooxtunes.api.Subsonic",
        * @param callback
        */
       login: function (data, callback) {
+        this._username = data.username;
+        this._password = data.password;
+        this._url = data.url;
+
+        var self = this;
+        this.ping(function (result) {
+          if (result) {
+            qx.bom.Cookie.set('username', self._username, 365);
+            qx.bom.Cookie.set('password', self._password, 365);
+          }
+          return callback(result);
+        });
+
+
         var self = this;
         var request = new qx.io.remote.Request('/api/me', 'POST', 'application/json');
         request.setRequestHeader("Accept", "application/json");
@@ -267,16 +266,10 @@ qx.Class.define("qooxtunes.api.Subsonic",
       },
 
       logout: function (callback) {
-        var self = this;
-        var request = new qx.io.remote.Request('/api/me', 'DELETE', 'application/json');
-        request.setProhibitCaching(false);
-        request.setRequestHeader("Accept", "application/json");
-        request.setRequestHeader("content-type", "application/json");
-        request.setRequestHeader('Authorization', 'Bearer ' + this.getToken());
-        request.addListener('completed', function (e) {
-          callback();
-        });
-        request.send();
+        qx.bom.Cookie.delete('url');
+        qx.bom.Cookie.delete('username');
+        qx.bom.Cookie.delete('password');
+        callback();
       },
 
       _getArtist: function (id, callback) {
@@ -314,9 +307,12 @@ qx.Class.define("qooxtunes.api.Subsonic",
               console.log('no artist for id ' + song.artistId, song)
             }
 
-            self.__data.interactions[song.id] = {
-              playCount: song.playCount,
-              liked: false,
+            if (song.playCount > 0) {
+              self.__data.interactions[song.id] = {
+                song_id: song.id,
+                playCount: song.playCount,
+                liked: false
+              }
             }
 
             self.__songs[song.id] = {
@@ -412,6 +408,30 @@ qx.Class.define("qooxtunes.api.Subsonic",
         request.send();
       },
 
+      _getStarred: function (callback) {
+        var self = this;
+        var request = new qx.io.request.Xhr(this._buildUrl('getStarred2'));
+        request.addListener('success', function () {
+          var data = request.getResponse()['subsonic-response'];
+          if (data.starred2 && data.starred2.song) {
+            for (var i = 0; i < data.starred2.song.length; i++) {
+              if (!self.__data.interactions[data.starred2.song[i].id]) {
+                self.__data.interactions[data.starred2.song[i].id] = {
+                  sing_id: data.starred2.song[i].id
+                };
+              }
+
+              self.__data.interactions[data.starred2.song[i].id].liked = true;
+            }
+
+            self.__data.interactions = Object.values(self.__data.interactions);
+          }
+
+          return callback();
+        });
+        request.send();
+      },
+
       /**
        * Fetch data from server and build local song data
        *
@@ -421,7 +441,7 @@ qx.Class.define("qooxtunes.api.Subsonic",
         var self = this;
         self.__data = {
           playlists: [],
-          interactions: {},
+          interactions: []
         };
 
         self._getArtists(function () {
@@ -442,7 +462,14 @@ qx.Class.define("qooxtunes.api.Subsonic",
                 self._getPlaylists(resolve);
               });
             })
-            .then(callback)
+            .then(function () {
+              return new Promise(function (resolve, reject) {
+                self._getStarred(resolve);
+              });
+            })
+            .then(function () {
+              return callback(self.__data);
+            })
         });
       },
 
@@ -579,21 +606,50 @@ qx.Class.define("qooxtunes.api.Subsonic",
       },
 
       getSongInfo: function (id, callback) {
-        var infoData = null;
-        var infoRequest = new qx.io.remote.Request('/api/' + id + '/info', 'GET', 'application/json');
-        infoRequest.setProhibitCaching(false);
-        infoRequest.setRequestHeader('Authorization', 'Bearer ' + this.getToken());
-        infoRequest.setRequestHeader("Accept", "application/json");
-        infoRequest.setRequestHeader("content-type", "application/json");
-        infoRequest.setTimeout(60000);
-        infoRequest.addListener('completed', function (e) {
-          callback(e.getContent());
-        });
-        infoRequest.addListener('failed', function (e) {
-          infoData = false;
-        });
+        var song = this.getSongById(id);
 
-        infoRequest.send();
+        var self = this;
+        this._getArtistInfo(song.id, function(artistInfo) {
+          song.artist_info = {};
+          if (artistInfo.biography) {
+            song.artist_info.bio = {
+              full: artistInfo.biography
+            };
+          }
+
+          if (artistInfo.largeImageUrl) {
+            song.artist_info.image = artistInfo.largeImageUrl;
+          }
+
+          self._getLyrics(song.id, function (lyrics) {
+            // song.lyrics = lyrics;
+
+            return callback(song);
+          })
+        });
+      },
+
+      _getLyrics: function (id, callback) {
+        var request = new qx.io.request.Xhr(this._buildUrl('getLyrics', {
+          id: id
+        }))
+        request.addListener('success', function () {
+          var data = request.getResponse()['subsonic-response'];
+          return callback(data.lyrics);
+        });
+        request.send();
+      },
+
+      _getArtistInfo: function (id, callback) {
+        var request = new qx.io.request.Xhr(this._buildUrl('getArtistInfo', {
+          id: id
+        }))
+        request.addListener('success', function () {
+          var data = request.getResponse()['subsonic-response'];
+          console.log(data)
+          return callback(data.artistInfo);
+        });
+        request.send();
       },
 
       getSongPlayInfo: function (id, callback) {
@@ -619,7 +675,7 @@ qx.Class.define("qooxtunes.api.Subsonic",
         var url = this._buildUrl('stream', {
           id: songId,
           maxBitRate: 320,
-          estimateContentLength: false,
+          estimateContentLength: false
         });
 
         return url;
@@ -644,6 +700,16 @@ qx.Class.define("qooxtunes.api.Subsonic",
        * @param callback
        */
       ping: function (callback) {
+        if (!this._username) {
+          this._username = qx.bom.Cookie.get('username');
+        }
+        if (!this._password) {
+          this._password = qx.bom.Cookie.get('password');
+        }
+        if (!this._url) {
+          this._url = qx.bom.Cookie.get('url');
+        }
+
         var request = new qx.io.request.Xhr(this._buildUrl('ping'));
 
         request.addListener('success', function (e) {
@@ -703,29 +769,41 @@ qx.Class.define("qooxtunes.api.Subsonic",
       },
 
       favorite: function (songIds, callback) {
+        var self = this;
         Promise.all(songIds.map(function (songId) {
           return new Promise(function (resolve, reject) {
-            var request = new qx.io.request.Xhr(this._buildUrl('star', {
+            var request = new qx.io.request.Xhr(self._buildUrl('star', {
               id: songId
             }))
             request.addListener('success', resolve);
             request.send();
           })
         }))
-          .then(callback);
+          .then(function () {
+            var retval = [];
+            for (var i = 0; i < songIds.length; i++) {
+              retval.push({
+                song_id: songIds[i]
+              });
+            }
+            callback(retval);
+          });
       },
 
       unfavorite: function (songIds, callback) {
+        var self = this;
         Promise.all(songIds.map(function (songId) {
           return new Promise(function (resolve, reject) {
-            var request = new qx.io.request.Xhr(this._buildUrl('unstar', {
+            var request = new qx.io.request.Xhr(self._buildUrl('unstar', {
               id: songId
             }))
             request.addListener('success', resolve);
             request.send();
           })
         }))
-          .then(callback);
+          .then(function() {
+            callback(true);
+          });
       },
 
       updateSong: function (data, callback) {
@@ -755,6 +833,10 @@ qx.Class.define("qooxtunes.api.Subsonic",
         query = '?' + query.join('&');
 
         window.open('/api/download/songs' + query);
+      },
+
+      supportsEditing: function () {
+        return false;
       }
     }
   });

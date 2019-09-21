@@ -3,8 +3,19 @@ qx.Class.define("qooxtunes.api.API",
     extend: qx.core.Object,
 
     statics: {
-      get: function () {
-        return qooxtunes.api.Subsonic.getInstance();
+      serverType: null,
+
+      get: function (serverType) {
+        serverType = serverType || qooxtunes.api.API.serverType;
+
+        switch (serverType) {
+          case 'koel':
+            return qooxtunes.api.Koel.getInstance();
+            break;
+          case 'subsonic':
+            return qooxtunes.api.Subsonic.getInstance();
+            break;
+        }
       }
     }
   });

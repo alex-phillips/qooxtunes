@@ -399,6 +399,10 @@ qx.Class.define("qooxtunes.ui.ctl.table.Songs",
               };
             }
 
+            if (playData[interaction.song_id].liked) {
+              console.log('liking ' + interaction.song_id);
+            }
+
             playData[interaction.song_id].playCount += interaction.play_count;
             playData[interaction.song_id].liked = interaction.liked;
           }

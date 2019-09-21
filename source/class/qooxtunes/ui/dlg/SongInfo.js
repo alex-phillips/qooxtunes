@@ -239,7 +239,7 @@ qx.Class.define("qooxtunes.ui.dlg.SongInfo",
 
           self.__songInfo = data;
           self.__song = self.__api.getSongById(self.__songRow.songId);
-          self.__artworkImage.setSource(self.__song.album.cover);
+          self.__artworkImage.setSource(self.__api.getCoverArt(self.__song.id));
 
           self.__titleField.setValue(self.__song.title);
           self.__artistField.setValue(self.__song.album.artist.name);
@@ -248,6 +248,14 @@ qx.Class.define("qooxtunes.ui.dlg.SongInfo",
           self.__genreField.setValue(self.__song.genre ? self.__song.genre : '');
           self.__discNumberField.setValue("" + (self.__song.disc ? self.__song.disc : ''));
           self.__trackNumberField.setValue("" + self.__song.track);
+
+          self.__titleField.setEnabled(self.__api.supportsEditing());
+          self.__artistField.setEnabled(self.__api.supportsEditing());
+          self.__albumField.setEnabled(self.__api.supportsEditing());
+          self.__yearField.setEnabled(self.__api.supportsEditing());
+          self.__genreField.setEnabled(self.__api.supportsEditing());
+          self.__discNumberField.setEnabled(self.__api.supportsEditing());
+          self.__trackNumberField.setEnabled(self.__api.supportsEditing());
 
           if (!self.__songInfo.lyrics) {
             self.__songInfo.lyrics = '';
