@@ -51,8 +51,6 @@ qx.Class.define("qooxtunes.Application",
          Below is your actual application code...
          -------------------------------------------------------------------------
          */
-
-        this.__api = qooxtunes.api.API.get();
         this.setUpLogin();
       },
 
