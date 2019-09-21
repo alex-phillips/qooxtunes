@@ -6,4 +6,5 @@
 /source/script/
 qooxdoo-5.0.2-sdk.zip
 qooxdoo-5.0.2-sdk/
+qooxdoo-*/
 venv/
