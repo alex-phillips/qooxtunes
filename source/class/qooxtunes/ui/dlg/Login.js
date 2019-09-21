@@ -169,7 +169,6 @@ qx.Class.define("qooxtunes.ui.dlg.Login",
       onServerTypeChange: function (e) {
         var serverType = this.__serverTypeSelect.getSelectedValue();
         qooxtunes.api.API.serverType = serverType;
-        console.log(serverType);
       }
     }
   });

@@ -242,27 +242,6 @@ qx.Class.define("qooxtunes.api.Subsonic",
           }
           return callback(result);
         });
-
-
-        var self = this;
-        var request = new qx.io.remote.Request('/api/me', 'POST', 'application/json');
-        request.setRequestHeader("Accept", "application/json");
-        request.setRequestHeader("content-type", "application/json");
-        request.addListener('completed', function (e) {
-          if (e.getContent().token) {
-            self.__token = e.getContent().token;
-            qx.bom.Cookie.set('token', e.getContent().token, 365);
-
-            return callback(true)
-          }
-
-          return callback(false);
-        });
-        request.setData(JSON.stringify({
-          email: data.email,
-          password: data.password
-        }));
-        request.send();
       },
 
       logout: function (callback) {
