@@ -20,7 +20,7 @@ qx.$$g = {}
 
 qx.$$loader = {
   parts : {"boot":[0]},
-  packages : {"0":{"uris":["__out__:qooxtunes.a11294f969f5.js"]}},
+  packages : {"0":{"uris":["__out__:qooxtunes.5fb41a420ea2.js"]}},
   urisBefore : [],
   cssBefore : [],
   boot : "boot",
@@ -10530,7 +10530,7 @@ else {return -1;}
 ;}
 ;self.fireEvent(a);cx(true);}
 );cy.send();}
-,login:function(cB,cA){this._username=cB.username;this._password=cB.password;this._url=cB.url;var self=this;this.ping(function(cC){if(cC){qx.bom.Cookie.set(Y,self._username,365);qx.bom.Cookie.set(bD,self._password,365);}
+,login:function(cB,cA){this._username=cB.username;this._password=cB.password;this._url=cB.url.replace(/\/$/,k);var self=this;this.ping(function(cC){if(cC){qx.bom.Cookie.set(Y,self._username,365);qx.bom.Cookie.set(bD,self._password,365);}
 ;return cA(cC);}
 );}
 ,logout:function(cD){qx.bom.Cookie.del(o);qx.bom.Cookie.del(Y);qx.bom.Cookie.del(bD);cD();}

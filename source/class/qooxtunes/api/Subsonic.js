@@ -232,7 +232,7 @@ qx.Class.define("qooxtunes.api.Subsonic",
       login: function (data, callback) {
         this._username = data.username;
         this._password = data.password;
-        this._url = data.url;
+        this._url = data.url.replace(/\/$/, '');
 
         var self = this;
         this.ping(function (result) {
