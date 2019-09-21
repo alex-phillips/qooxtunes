@@ -1,6 +1,6 @@
 // requires
 var util = require('util');
-var qx = require("../qooxdoo-5.0.2-sdk/tool/grunt");
+var qx = require("../qooxdoo-5.0.3-beta/tool/grunt");
 
 // grunt
 module.exports = function(grunt) {
@@ -13,7 +13,7 @@ module.exports = function(grunt) {
 
     common: {
       "APPLICATION" : "qooxtunes",
-      "QOOXDOO_PATH" : "../qooxdoo-5.0.2-sdk",
+      "QOOXDOO_PATH" : "../qooxdoo-5.0.3-beta",
       "LOCALES": ["en"],
       "QXTHEME": "qooxtunes.theme.Theme"
     }
