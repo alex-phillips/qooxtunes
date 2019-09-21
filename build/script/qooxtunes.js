@@ -9,7 +9,7 @@ var envinfo = {"qx.application":"qooxtunes.Application","qx.debug":false,"qx.deb
 for (var k in envinfo) qx.$$environment[k] = envinfo[k];
 
 if (!qx.$$libraries) qx.$$libraries = {};
-var libinfo = {"__out__":{"sourceUri":"/mymusic/script"},"qooxtunes":{"resourceUri":"/mymusic/resource","sourceUri":"/mymusic/script"},"qx":{"resourceUri":"/mymusic/resource","sourceUri":"/mymusic/script","sourceViewUri":"https://github.com/qooxdoo/qooxdoo/blob/%{qxGitBranch}/framework/source/class/%{classFilePath}#L%{lineNumber}"}};
+var libinfo = {"__out__":{"sourceUri":"/script"},"qooxtunes":{"resourceUri":"/resource","sourceUri":"/script"},"qx":{"resourceUri":"/resource","sourceUri":"/script","sourceViewUri":"https://github.com/qooxdoo/qooxdoo/blob/%{qxGitBranch}/framework/source/class/%{classFilePath}#L%{lineNumber}"}};
 for (var k in libinfo) qx.$$libraries[k] = libinfo[k];
 
 qx.$$resources = {};
