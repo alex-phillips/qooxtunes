@@ -7,6 +7,7 @@ qx.Class.define("qooxtunes.api.API",
 
       get: function (serverType) {
         serverType = serverType || qooxtunes.api.API.serverType;
+        qooxtunes.api.API.serverType = serverType;
 
         switch (serverType) {
           case 'koel':

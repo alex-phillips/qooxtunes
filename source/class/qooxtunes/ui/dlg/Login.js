@@ -13,8 +13,8 @@ qx.Class.define("qooxtunes.ui.dlg.Login",
 
 
       this.__serverTypeSelect = new qooxtunes.ui.ctl.SelectBox();
-      this.__serverTypeSelect.addItem("Koel", "koel");
       this.__serverTypeSelect.addItem("Subsonic", "subsonic");
+      this.__serverTypeSelect.addItem("Koel", "koel");
       this.__serverTypeSelect.addListener("changeSelection", this.onServerTypeChange, this);
       this.add(this.__serverTypeSelect, { left: 18, top: 18, right: 18 });
 

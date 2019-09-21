@@ -266,9 +266,9 @@ qx.Class.define("qooxtunes.api.Subsonic",
       },
 
       logout: function (callback) {
-        qx.bom.Cookie.delete('url');
-        qx.bom.Cookie.delete('username');
-        qx.bom.Cookie.delete('password');
+        qx.bom.Cookie.del('url');
+        qx.bom.Cookie.del('username');
+        qx.bom.Cookie.del('password');
         callback();
       },
 

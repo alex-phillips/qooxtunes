@@ -85,6 +85,7 @@ qx.Class.define("qooxtunes.Application",
       },
 
       setUpUI: function() {
+        this.__api = qooxtunes.api.API.get();
         this.__loggedIn = true;
         this.playbackControl = qooxtunes.ui.ctl.PlaybackControl.getInstance();
         this.getRoot().add(this.playbackControl, { top: 41, left: 8, right: 8 });
