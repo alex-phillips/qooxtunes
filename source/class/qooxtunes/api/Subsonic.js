@@ -351,6 +351,10 @@ qx.Class.define("qooxtunes.api.Subsonic",
         var request = new qx.io.request.Xhr(this._buildUrl('getPlaylists'));
         request.addListener('success', function () {
           var response = request.getResponse()['subsonic-response'];
+          if (!response.playlists || !response.playlists.playlist) {
+            return callback();
+          }
+
           Promise.all(response.playlists.playlist.map(function (playlist) {
             return new Promise(function (resolve, reject) {
               self._getPlaylist(playlist.id, function (playlist) {

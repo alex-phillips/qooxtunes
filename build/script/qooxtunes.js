@@ -20,7 +20,7 @@ qx.$$g = {}
 
 qx.$$loader = {
   parts : {"boot":[0]},
-  packages : {"0":{"uris":["__out__:qooxtunes.5fb41a420ea2.js"]}},
+  packages : {"0":{"uris":["__out__:qooxtunes.94d47e0a2791.js"]}},
   urisBefore : [],
   cssBefore : [],
   boot : "boot",
@@ -10546,7 +10546,8 @@ else {return -1;}
 ;}
 ;return cP();}
 );cQ.send();}
-,_getPlaylists:function(cS){var self=this;self.__cP.playlists=[];var cT=new qx.io.request.Xhr(this._buildUrl(z));cT.addListener(p,function(){var cU=cT.getResponse()[V];Promise.all(cU.playlists.playlist.map(function(cV){return new Promise(function(cW,cX){self._getPlaylist(cV.id,function(da){var cY=[];if(da.entry){cY=da.entry.map(function(db){return db.id;}
+,_getPlaylists:function(cS){var self=this;self.__cP.playlists=[];var cT=new qx.io.request.Xhr(this._buildUrl(z));cT.addListener(p,function(){var cU=cT.getResponse()[V];if(!cU.playlists||!cU.playlists.playlist){return cS();}
+;Promise.all(cU.playlists.playlist.map(function(cV){return new Promise(function(cW,cX){self._getPlaylist(cV.id,function(da){var cY=[];if(da.entry){cY=da.entry.map(function(db){return db.id;}
 );}
 ;self.__cP.playlists.push({id:da.id,name:da.name,songs:cY});return cW();}
 );}
