@@ -20,7 +20,7 @@ qx.$$g = {}
 
 qx.$$loader = {
   parts : {"boot":[0]},
-  packages : {"0":{"uris":["__out__:qooxtunes.94d47e0a2791.js"]}},
+  packages : {"0":{"uris":["__out__:qooxtunes.60f2c233db45.js"]}},
   urisBefore : [],
   cssBefore : [],
   boot : "boot",
@@ -14101,170 +14101,170 @@ else {bd=bc;}
 ,setColumnWidth:function(v,w){var u=this.getTableColumnModel();var t=u.getBehavior();t.set(v,{width:w});}
 }});}
 )();
-(function(){var c=': ',d='qooxtunes/icon/16/favorite.png',f="Track",g='_',h="qx.event.type.Data",k='disc',l='widthChanged',n='space',o='title',p="Year",q='play',r="_SongID",s="dragstart",t='orderChanged',u='appear',v='liking ',w='compilation',x="Plays",y='execute',z='songId',A='Unfavorite',B='playCount',C='M/d/yy, h:mm a',D='duration',E="Genre",F='song_id',G='changeSelection',H='year',I="execute",J="Favorite",K='^',L='visibilityChanged',M='Favorite',N="Please wait...",O='searchValue',P='gi',Q='backspace',R="Duration",S="Queue",T="qooxtunes/icon/16/now-playing-github.png",U='genre',V="Loading library...",W="keypress",X="Play Next",Y='artist',cf="Date Added",cg="Album Artist",ch="columnVisibilityMenuCreateEnd",cb="Ctrl+I",cc='liked',cd='dblclick',ce="Replace Queue",cm='search_value',cn='Download songs',cu="Ctrl+P",co='undefined',ci="Filter for Artist",cj="_SearchValue",ck="Artist",cl="Filter for Album",ct="Select All",cT="Error",cU='artist=',cv="Compilation",cp='albumArtist',cq='name',cX='search_data',cs="Ctrl+Q",cw="Ctrl+R",cx="Info",cy="Title",cC="Play",cY="Ctrl+A",cD="new search value: ",cz='delete',cA="\$&",cW='',cB='album=',cH='enter',cI='nowPlaying',db="qooxtunes.ui.ctl.table.Songs",cJ="There was a problem removing the songs from the playlist",cE='dateAdded',cF='no preferences found for table state',da='track',cG="copy",cO="qooxtunes/icon/16/favorite.png",cP="",dc='album',cQ="Disc",cK="Download Song",cL=' ',cM='searchChanged',cN='songs.table.state',cR="Album",cS="Ctrl+F",cV='Download song';qx.Class.define(db,{extend:qooxtunes.ui.ctl.Table,construct:function(){this.buildTableModel();var dd={tableColumnModel:function(de){return new qx.ui.table.columnmodel.Basic(de);}
-};qooxtunes.ui.ctl.Table.call(this,this.__vY,dd);this.init();}
-,events:{'searchChanged':h},members:{__mv:null,__vT:[],__qE:null,__sw:null,__vU:[],__vV:cW,__vW:null,__vX:false,search:function(dj,dk){this.resetSelection();var df=this.__vY.getSortColumnIndex(),dg=this.__vY.isSortAscending(),dh=this.__wb;if(dj){dh=[];if(!dk){dk=O;}
-;dj=dj.split(cL);for(var i=0;i<dj.length;i++ ){dj[i]=dj[i].replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g,cA);}
-;for(i=0;i<this.__wb.length;i++ ){if(!this.__wb[i][dk]){continue;}
-;var di=this.__wb[i][dk].replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g,cA);var dl=true;for(var j=0;j<dj.length;j++ ){if(!di.match(new RegExp(dj[j],P))){dl=false;break;}
+(function(){var c=': ',d='qooxtunes/icon/16/favorite.png',f="Track",g='_',h="qx.event.type.Data",k='disc',l='widthChanged',n='space',o='title',p="Year",q='play',r="_SongID",s="dragstart",t='orderChanged',u='appear',v='compilation',w="Plays",x='execute',y='songId',z='Unfavorite',A='playCount',B='M/d/yy, h:mm a',C='duration',D="Genre",E='song_id',F='changeSelection',G='year',H="execute",I="Favorite",J='^',K='visibilityChanged',L='Favorite',M="Please wait...",N='searchValue',O='gi',P='backspace',Q="Duration",R="Queue",S="qooxtunes/icon/16/now-playing-github.png",T='genre',U="Loading library...",V="keypress",W="Play Next",X='artist',Y="Date Added",ce="Album Artist",cf="columnVisibilityMenuCreateEnd",cg="Ctrl+I",ca='liked',cb='dblclick',cc="Replace Queue",cd='search_value',cl='Download songs',cm="Ctrl+P",ct='undefined',cn="Filter for Artist",ch="_SearchValue",ci="Artist",cj="Filter for Album",ck="Select All",cs="Error",cS='artist=',cT="Compilation",cu='albumArtist',co='name',cp='search_data',cV="Ctrl+Q",cq="Ctrl+R",cv="Info",cw="Title",cx="Play",cB="Ctrl+A",cW="new search value: ",cC='delete',cy="\$&",cz='',cU='album=',cA='enter',cG='nowPlaying',cH="qooxtunes.ui.ctl.table.Songs",cY="There was a problem removing the songs from the playlist",cI='dateAdded',cD='no preferences found for table state',cE='track',cX="copy",cF="qooxtunes/icon/16/favorite.png",cN="",cO='album',da="Disc",cP="Download Song",cJ=' ',cK='searchChanged',cL='songs.table.state',cM="Album",cQ="Ctrl+F",cR='Download song';qx.Class.define(cH,{extend:qooxtunes.ui.ctl.Table,construct:function(){this.buildTableModel();var db={tableColumnModel:function(dc){return new qx.ui.table.columnmodel.Basic(dc);}
+};qooxtunes.ui.ctl.Table.call(this,this.__vY,db);this.init();}
+,events:{'searchChanged':h},members:{__mv:null,__vT:[],__qE:null,__sw:null,__vU:[],__vV:cz,__vW:null,__vX:false,search:function(dh,di){this.resetSelection();var dd=this.__vY.getSortColumnIndex(),de=this.__vY.isSortAscending(),df=this.__wb;if(dh){df=[];if(!di){di=N;}
+;dh=dh.split(cJ);for(var i=0;i<dh.length;i++ ){dh[i]=dh[i].replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g,cy);}
+;for(i=0;i<this.__wb.length;i++ ){if(!this.__wb[i][di]){continue;}
+;var dg=this.__wb[i][di].replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g,cy);var dj=true;for(var j=0;j<dh.length;j++ ){if(!dg.match(new RegExp(dh[j],O))){dj=false;break;}
 ;}
-;if(dl){dh.push(this.__wb[i]);}
+;if(dj){df.push(this.__wb[i]);}
 ;}
 ;}
-;this.__vY.setDataAsMapArray(dh,false,false);this.__vY.sortByColumn(df,dg);this.updateTotalDuration();}
-,updateTotalDuration:function(){var dm=0;if(this.getSelectionModel().getSelectedCount()<=1){var dn=this.__vY.getDataAsMapArray();}
-else {var dn=this.getSelectedItems();}
-;for(var i=0;i<dn.length;i++ ){dm+=qooxtunes.util.Time.durationStringToInt(dn[i].duration);}
-;this.setAdditionalStatusBarText(c+qooxtunes.util.Time.totalDurationString(dm));}
-,buildTableModel:function(){this.__vY=new qx.ui.table.model.Simple();this.__wa={};this.__vY.setColumns([r,cj,cP,this.tr(cy),this.tr(ck),this.tr(cg),this.tr(cR),this.tr(cQ),this.tr(f),this.tr(E),this.tr(p),this.tr(cv),this.tr(R),this.tr(x),this.tr(cf),this.tr(J)],[z,O,cI,o,Y,cp,dc,k,da,U,H,w,D,B,cE,cc,]);this.__wa[z]=0;this.__wa[O]=1;this.__wa[cI]=2;this.__wa[o]=3;this.__wa[Y]=4;this.__wa[cp]=5;this.__wa[dc]=6;this.__wa[k]=7;this.__wa[da]=8;this.__wa[U]=9;this.__wa[H]=10;this.__wa[w]=11;this.__wa[D]=12;this.__wa[B]=13;this.__wa[cE]=14;this.__wa[cc]=15;var self=this;function dp(a,b,dq){if(!dq){return 0;}
-;var ds=0;for(var i=0;i<dq.length;i++ ){var dr=a[dq[i]];var dt=b[dq[i]];if(dq[i]===self.__wa[D]){dr=qooxtunes.util.Time.durationStringToInt(dr);dt=qooxtunes.util.Time.durationStringToInt(dt);}
-;if(dr&&isNaN(dr)){dr=dr.toLowerCase().replace(/^(a|an|the)\s+/,cW);}
-;if(dt&&isNaN(dt)){dt=dt.toLowerCase().replace(/^(a|an|the)\s+/,cW);}
-;if(dr!=dt){return (dr<dt)?-1:((dr>dt)?1:0);}
+;this.__vY.setDataAsMapArray(df,false,false);this.__vY.sortByColumn(dd,de);this.updateTotalDuration();}
+,updateTotalDuration:function(){var dk=0;if(this.getSelectionModel().getSelectedCount()<=1){var dl=this.__vY.getDataAsMapArray();}
+else {var dl=this.getSelectedItems();}
+;for(var i=0;i<dl.length;i++ ){dk+=qooxtunes.util.Time.durationStringToInt(dl[i].duration);}
+;this.setAdditionalStatusBarText(c+qooxtunes.util.Time.totalDurationString(dk));}
+,buildTableModel:function(){this.__vY=new qx.ui.table.model.Simple();this.__wa={};this.__vY.setColumns([r,ch,cN,this.tr(cw),this.tr(ci),this.tr(ce),this.tr(cM),this.tr(da),this.tr(f),this.tr(D),this.tr(p),this.tr(cT),this.tr(Q),this.tr(w),this.tr(Y),this.tr(I)],[y,N,cG,o,X,cu,cO,k,cE,T,G,v,C,A,cI,ca,]);this.__wa[y]=0;this.__wa[N]=1;this.__wa[cG]=2;this.__wa[o]=3;this.__wa[X]=4;this.__wa[cu]=5;this.__wa[cO]=6;this.__wa[k]=7;this.__wa[cE]=8;this.__wa[T]=9;this.__wa[G]=10;this.__wa[v]=11;this.__wa[C]=12;this.__wa[A]=13;this.__wa[cI]=14;this.__wa[ca]=15;var self=this;function dm(a,b,dn){if(!dn){return 0;}
+;var dq=0;for(var i=0;i<dn.length;i++ ){var dp=a[dn[i]];var dr=b[dn[i]];if(dn[i]===self.__wa[C]){dp=qooxtunes.util.Time.durationStringToInt(dp);dr=qooxtunes.util.Time.durationStringToInt(dr);}
+;if(dp&&isNaN(dp)){dp=dp.toLowerCase().replace(/^(a|an|the)\s+/,cz);}
+;if(dr&&isNaN(dr)){dr=dr.toLowerCase().replace(/^(a|an|the)\s+/,cz);}
+;if(dp!=dr){return (dp<dr)?-1:((dp>dr)?1:0);}
 ;}
-;return ds;}
-;this.__vY.setSortMethods(self.__wa[cq],{ascending:function(du,dv){return dp(du,dv,[self.__wa[o]]);}
-,descending:function(dw,dx){return -dp(dw,dx,[self.__wa[o]]);}
-});this.__vY.setSortMethods(self.__wa[Y],{ascending:function(dy,dz){return dp(dy,dz,[self.__wa[Y],self.__wa[dc],self.__wa[H],self.__wa[da],self.__wa[k],self.__wa[z]]);}
-,descending:function(dA,dB){return -dp(dA,dB,[self.__wa[Y],self.__wa[dc],self.__wa[da],self.__wa[k],self.__wa[z]]);}
-});this.__vY.setSortMethods(self.__wa[cp],{ascending:function(dC,dD){return dp(dC,dD,[self.__wa[cp],self.__wa[dc],self.__wa[H],self.__wa[da],self.__wa[k],self.__wa[z]]);}
-,descending:function(dE,dF){return -dp(dE,dF,[self.__wa[cp],self.__wa[dc],self.__wa[da],self.__wa[k],self.__wa[z]]);}
-});this.__vY.setSortMethods(self.__wa[dc],{ascending:function(dG,dH){return dp(dG,dH,[self.__wa[dc],self.__wa[H],self.__wa[da],self.__wa[k],self.__wa[z]]);}
-,descending:function(dI,dJ){return -dp(dI,dJ,[self.__wa[dc],self.__wa[H],self.__wa[da],self.__wa[k],self.__wa[z]]);}
-});this.__vY.setSortMethods(self.__wa[U],{ascending:function(dK,dL){return dp(dK,dL,[self.__wa[U],self.__wa[Y],self.__wa[dc],self.__wa[H],self.__wa[da],self.__wa[k],self.__wa[z]]);}
-,descending:function(dM,dN){return -dp(dM,dN,[self.__wa[U],self.__wa[Y],self.__wa[dc],self.__wa[H],self.__wa[da],self.__wa[k],self.__wa[z]]);}
-});this.__vY.setSortMethods(self.__wa[H],{ascending:function(dO,dP){return dp(dO,dP,[self.__wa[H],self.__wa[dc],self.__wa[da],self.__wa[k],self.__wa[z]]);}
-,descending:function(dQ,dR){return -dp(dQ,dR,[self.__wa[H],self.__wa[dc],self.__wa[da],self.__wa[k],self.__wa[z]]);}
-});this.__vY.setSortMethods(self.__wa[D],{ascending:function(dS,dT){return dp(dS,dT,[self.__wa[D]]);}
-,descending:function(dU,dV){return -dp(dU,dV,[self.__wa[D]]);}
+;return dq;}
+;this.__vY.setSortMethods(self.__wa[co],{ascending:function(ds,dt){return dm(ds,dt,[self.__wa[o]]);}
+,descending:function(du,dv){return -dm(du,dv,[self.__wa[o]]);}
+});this.__vY.setSortMethods(self.__wa[X],{ascending:function(dw,dx){return dm(dw,dx,[self.__wa[X],self.__wa[cO],self.__wa[G],self.__wa[cE],self.__wa[k],self.__wa[y]]);}
+,descending:function(dy,dz){return -dm(dy,dz,[self.__wa[X],self.__wa[cO],self.__wa[cE],self.__wa[k],self.__wa[y]]);}
+});this.__vY.setSortMethods(self.__wa[cu],{ascending:function(dA,dB){return dm(dA,dB,[self.__wa[cu],self.__wa[cO],self.__wa[G],self.__wa[cE],self.__wa[k],self.__wa[y]]);}
+,descending:function(dC,dD){return -dm(dC,dD,[self.__wa[cu],self.__wa[cO],self.__wa[cE],self.__wa[k],self.__wa[y]]);}
+});this.__vY.setSortMethods(self.__wa[cO],{ascending:function(dE,dF){return dm(dE,dF,[self.__wa[cO],self.__wa[G],self.__wa[cE],self.__wa[k],self.__wa[y]]);}
+,descending:function(dG,dH){return -dm(dG,dH,[self.__wa[cO],self.__wa[G],self.__wa[cE],self.__wa[k],self.__wa[y]]);}
+});this.__vY.setSortMethods(self.__wa[T],{ascending:function(dI,dJ){return dm(dI,dJ,[self.__wa[T],self.__wa[X],self.__wa[cO],self.__wa[G],self.__wa[cE],self.__wa[k],self.__wa[y]]);}
+,descending:function(dK,dL){return -dm(dK,dL,[self.__wa[T],self.__wa[X],self.__wa[cO],self.__wa[G],self.__wa[cE],self.__wa[k],self.__wa[y]]);}
+});this.__vY.setSortMethods(self.__wa[G],{ascending:function(dM,dN){return dm(dM,dN,[self.__wa[G],self.__wa[cO],self.__wa[cE],self.__wa[k],self.__wa[y]]);}
+,descending:function(dO,dP){return -dm(dO,dP,[self.__wa[G],self.__wa[cO],self.__wa[cE],self.__wa[k],self.__wa[y]]);}
+});this.__vY.setSortMethods(self.__wa[C],{ascending:function(dQ,dR){return dm(dQ,dR,[self.__wa[C]]);}
+,descending:function(dS,dT){return -dm(dS,dT,[self.__wa[C]]);}
 });}
-,loadAll:function(){this.resetSelection();this.__sw=null;if(this.__vT.length!==0){var dW=this.__vY.getSortColumnIndex(),dX=this.__vY.isSortAscending();this.__wb=this.__vT;this.__vY.setDataAsMapArray(this.__vT,false,false);this.__vY.sortByColumn(dW,dX);return;}
-;var self=this;qooxtunes.ui.dlg.WaitPopup.show(this.tr(V));this.__mv.getData(function(ed){var ec=[];var ef={};for(var i=0;i<ed.interactions.length;i++ ){var dY=ed.interactions[i];if(!ef[dY.song_id]){ef[dY.song_id]={playCount:0,liked:false};}
-;if(ef[dY.song_id].liked){console.log(v+dY.song_id);}
-;ef[dY.song_id].playCount+=dY.play_count;ef[dY.song_id].liked=dY.liked;}
-;var eg=self.__mv.getSongs();for(var ee in eg){var eb=eg[ee],ea=eb.album.artist;ea=self.__mv.getArtistById(eb.artist_id);ec.push({songId:eb.id,searchValue:[eb.title,ea.name,eb.album.artist.name,eb.album.name,eb.genre].join(cL),nowPlaying:null,title:eb.title,artist:ea.name,albumArtist:eb.album.artist.name,album:eb.album.name,disc:eb.disc,track:eb.track,genre:eb.genre,year:eb.album.year,compilation:Boolean(eb.album.compilationState),duration:qooxtunes.util.Time.intToStr(eb.length),playCount:ef[eb.id]&&ef[eb.id].playCount?ef[eb.id].playCount:cW,dateAdded:eb.date_added,liked:ef[eb.id]&&ef[eb.id].liked?qx.util.ResourceManager.getInstance().toUri(d):cW});}
-;self.__vY.setDataAsMapArray(ec,false,false);self.__vY.sortByColumn(self.__wa[Y],true);self.__vT=ec;self.__wb=self.__vT;self.updateTotalDuration();qooxtunes.ui.dlg.WaitPopup.hide();}
+,loadAll:function(){this.resetSelection();this.__sw=null;if(this.__vT.length!==0){var dU=this.__vY.getSortColumnIndex(),dV=this.__vY.isSortAscending();this.__wb=this.__vT;this.__vY.setDataAsMapArray(this.__vT,false,false);this.__vY.sortByColumn(dU,dV);return;}
+;var self=this;qooxtunes.ui.dlg.WaitPopup.show(this.tr(U));this.__mv.getData(function(eb){var ea=[];var ed={};for(var i=0;i<eb.interactions.length;i++ ){var dW=eb.interactions[i];if(!dW){continue;}
+;if(!ed[dW.song_id]){ed[dW.song_id]={playCount:0,liked:false};}
+;ed[dW.song_id].playCount+=dW.play_count;ed[dW.song_id].liked=dW.liked;}
+;var ee=self.__mv.getSongs();for(var ec in ee){var dY=ee[ec],dX=dY.album.artist;dX=self.__mv.getArtistById(dY.artist_id);ea.push({songId:dY.id,searchValue:[dY.title,dX.name,dY.album.artist.name,dY.album.name,dY.genre].join(cJ),nowPlaying:null,title:dY.title,artist:dX.name,albumArtist:dY.album.artist.name,album:dY.album.name,disc:dY.disc,track:dY.track,genre:dY.genre,year:dY.album.year,compilation:Boolean(dY.album.compilationState),duration:qooxtunes.util.Time.intToStr(dY.length),playCount:ed[dY.id]&&ed[dY.id].playCount?ed[dY.id].playCount:cz,dateAdded:dY.date_added,liked:ed[dY.id]&&ed[dY.id].liked?qx.util.ResourceManager.getInstance().toUri(d):cz});}
+;self.__vY.setDataAsMapArray(ea,false,false);self.__vY.sortByColumn(self.__wa[X],true);self.__vT=ea;self.__wb=self.__vT;self.updateTotalDuration();qooxtunes.ui.dlg.WaitPopup.hide();}
 );}
-,loadPlaylist:function(ei){this.resetSelection();var eh=[];if(ei===null){return this.__sw=null;}
-;this.__sw=this.__mv.getPlaylistById(ei);for(var i=0;i<this.__vT.length;i++ ){if(this.__sw.songs.indexOf(this.__vT[i].songId)>-1){eh.push(this.__vT[i]);}
+,loadPlaylist:function(eg){this.resetSelection();var ef=[];if(eg===null){return this.__sw=null;}
+;this.__sw=this.__mv.getPlaylistById(eg);for(var i=0;i<this.__vT.length;i++ ){if(this.__sw.songs.indexOf(this.__vT[i].songId)>-1){ef.push(this.__vT[i]);}
 ;}
-;this.__wb=eh;this.__vY.setDataAsMapArray(eh,false,false);}
+;this.__wb=ef;this.__vY.setDataAsMapArray(ef,false,false);}
 ,clear:function(){this.__vY.setData([],false);}
-,on_dragstart:function(e){var ej=this.getSelectedItems();if(ej.length===0){ej=[this.__vY.getRowDataAsMap(this.getFocusedRow())];}
-;this.__vU=ej;e.addAction(cG);}
+,on_dragstart:function(e){var eh=this.getSelectedItems();if(eh.length===0){eh=[this.__vY.getRowDataAsMap(this.getFocusedRow())];}
+;this.__vU=eh;e.addAction(cX);}
 ,getDraggingItems:function(){return this.__vU;}
-,on_columnVisibilityMenuCreateEnd:function(e){var en=e.getData();var el=en.menu.getChildren();var eo=[];for(var i=0;i<el.length;i++ ){var em=el[i];if(!em.getLabel){continue;}
-;var ek=em.getLabel();if((ek.length==0)||(ek.substr(0,1)==g)){eo.push(em);}
+,on_columnVisibilityMenuCreateEnd:function(e){var el=e.getData();var ej=el.menu.getChildren();var em=[];for(var i=0;i<ej.length;i++ ){var ek=ej[i];if(!ek.getLabel){continue;}
+;var ei=ek.getLabel();if((ei.length==0)||(ei.substr(0,1)==g)){em.push(ek);}
 ;}
-;for(var i=0;i<eo.length;i++ ){en.menu.remove(eo[i]);}
+;for(var i=0;i<em.length;i++ ){el.menu.remove(em[i]);}
 ;}
-,update_row:function(er,ep){if(typeof ep===co){ep=false;}
-;var et=[];for(var i=0;i<this.__vY.getColumnCount();i++ ){et[i]=null;}
-;var eq=this.__vY.locate(this.__wa[F],er[0],0);if(typeof eq===co){return;}
-;et[this.__wa[F]]=er[0];et[this.__wa[cX]]=cW;if(this.__limited_columns){et[this.__wa[da]]=this.__vY.getValue(this.__wa[da],eq,0);}
-;et[this.__wa[cq]]=er[1];if(er[2]!=null){et[this.__wa[Y]]=er[2][0];}
-else {et[this.__wa[Y]]=null;}
-;et[this.__wa[dc]]=er[7];et[this.__wa[k]]=er[9];var es=et[0];for(var i=2;i<this.__vY.getColumnCount();i++ ){if(!ep||et[i]!==null){eq=this.__vY.locate(this.__wa[F],es,0);this.__vY.setValue(i,eq,et[i],0);}
+,update_row:function(ep,en){if(typeof en===ct){en=false;}
+;var er=[];for(var i=0;i<this.__vY.getColumnCount();i++ ){er[i]=null;}
+;var eo=this.__vY.locate(this.__wa[E],ep[0],0);if(typeof eo===ct){return;}
+;er[this.__wa[E]]=ep[0];er[this.__wa[cp]]=cz;if(this.__limited_columns){er[this.__wa[cE]]=this.__vY.getValue(this.__wa[cE],eo,0);}
+;er[this.__wa[co]]=ep[1];if(ep[2]!=null){er[this.__wa[X]]=ep[2][0];}
+else {er[this.__wa[X]]=null;}
+;er[this.__wa[cO]]=ep[7];er[this.__wa[k]]=ep[9];var eq=er[0];for(var i=2;i<this.__vY.getColumnCount();i++ ){if(!en||er[i]!==null){eo=this.__vY.locate(this.__wa[E],eq,0);this.__vY.setValue(i,eo,er[i],0);}
 ;}
-;eq=this.__vY.locate(this.__wa[F],es,0);search_value=this.__vY.getValue(this.__wa[cq],eq,0)+cL+this.__vY.getValue(this.__wa[Y],eq,0)+cL+this.__vY.getValue(this.__wa[dc],eq,0)+cL+this.__vY.getValue(this.__wa[U],eq,0);console.log(cD+search_value);this.__vY.setValue(this.__wa[cm],eq,search_value,0);}
-,on_multi_editor_ok:function(eu,ev){for(var i=0;i<eu.length;i++ ){ev[0]=eu[i];this.update_row(ev,true);}
+;eo=this.__vY.locate(this.__wa[E],eq,0);search_value=this.__vY.getValue(this.__wa[co],eo,0)+cJ+this.__vY.getValue(this.__wa[X],eo,0)+cJ+this.__vY.getValue(this.__wa[cO],eo,0)+cJ+this.__vY.getValue(this.__wa[T],eo,0);console.log(cW+search_value);this.__vY.setValue(this.__wa[cd],eo,search_value,0);}
+,on_multi_editor_ok:function(es,et){for(var i=0;i<es.length;i++ ){et[0]=es[i];this.update_row(et,true);}
 ;}
-,on_editor_ok:function(ew){if(ew!=null){this.update_row(ew);}
+,on_editor_ok:function(eu){if(eu!=null){this.update_row(eu);}
 ;}
-,on_editor_next:function(ey){var eA=this.getFirstSelectedIndex()+1;if(ey!=null){this.update_row(ey);}
-;if(this.getFirstSelectedIndex()>eA){eA-- ;}
-;this.setSelectedIndex(eA);var ez={};var ex=this.getSelectedItems()[0];ez.row=ex;ez.songId=ex.songId;ez.songIndex=eA;return ez;}
-,on_editor_prev:function(eC){var eE=this.getFirstSelectedIndex()-1;if(eC!=null){}
-;if(this.getFirstSelectedIndex()<eE){eE++ ;}
-;this.setSelectedIndex(eE);var eD={};var eB=this.getSelectedItems()[0];eD.row=eB;eD.songId=eB.songId;eD.songIndex=eE;return eD;}
-,onSelectAllCommand:function(e){var eF=this.__vY.getRowCount();var m=this.getSelectionModel();m.setSelectionInterval(0,eF-1);}
-,updateRowById:function(eH,eG){for(var i=0;i<this.__vT.length;i++ ){if(this.__vT[i].songId===eH){break;}
+,on_editor_next:function(ew){var ey=this.getFirstSelectedIndex()+1;if(ew!=null){this.update_row(ew);}
+;if(this.getFirstSelectedIndex()>ey){ey-- ;}
+;this.setSelectedIndex(ey);var ex={};var ev=this.getSelectedItems()[0];ex.row=ev;ex.songId=ev.songId;ex.songIndex=ey;return ex;}
+,on_editor_prev:function(eA){var eC=this.getFirstSelectedIndex()-1;if(eA!=null){}
+;if(this.getFirstSelectedIndex()<eC){eC++ ;}
+;this.setSelectedIndex(eC);var eB={};var ez=this.getSelectedItems()[0];eB.row=ez;eB.songId=ez.songId;eB.songIndex=eC;return eB;}
+,onSelectAllCommand:function(e){var eD=this.__vY.getRowCount();var m=this.getSelectionModel();m.setSelectionInterval(0,eD-1);}
+,updateRowById:function(eF,eE){for(var i=0;i<this.__vT.length;i++ ){if(this.__vT[i].songId===eF){break;}
 ;}
 ;}
-,playSelected:function(eI){qooxtunes.ui.ctl.PlaybackControl.getInstance().play(eI);}
-,queueSelected:function(eJ){qooxtunes.ui.ctl.PlaybackControl.getInstance().queue(eJ);}
-,queueNext:function(eK){qooxtunes.ui.ctl.PlaybackControl.getInstance().queueNext(eK);}
-,replaceQueue:function(eL){qooxtunes.ui.ctl.PlaybackControl.getInstance().replaceQueue(eL);}
-,onPlayCommand:function(e){var eN=this.getSelectedItems();if(eN.length<1){return;}
-else if(eN.length===1){var eM=this.getSelectedIndices()[0];eN=this.__vY.getDataAsMapArray().slice(eM);}
-;this.playSelected(eN);}
-,on_cmd_queue:function(e){var eO=this.getSelectedItems();if(eO.length<1){return;}
-;this.queueSelected(eO);}
-,onPlayNextCommand:function(e){var eP=this.getSelectedItems();if(eP.length<1){return;}
-;this.queueNext(eP);}
-,onReplaceQueueCommand:function(e){var eQ=this.getSelectedItems();if(eQ.length<1){return;}
-;this.replaceQueue(eQ);}
-,onFilterForArtistCommand:function(e){var eR=this.getSelectedItems();if(eR.length!=1){return;}
-;this.fireDataEvent(cM,cU+eR[0].artist);}
-,onFilterForAlbumCommand:function(e){var eS=this.getSelectedItems();if(eS.length!=1){return;}
-;this.fireDataEvent(cM,cB+eS[0].album);}
-,onEditCommand:function(e){var eT=this.getSelectedItems(),eV=this.getSelectedIndices();if(eT.length<1){return;}
-;var self=this;if(eT.length==1){var eU=this.__vY.getRowCount();qooxtunes.ui.dlg.SongInfo.go(eT[0],eV[0],eU,function(eW){return self.on_editor_ok(eW);}
-,function(eX){return self.on_editor_next(eX);}
-,function(eY){return self.on_editor_prev(eY);}
-,eU);}
-else {qooxtunes.ui.dlg.multi_song_editor.go(song_ids,function(fa,fb){return self.on_multi_editor_ok(fa,fb);}
+,playSelected:function(eG){qooxtunes.ui.ctl.PlaybackControl.getInstance().play(eG);}
+,queueSelected:function(eH){qooxtunes.ui.ctl.PlaybackControl.getInstance().queue(eH);}
+,queueNext:function(eI){qooxtunes.ui.ctl.PlaybackControl.getInstance().queueNext(eI);}
+,replaceQueue:function(eJ){qooxtunes.ui.ctl.PlaybackControl.getInstance().replaceQueue(eJ);}
+,onPlayCommand:function(e){var eL=this.getSelectedItems();if(eL.length<1){return;}
+else if(eL.length===1){var eK=this.getSelectedIndices()[0];eL=this.__vY.getDataAsMapArray().slice(eK);}
+;this.playSelected(eL);}
+,on_cmd_queue:function(e){var eM=this.getSelectedItems();if(eM.length<1){return;}
+;this.queueSelected(eM);}
+,onPlayNextCommand:function(e){var eN=this.getSelectedItems();if(eN.length<1){return;}
+;this.queueNext(eN);}
+,onReplaceQueueCommand:function(e){var eO=this.getSelectedItems();if(eO.length<1){return;}
+;this.replaceQueue(eO);}
+,onFilterForArtistCommand:function(e){var eP=this.getSelectedItems();if(eP.length!=1){return;}
+;this.fireDataEvent(cK,cS+eP[0].artist);}
+,onFilterForAlbumCommand:function(e){var eQ=this.getSelectedItems();if(eQ.length!=1){return;}
+;this.fireDataEvent(cK,cU+eQ[0].album);}
+,onEditCommand:function(e){var eR=this.getSelectedItems(),eT=this.getSelectedIndices();if(eR.length<1){return;}
+;var self=this;if(eR.length==1){var eS=this.__vY.getRowCount();qooxtunes.ui.dlg.SongInfo.go(eR[0],eT[0],eS,function(eU){return self.on_editor_ok(eU);}
+,function(eV){return self.on_editor_next(eV);}
+,function(eW){return self.on_editor_prev(eW);}
+,eS);}
+else {qooxtunes.ui.dlg.multi_song_editor.go(song_ids,function(eX,eY){return self.on_multi_editor_ok(eX,eY);}
 );}
 ;}
-,onFavoriteCommand:function(e){qooxtunes.ui.dlg.WaitPopup.show(this.tr(N));var fd=this.getSelectedItems(),fc=this.getSelectedIndices(),fe={};for(var i=0;i<fd.length;i++ ){fe[fd[i].songId]=fc[i];}
-;var self=this;this.__mv[this.__wt.getLabel().toLowerCase()](Object.keys(fe),function(ff){if(ff){if(ff===true){for(var fg in fe){self.__vY.setValue(self.__wa[cc],fe[fg],cW);}
-;for(i=0;i<self.__vT.length;i++ ){if(fe[self.__vT[i].songId]!==undefined){self.__vT[i].liked=cW;delete (fe[self.__vT[i].songId]);if(Object.keys(fe).length===0){break;}
+,onFavoriteCommand:function(e){qooxtunes.ui.dlg.WaitPopup.show(this.tr(M));var fb=this.getSelectedItems(),fa=this.getSelectedIndices(),fc={};for(var i=0;i<fb.length;i++ ){fc[fb[i].songId]=fa[i];}
+;var self=this;this.__mv[this.__wt.getLabel().toLowerCase()](Object.keys(fc),function(fd){if(fd){if(fd===true){for(var fe in fc){self.__vY.setValue(self.__wa[ca],fc[fe],cz);}
+;for(i=0;i<self.__vT.length;i++ ){if(fc[self.__vT[i].songId]!==undefined){self.__vT[i].liked=cz;delete (fc[self.__vT[i].songId]);if(Object.keys(fc).length===0){break;}
 ;}
 ;}
 ;}
-else {for(var j=0;j<ff.length;j++ ){self.__vY.setValue(self.__wa[cc],fe[ff[j].song_id],d);}
-;for(i=0;i<self.__vT.length;i++ ){if(fe[self.__vT[i].songId]!==undefined){self.__vT[i].liked=cO;delete (fe[self.__vT[i].songId]);if(Object.keys(fe).length===0){break;}
+else {for(var j=0;j<fd.length;j++ ){self.__vY.setValue(self.__wa[ca],fc[fd[j].song_id],d);}
+;for(i=0;i<self.__vT.length;i++ ){if(fc[self.__vT[i].songId]!==undefined){self.__vT[i].liked=cF;delete (fc[self.__vT[i].songId]);if(Object.keys(fc).length===0){break;}
 ;}
 ;}
 ;}
 ;self.onChangeSelection();}
 ;qooxtunes.ui.dlg.WaitPopup.hide();}
 );}
-,onDownloadCommand:function(e){var fh=this.getSelectedItems();if(fh.length<1){return;}
-;var fi=[];for(var i=0;i<fh.length;i++ ){fi.push(fh[i].songId);}
-;this.__mv.downloadSongs(fi);}
-,onChangeSelection:function(e){var fj=this.getSelectionModel().getSelectedCount();if(fj==0){this.__qJ.setEnabled(false);this.__wj.setEnabled(false);this.__wn.setEnabled(false);this.__wp.setEnabled(false);this.__wv.setEnabled(false);this.__wr.setEnabled(false);this.__wr.setLabel(this.tr(cV));this.__wt.setEnabled(false);this.__wt.setLabel(M);}
-else if(fj==1){this.__qJ.setEnabled(true);this.__wj.setEnabled(true);this.__wn.setEnabled(true);this.__wp.setEnabled(true);this.__wv.setEnabled(true);this.__wr.setEnabled(true);this.__wr.setLabel(this.tr(cV));var fl=this.getSelectedItems(),fk=A;for(var i=0;i<fl.length;i++ ){if(fl[i].liked===cW){fk=M;}
+,onDownloadCommand:function(e){var ff=this.getSelectedItems();if(ff.length<1){return;}
+;var fg=[];for(var i=0;i<ff.length;i++ ){fg.push(ff[i].songId);}
+;this.__mv.downloadSongs(fg);}
+,onChangeSelection:function(e){var fh=this.getSelectionModel().getSelectedCount();if(fh==0){this.__qJ.setEnabled(false);this.__wj.setEnabled(false);this.__wn.setEnabled(false);this.__wp.setEnabled(false);this.__wv.setEnabled(false);this.__wr.setEnabled(false);this.__wr.setLabel(this.tr(cR));this.__wt.setEnabled(false);this.__wt.setLabel(L);}
+else if(fh==1){this.__qJ.setEnabled(true);this.__wj.setEnabled(true);this.__wn.setEnabled(true);this.__wp.setEnabled(true);this.__wv.setEnabled(true);this.__wr.setEnabled(true);this.__wr.setLabel(this.tr(cR));var fj=this.getSelectedItems(),fi=z;for(var i=0;i<fj.length;i++ ){if(fj[i].liked===cz){fi=L;}
 ;}
-;this.__wt.setEnabled(true);this.__wt.setLabel(fk);}
-else {this.__qJ.setEnabled(true);this.__wj.setEnabled(true);this.__wn.setEnabled(false);this.__wp.setEnabled(false);this.__wv.setEnabled(false);this.__wr.setEnabled(true);this.__wr.setLabel(this.tr(cn));var fl=this.getSelectedItems(),fk=A;for(var i=0;i<fl.length;i++ ){if(fl[i].liked===cW){fk=M;}
+;this.__wt.setEnabled(true);this.__wt.setLabel(fi);}
+else {this.__qJ.setEnabled(true);this.__wj.setEnabled(true);this.__wn.setEnabled(false);this.__wp.setEnabled(false);this.__wv.setEnabled(false);this.__wr.setEnabled(true);this.__wr.setLabel(this.tr(cl));var fj=this.getSelectedItems(),fi=z;for(var i=0;i<fj.length;i++ ){if(fj[i].liked===cz){fi=L;}
 ;}
-;this.__wt.setEnabled(true);this.__wt.setLabel(fk);}
+;this.__wt.setEnabled(true);this.__wt.setLabel(fi);}
 ;this.updateTotalDuration();}
-,loadColumnState:function(){this.__vX=true;var fo=qooxtunes.util.Preferences.getInstance().get(cN,false);if(!fo){console.log(cF);this.__vX=false;return;}
-;var fn=this.getTableColumnModel();var fm=fn.getOverallColumnCount();if(fo.col_order.length!=fm){this.__vX=false;return;}
-;fn.setColumnsOrder(fo.col_order);for(var i=0;i<fm;i++ ){fn.setColumnVisible(i,(fo.col_visible[i]==1));fn.setColumnWidth(i,fo.col_widths[i]);}
+,loadColumnState:function(){this.__vX=true;var fm=qooxtunes.util.Preferences.getInstance().get(cL,false);if(!fm){console.log(cD);this.__vX=false;return;}
+;var fl=this.getTableColumnModel();var fk=fl.getOverallColumnCount();if(fm.col_order.length!=fk){this.__vX=false;return;}
+;fl.setColumnsOrder(fm.col_order);for(var i=0;i<fk;i++ ){fl.setColumnVisible(i,(fm.col_visible[i]==1));fl.setColumnWidth(i,fm.col_widths[i]);}
 ;this.__vX=false;}
 ,saveColumnState:function(){if(this.__vX){return;}
-;var fs=this.getTableColumnModel();var fp=fs.getOverallColumnCount();var ft=[];var fr={};fr.col_widths=[];fr.col_visible=[];for(var i=0;i<fp;i++ ){fr.col_visible.push(fs.isColumnVisible(i)?1:0);fr.col_widths.push(fs.getColumnWidth(i));if(!fs.isColumnVisible(i)){ft.push(i);}
+;var fq=this.getTableColumnModel();var fn=fq.getOverallColumnCount();var fr=[];var fp={};fp.col_widths=[];fp.col_visible=[];for(var i=0;i<fn;i++ ){fp.col_visible.push(fq.isColumnVisible(i)?1:0);fp.col_widths.push(fq.getColumnWidth(i));if(!fq.isColumnVisible(i)){fr.push(i);}
 ;}
-;var fq=fs.getVisibleColumns();fr.col_order=[];for(var i=0;i<fq.length;i++ ){fr.col_order.push(fq[i]);}
-;for(var i=0;i<ft.length;i++ ){fr.col_order.push(ft[i]);}
-;qooxtunes.util.Preferences.getInstance().set(cN,fr);}
+;var fo=fq.getVisibleColumns();fp.col_order=[];for(var i=0;i<fo.length;i++ ){fp.col_order.push(fo[i]);}
+;for(var i=0;i<fr.length;i++ ){fp.col_order.push(fr[i]);}
+;qooxtunes.util.Preferences.getInstance().set(cL,fp);}
 ,onRemoveSongs:function(){if(this.__sw===null){return;}
-;var fu=this.getSelectedItems(),self=this;this.__mv.removeSongsFromPlaylist(this.__sw.id,fu,function(fv){if(!fv){qooxtunes.ui.dlg.MsgBox.go(cT,cJ);}
+;var fs=this.getSelectedItems(),self=this;this.__mv.removeSongsFromPlaylist(this.__sw.id,fs,function(ft){if(!ft){qooxtunes.ui.dlg.MsgBox.go(cs,cY);}
 ;self.loadPlaylist(self.__sw.id);}
 );}
-,onKeypress:function(e){var fw=e.getKeyIdentifier().toLowerCase(),self=this;switch(fw){case cz:case Q:e.preventDefault();this.onRemoveSongs();break;case cH:this.onPlayCommand();break;case n:if(this.__vW===null){qooxtunes.ui.ctl.PlaybackControl.getInstance().onPlayButtonPress();break;}
-;default:if(fw.length>1&&fw!==n){break;}
-;clearTimeout(this.__vW);switch(fw){case n:fw=cL;break;};this.__vV+=fw;this.__vW=setTimeout(function(){self.__vW=null;var fz=self.__vY.getSortColumnIndex(),fy=self.__vY.getData(),fA=false,fx=new RegExp(K+self.__vV,P);for(var i=0;i<fy.length;i++ ){if(fy[i][fz].match(fx)){fA=true;break;}
+,onKeypress:function(e){var fu=e.getKeyIdentifier().toLowerCase(),self=this;switch(fu){case cC:case P:e.preventDefault();this.onRemoveSongs();break;case cA:this.onPlayCommand();break;case n:if(this.__vW===null){qooxtunes.ui.ctl.PlaybackControl.getInstance().onPlayButtonPress();break;}
+;default:if(fu.length>1&&fu!==n){break;}
+;clearTimeout(this.__vW);switch(fu){case n:fu=cJ;break;};this.__vV+=fu;this.__vW=setTimeout(function(){self.__vW=null;var fx=self.__vY.getSortColumnIndex(),fw=self.__vY.getData(),fy=false,fv=new RegExp(J+self.__vV,O);for(var i=0;i<fw.length;i++ ){if(fw[i][fx].match(fv)){fy=true;break;}
 ;}
-;if(fA){self.scrollCellVisible(fz,i,true);self.setFocusedCell(fz,i);}
-;self.__vV=cW;}
+;if(fy){self.scrollCellVisible(fx,i,true);self.setFocusedCell(fx,i);}
+;self.__vV=cz;}
 ,1000);break;};}
-,init:function(){this.__mv=qooxtunes.api.API.get();var fD=this.getSelectionModel();fD.setSelectionMode(qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION);fD.addListener(G,this.onChangeSelection,this);var fC=this.getTableColumnModel();fC.setColumnVisible(0,false);fC.setColumnVisible(1,false);var fE=new qx.ui.table.cellrenderer.Number();var fB=new qx.util.format.NumberFormat();fB.setGroupingUsed(false);fE.setNumberFormat(fB);var fF=new qx.ui.table.cellrenderer.Date();fF.setDateFormat(new qx.util.format.DateFormat(C));fC.setDataCellRenderer(this.__wa[cI],new qx.ui.table.cellrenderer.Image());fC.setDataCellRenderer(this.__wa[H],fE);fC.setDataCellRenderer(this.__wa[w],new qx.ui.table.cellrenderer.Boolean());fC.setDataCellRenderer(this.__wa[cE],fF);fC.setDataCellRenderer(this.__wa[cc],new qx.ui.table.cellrenderer.Image());var self=this;fC.addListener(l,function(e){switch(e.getData().col){case self.__wa[cI]:fC.setColumnWidth(e.getData().col,22);break;};}
-);fC.setColumnWidth(this.__wa[cI],22);fC.setColumnWidth(this.__wa[o],200);fC.setColumnWidth(this.__wa[Y],200);fC.setColumnWidth(this.__wa[dc],200);fC.setColumnWidth(this.__wa[k],50);fC.setColumnWidth(this.__wa[da],50);fC.setColumnWidth(this.__wa[U],100);fC.setColumnWidth(this.__wa[D],70);fC.setColumnWidth(this.__wa[w],70);fC.setColumnWidth(this.__wa[B],50);fC.setColumnWidth(this.__wa[H],50);fC.setColumnWidth(this.__wa[cE],150);fC.setColumnWidth(this.__wa[cc],60);this.addListener(W,this.onKeypress,this);this.addListener(ch,this.on_columnVisibilityMenuCreateEnd,this);this.addListener(s,this.on_dragstart,this);this.__wc=new qx.ui.menu.Menu();this.__wd=new qx.ui.command.Command(cY);this.__wd.addListener(I,this.onSelectAllCommand,this);this.__we=new qx.ui.menu.Button(this.tr(ct),cP,this.__wd);this.__wc.add(this.__we);this.__wc.add(new qx.ui.menu.Separator());this.__wf=new qx.ui.command.Command(cu);this.__wf.addListener(I,this.onPlayCommand,this);this.addListener(cd,this.onPlayCommand,this);this.__qJ=new qx.ui.menu.Button(this.tr(cC),cP,this.__wf);this.__wc.add(this.__qJ);this.__wg=new qx.ui.command.Command(cW);this.__wg.addListener(y,this.onPlayNextCommand,this);this.__wh=new qx.ui.menu.Button(this.tr(X),cP,this.__wg);this.__wc.add(this.__wh);this.__wi=new qx.ui.command.Command(cs);this.__wi.addListener(I,this.on_cmd_queue,this);this.__wj=new qx.ui.menu.Button(this.tr(S),cP,this.__wi);this.__wc.add(this.__wj);this.__wk=new qx.ui.command.Command(cw);this.__wk.addListener(I,this.onReplaceQueueCommand,this);this.__wl=new qx.ui.menu.Button(this.tr(ce),cP,this.__wk);this.__wc.add(this.__wl);this.__wc.add(new qx.ui.menu.Separator());this.__wm=new qx.ui.command.Command();this.__wm.addListener(I,this.onFilterForArtistCommand,this);this.__wn=new qx.ui.menu.Button(this.tr(ci),cP,this.__wm);this.__wc.add(this.__wn);this.__wo=new qx.ui.command.Command();this.__wo.addListener(I,this.onFilterForAlbumCommand,this);this.__wp=new qx.ui.menu.Button(this.tr(cl),cP,this.__wo);this.__wc.add(this.__wp);this.__wc.add(new qx.ui.menu.Separator());this.__wq=new qx.ui.command.Command(cS);this.__wq.addListener(I,this.onDownloadCommand,this);this.__wr=new qx.ui.menu.Button(this.tr(cK),cP,this.__wq);this.__wc.add(this.__wr);this.__wc.add(new qx.ui.menu.Separator());this.__ws=new qx.ui.command.Command();this.__ws.addListener(y,this.onFavoriteCommand,this);this.__wt=new qx.ui.menu.Button(this.tr(J),cP,this.__ws);this.__wc.add(this.__wt);this.__wu=new qx.ui.command.Command(cb);this.__wu.addListener(I,this.onEditCommand,this);this.__wv=new qx.ui.menu.Button(this.tr(cx),cP,this.__wu);this.__wc.add(this.__wv);this.setContextMenu(this.__wc);this.setDraggable(true);this.setFocusCellOnPointerMove(true);qooxtunes.ui.ctl.PlaybackControl.getInstance().addListener(q,function(e){var fH=e.getData(),fG=this.__vY.getDataAsMapArray();for(var i=0;i<fG.length;i++ ){if(fG[i].songId===fH){this.__vY.setValue(this.__wa[cI],i,T);if(!fG[i].playCount){fG[i].playCount=0;}
-;this.__vY.setValue(this.__wa[B],i,parseInt(fG[i].playCount)+1);this.scrollCellVisible(this.__wa[cI],i,true);this.setFocusedCell(this.__wa[cI],i);}
-else {this.__vY.setValue(this.__wa[cI],i,cP);}
+,init:function(){this.__mv=qooxtunes.api.API.get();var fB=this.getSelectionModel();fB.setSelectionMode(qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION);fB.addListener(F,this.onChangeSelection,this);var fA=this.getTableColumnModel();fA.setColumnVisible(0,false);fA.setColumnVisible(1,false);var fC=new qx.ui.table.cellrenderer.Number();var fz=new qx.util.format.NumberFormat();fz.setGroupingUsed(false);fC.setNumberFormat(fz);var fD=new qx.ui.table.cellrenderer.Date();fD.setDateFormat(new qx.util.format.DateFormat(B));fA.setDataCellRenderer(this.__wa[cG],new qx.ui.table.cellrenderer.Image());fA.setDataCellRenderer(this.__wa[G],fC);fA.setDataCellRenderer(this.__wa[v],new qx.ui.table.cellrenderer.Boolean());fA.setDataCellRenderer(this.__wa[cI],fD);fA.setDataCellRenderer(this.__wa[ca],new qx.ui.table.cellrenderer.Image());var self=this;fA.addListener(l,function(e){switch(e.getData().col){case self.__wa[cG]:fA.setColumnWidth(e.getData().col,22);break;};}
+);fA.setColumnWidth(this.__wa[cG],22);fA.setColumnWidth(this.__wa[o],200);fA.setColumnWidth(this.__wa[X],200);fA.setColumnWidth(this.__wa[cO],200);fA.setColumnWidth(this.__wa[k],50);fA.setColumnWidth(this.__wa[cE],50);fA.setColumnWidth(this.__wa[T],100);fA.setColumnWidth(this.__wa[C],70);fA.setColumnWidth(this.__wa[v],70);fA.setColumnWidth(this.__wa[A],50);fA.setColumnWidth(this.__wa[G],50);fA.setColumnWidth(this.__wa[cI],150);fA.setColumnWidth(this.__wa[ca],60);this.addListener(V,this.onKeypress,this);this.addListener(cf,this.on_columnVisibilityMenuCreateEnd,this);this.addListener(s,this.on_dragstart,this);this.__wc=new qx.ui.menu.Menu();this.__wd=new qx.ui.command.Command(cB);this.__wd.addListener(H,this.onSelectAllCommand,this);this.__we=new qx.ui.menu.Button(this.tr(ck),cN,this.__wd);this.__wc.add(this.__we);this.__wc.add(new qx.ui.menu.Separator());this.__wf=new qx.ui.command.Command(cm);this.__wf.addListener(H,this.onPlayCommand,this);this.addListener(cb,this.onPlayCommand,this);this.__qJ=new qx.ui.menu.Button(this.tr(cx),cN,this.__wf);this.__wc.add(this.__qJ);this.__wg=new qx.ui.command.Command(cz);this.__wg.addListener(x,this.onPlayNextCommand,this);this.__wh=new qx.ui.menu.Button(this.tr(W),cN,this.__wg);this.__wc.add(this.__wh);this.__wi=new qx.ui.command.Command(cV);this.__wi.addListener(H,this.on_cmd_queue,this);this.__wj=new qx.ui.menu.Button(this.tr(R),cN,this.__wi);this.__wc.add(this.__wj);this.__wk=new qx.ui.command.Command(cq);this.__wk.addListener(H,this.onReplaceQueueCommand,this);this.__wl=new qx.ui.menu.Button(this.tr(cc),cN,this.__wk);this.__wc.add(this.__wl);this.__wc.add(new qx.ui.menu.Separator());this.__wm=new qx.ui.command.Command();this.__wm.addListener(H,this.onFilterForArtistCommand,this);this.__wn=new qx.ui.menu.Button(this.tr(cn),cN,this.__wm);this.__wc.add(this.__wn);this.__wo=new qx.ui.command.Command();this.__wo.addListener(H,this.onFilterForAlbumCommand,this);this.__wp=new qx.ui.menu.Button(this.tr(cj),cN,this.__wo);this.__wc.add(this.__wp);this.__wc.add(new qx.ui.menu.Separator());this.__wq=new qx.ui.command.Command(cQ);this.__wq.addListener(H,this.onDownloadCommand,this);this.__wr=new qx.ui.menu.Button(this.tr(cP),cN,this.__wq);this.__wc.add(this.__wr);this.__wc.add(new qx.ui.menu.Separator());this.__ws=new qx.ui.command.Command();this.__ws.addListener(x,this.onFavoriteCommand,this);this.__wt=new qx.ui.menu.Button(this.tr(I),cN,this.__ws);this.__wc.add(this.__wt);this.__wu=new qx.ui.command.Command(cg);this.__wu.addListener(H,this.onEditCommand,this);this.__wv=new qx.ui.menu.Button(this.tr(cv),cN,this.__wu);this.__wc.add(this.__wv);this.setContextMenu(this.__wc);this.setDraggable(true);this.setFocusCellOnPointerMove(true);qooxtunes.ui.ctl.PlaybackControl.getInstance().addListener(q,function(e){var fF=e.getData(),fE=this.__vY.getDataAsMapArray();for(var i=0;i<fE.length;i++ ){if(fE[i].songId===fF){this.__vY.setValue(this.__wa[cG],i,S);if(!fE[i].playCount){fE[i].playCount=0;}
+;this.__vY.setValue(this.__wa[A],i,parseInt(fE[i].playCount)+1);this.scrollCellVisible(this.__wa[cG],i,true);this.setFocusedCell(this.__wa[cG],i);}
+else {this.__vY.setValue(this.__wa[cG],i,cN);}
 ;}
-;for(i=0;i<this.__vT.length;i++ ){if(this.__vT[i].songId===fH){this.__vT[i].nowPlaying=T;if(!this.__vT[i].playCount){this.__vT[i].playCount=0;}
+;for(i=0;i<this.__vT.length;i++ ){if(this.__vT[i].songId===fF){this.__vT[i].nowPlaying=S;if(!this.__vT[i].playCount){this.__vT[i].playCount=0;}
 ;this.__vT[i].playCount=parseInt(this.__vT[i].playCount)+1;}
-else {this.__vT[i].nowPlaying=cP;}
+else {this.__vT[i].nowPlaying=cN;}
 ;}
-;this.__qE=fH;}
-,this);this.addListener(u,function(e){this.loadColumnState();fC.addListener(l,function(e){this.saveColumnState();}
-,this);fC.addListener(t,function(e){this.saveColumnState();}
-,this);fC.addListener(L,function(e){this.saveColumnState();}
+;this.__qE=fF;}
+,this);this.addListener(u,function(e){this.loadColumnState();fA.addListener(l,function(e){this.saveColumnState();}
+,this);fA.addListener(t,function(e){this.saveColumnState();}
+,this);fA.addListener(K,function(e){this.saveColumnState();}
 ,this);}
 ,this);}
 }});}

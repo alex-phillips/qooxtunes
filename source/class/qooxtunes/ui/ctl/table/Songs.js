@@ -392,15 +392,18 @@ qx.Class.define("qooxtunes.ui.ctl.table.Songs",
 
           for (var i = 0; i < result.interactions.length; i++) {
             var interaction = result.interactions[i];
+
+            // For some reason, saw a user run into an issue where 'interaction' was
+            // undefined here. So just doing some sanity checking...
+            if (!interaction) {
+              continue;
+            }
+
             if (!playData[interaction.song_id]) {
               playData[interaction.song_id] = {
                 playCount: 0,
                 liked: false
               };
-            }
-
-            if (playData[interaction.song_id].liked) {
-              console.log('liking ' + interaction.song_id);
             }
 
             playData[interaction.song_id].playCount += interaction.play_count;
