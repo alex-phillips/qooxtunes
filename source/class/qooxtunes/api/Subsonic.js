@@ -280,7 +280,8 @@ qx.Class.define("qooxtunes.api.Subsonic",
           for (var i = 0; i < albumData.album.song.length; i++) {
             var song = albumData.album.song[i];
             var album = self.__albums[id];
-            var artist = self.__artists[song.artistId] || self.__artists[album.artistId]
+            var artist = self.__artists[song.artistId] || self.__artists[album.artistId];
+            var albumArtist = self.__artists[album.artistId];
 
             if (!artist) {
               console.log('no artist for id ' + song.artistId, song)
@@ -305,17 +306,20 @@ qx.Class.define("qooxtunes.api.Subsonic",
               genre: song.genre_id ? self.getGenreById(song.genre_id) : '',
               length: song.duration,
               artist_id: song.artistId || album.artistId,
+              artist: {
+                name: song.artist
+              },
               date_added: new Date(song.created),
               album: {
                 id: album.id,
                 cover: album.coverArt,
                 name: album.name,
                 year: album.year,
-                compilationState: 0,
+                compilationState: song.artist !== album.artist,
                 artist: {
                   id: artist.id,
-                  image: artist.coverArt,
-                  name: artist.name
+                  image: albumArtist.coverArt,
+                  name: albumArtist.name
                 }
               }
             };
@@ -500,6 +504,17 @@ qx.Class.define("qooxtunes.api.Subsonic",
 
       getArtistById: function (id) {
         return this.__artists[id];
+      },
+
+      getArtistByName: function (name) {
+        var keys = Object.keys(this.__artists);
+        for (var i = 0; i < keys.length; i++) {
+          if (this.__artists[keys[i]] === name) {
+            return keys[i];
+          }
+        }
+
+        return null;
       },
 
       getGenreById: function (id) {

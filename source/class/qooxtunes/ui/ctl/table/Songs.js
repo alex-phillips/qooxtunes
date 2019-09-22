@@ -412,18 +412,17 @@ qx.Class.define("qooxtunes.ui.ctl.table.Songs",
 
           var songs = self.__api.getSongs();
           for (var id in songs) {
-            var song = songs[id],
-              artist = song.album.artist;
+            var song = songs[id];;
             // if (song.album.compilationState) {
-              artist = self.__api.getArtistById(song.artist_id);
+            var artistName = song.artist ? song.artist.name : self.__api.getArtistById(song.artist_id).name; // Subsonic doesn't have an artist entry for artists that only appear on compilations, so we pass in just the string value.
             // }
 
             rowData.push({
               songId: song.id,
-              searchValue: [song.title, artist.name, song.album.artist.name, song.album.name, song.genre].join(' '),
+              searchValue: [song.title, artistName, song.album.artist.name, song.album.name, song.genre].join(' '),
               nowPlaying: null,
               title: song.title,
-              artist: artist.name,
+              artist: artistName,
               albumArtist: song.album.artist.name,
               album: song.album.name,
               disc: song.disc,

@@ -20,7 +20,7 @@ qx.$$g = {}
 
 qx.$$loader = {
   parts : {"boot":[0]},
-  packages : {"0":{"uris":["__out__:qooxtunes.60f2c233db45.js"]}},
+  packages : {"0":{"uris":["__out__:qooxtunes.0b97fdcbb36f.js"]}},
   urisBefore : [],
   cssBefore : [],
   boot : "boot",
@@ -8622,29 +8622,29 @@ else {u=null;}
 ;}
 });}
 )();
-(function(){var a="Please enter your email and password.",b='serverType',c='',d="Koel",f="Login",g='attempting to login: ',h='enter',i="execute",j="subsonic",k="qooxtunes.ui.dlg.Login",l="qx.event.type.Event",m="changeSelection",n="Subsonic",o='login',p="",q='email',r='appear',s='url',t='password',u="keypress",v="<p>",w="</p>",x="koel",y="OK";qx.Class.define(k,{extend:qooxtunes.ui.dlg.Standard,events:{"login":l},construct:function(z){qooxtunes.ui.dlg.Standard.call(this,f);this.set({width:240,height:220});this.__oK=new qooxtunes.ui.ctl.SelectBox();this.__oK.addItem(n,j);this.__oK.addItem(d,x);this.__oK.addListener(m,this.onServerTypeChange,this);this.add(this.__oK,{left:18,top:18,right:18});this.__oL=new qx.ui.form.TextField();this.__oL.set({width:null,placeholder:s});this.__oL.addListener(u,this.onUrlKeypress,this);this.add(this.__oL,{left:18,top:52,right:18});this.__oM=new qx.ui.form.TextField();this.__oM.set({width:null,placeholder:q});this.__oM.addListener(u,this.onEmailKeypress,this);this.add(this.__oM,{left:18,top:86,right:18});this.__oN=new qx.ui.form.PasswordField();this.__oN.set({width:null,placeholder:t});this.__oN.addListener(u,this.onPasswordKeypress,this);this.add(this.__oN,{left:18,top:120,right:18});if(z){var A=new qx.ui.basic.Label(v+z+w);this.add(A,{left:9,top:62});}
-;this.__oO=new qx.ui.form.Button(y);this.__oO.set({enabled:false});this.__oO.addListener(i,this.login,this);this.add(this.__oO,{bottom:7,right:18});this.addListener(r,function(){this.__oM.focus();}
+(function(){var a="Please enter your email and password.",b='serverType',c='',d="Koel",f="Login",g='enter',h="execute",i="subsonic",j="qooxtunes.ui.dlg.Login",k="qx.event.type.Event",l="changeSelection",m="Subsonic",n='login',o="",p='email',q='appear',r='url',s='password',t="keypress",u="<p>",v="</p>",w="koel",x="OK";qx.Class.define(j,{extend:qooxtunes.ui.dlg.Standard,events:{"login":k},construct:function(y){qooxtunes.ui.dlg.Standard.call(this,f);this.set({width:240,height:220});this.__oK=new qooxtunes.ui.ctl.SelectBox();this.__oK.addItem(m,i);this.__oK.addItem(d,w);this.__oK.addListener(l,this.onServerTypeChange,this);this.add(this.__oK,{left:18,top:18,right:18});this.__oL=new qx.ui.form.TextField();this.__oL.set({width:null,placeholder:r});this.__oL.addListener(t,this.onUrlKeypress,this);this.add(this.__oL,{left:18,top:52,right:18});this.__oM=new qx.ui.form.TextField();this.__oM.set({width:null,placeholder:p});this.__oM.addListener(t,this.onEmailKeypress,this);this.add(this.__oM,{left:18,top:86,right:18});this.__oN=new qx.ui.form.PasswordField();this.__oN.set({width:null,placeholder:s});this.__oN.addListener(t,this.onPasswordKeypress,this);this.add(this.__oN,{left:18,top:120,right:18});if(y){var z=new qx.ui.basic.Label(u+y+v);this.add(z,{left:9,top:62});}
+;this.__oO=new qx.ui.form.Button(x);this.__oO.set({enabled:false});this.__oO.addListener(h,this.login,this);this.add(this.__oO,{bottom:7,right:18});this.addListener(q,function(){this.__oM.focus();}
 ,this);}
-,members:{__mv:null,__oK:null,__oL:null,__oM:null,__oN:null,__oO:null,__oP:false,checkFields:function(){var C=this.__oM.getValue();var B=this.__oN.getValue();if((C==null||C==p)||(B==null||B==p)){this.__oO.set({enabled:false});}
+,members:{__mv:null,__oK:null,__oL:null,__oM:null,__oN:null,__oO:null,__oP:false,checkFields:function(){var B=this.__oM.getValue();var A=this.__oN.getValue();if((B==null||B==o)||(A==null||A==o)){this.__oO.set({enabled:false});}
 else {this.__oO.set({enabled:true});}
 ;}
-,init:function(){var E=qx.bom.Cookie.get(b);var D=qx.bom.Cookie.get(s);this.__oM.setValue(c);this.__oN.setValue(c);if(E&&D){qooxtunes.api.API.serverType=E;this.__mv=qooxtunes.api.API.get(E);var self=this;return this.__mv.ping(function(F){if(F){self.fireEvent(o);}
+,init:function(){var D=qx.bom.Cookie.get(b);var C=qx.bom.Cookie.get(r);this.__oM.setValue(c);this.__oN.setValue(c);if(D&&C){qooxtunes.api.API.serverType=D;this.__mv=qooxtunes.api.API.get(D);var self=this;return this.__mv.ping(function(E){if(E){self.fireEvent(n);}
 else {self.open();self.__oP=true;}
 ;}
 );}
 ;this.open();this.__oP=true;}
 ,login:function(event){if(!this.__oO.getEnabled()){return;}
-;var H=this.__oK.getSelectedValue();var G=this.__oL.getValue();var J=this.__oM.getValue();var I=this.__oN.getValue();if(J==null||J==p||I==null||I==p){qooxtunes.ui.dlg.MsgBox.go(a);return;}
-;console.log(g,{username:J,password:I,url:G,serverType:H});this.__mv=qooxtunes.api.API.get(H);var self=this;this.__mv.login({url:G,username:J,email:J,password:I},function(K){if(K){qx.bom.Cookie.set(b,H,365);qx.bom.Cookie.set(s,G,365);self.close();self.__oP=false;self.fireEvent(o);}
+;var G=this.__oK.getSelectedValue();var F=this.__oL.getValue();var I=this.__oM.getValue();var H=this.__oN.getValue();if(I==null||I==o||H==null||H==o){qooxtunes.ui.dlg.MsgBox.go(a);return;}
+;this.__mv=qooxtunes.api.API.get(G);var self=this;this.__mv.login({url:F,username:I,email:I,password:H},function(J){if(J){qx.bom.Cookie.set(b,G,365);qx.bom.Cookie.set(r,F,365);self.close();self.__oP=false;self.fireEvent(n);}
 ;}
 );}
-,onUrlKeypress:function(e){this.checkFields();if(e.getKeyIdentifier().toLowerCase()==h){this.login(null);}
+,onUrlKeypress:function(e){this.checkFields();if(e.getKeyIdentifier().toLowerCase()==g){this.login(null);}
 ;}
-,onEmailKeypress:function(e){this.checkFields();if(e.getKeyIdentifier().toLowerCase()==h){this.login(null);}
+,onEmailKeypress:function(e){this.checkFields();if(e.getKeyIdentifier().toLowerCase()==g){this.login(null);}
 ;}
-,onPasswordKeypress:function(e){this.checkFields();if(e.getKeyIdentifier().toLowerCase()==h){this.login(null);}
+,onPasswordKeypress:function(e){this.checkFields();if(e.getKeyIdentifier().toLowerCase()==g){this.login(null);}
 ;}
-,onServerTypeChange:function(e){var L=this.__oK.getSelectedValue();qooxtunes.api.API.serverType=L;}
+,onServerTypeChange:function(e){var K=this.__oK.getSelectedValue();qooxtunes.api.API.serverType=K;}
 }});}
 )();
 (function(){var a="",b="qx.ui.form.MForm",c="Boolean",d="_applyValid",f="changeLocale",g="changeRequired",h="changeValid",i="qx.dynlocale",j="changeInvalidMessage",k="String",l="invalid";qx.Mixin.define(b,{construct:function(){if(qx.core.Environment.get(i)){qx.locale.Manager.getInstance().addListener(f,this.__oQ,this);}
@@ -10537,113 +10537,116 @@ else {return -1;}
 ,_getArtist:function(cG,cE){var self=this;var cF=new qx.io.request.Xhr(self._buildUrl(bP,{id:cG}));cF.addListener(p,function(){var cH=cF.getResponse()[V];for(var i=0;i<cH.artist.album.length;i++ ){self.__mz[cH.artist.album[i].id]=cH.artist.album[i];}
 ;return cE(cH);}
 );cF.send();}
-,_getAlbum:function(cK,cI){var self=this;var cJ=new qx.io.request.Xhr(self._buildUrl(b,{id:cK}));cJ.addListener(p,function(){var cN=cJ.getResponse()[V];for(var i=0;i<cN.album.song.length;i++ ){var cM=cN.album.song[i];var cL=self.__mz[cK];var cO=self.__mA[cM.artistId]||self.__mA[cL.artistId];if(!cO){console.log(w+cM.artistId,cM);}
+,_getAlbum:function(cK,cI){var self=this;var cJ=new qx.io.request.Xhr(self._buildUrl(b,{id:cK}));cJ.addListener(p,function(){var cP=cJ.getResponse()[V];for(var i=0;i<cP.album.song.length;i++ ){var cM=cP.album.song[i];var cL=self.__mz[cK];var cN=self.__mA[cM.artistId]||self.__mA[cL.artistId];var cO=self.__mA[cL.artistId];if(!cN){console.log(w+cM.artistId,cM);}
 ;if(cM.playCount>0){self.__cP.interactions[cM.id]={song_id:cM.id,playCount:cM.playCount,liked:false};}
-;self.__my[cM.id]={id:cM.id,title:cM.title,year:cM.year,disc:cM.discNumber===0?k:cM.discNumber,track:cM.track,rating:null,search_value:cM.title+bB+cM.artist+bB+self.__mz[cM.albumId],genre:cM.genre_id?self.getGenreById(cM.genre_id):k,length:cM.duration,artist_id:cM.artistId||cL.artistId,date_added:new Date(cM.created),album:{id:cL.id,cover:cL.coverArt,name:cL.name,year:cL.year,compilationState:0,artist:{id:cO.id,image:cO.coverArt,name:cO.name}}};}
-;return cI(cN);}
+;self.__my[cM.id]={id:cM.id,title:cM.title,year:cM.year,disc:cM.discNumber===0?k:cM.discNumber,track:cM.track,rating:null,search_value:cM.title+bB+cM.artist+bB+self.__mz[cM.albumId],genre:cM.genre_id?self.getGenreById(cM.genre_id):k,length:cM.duration,artist_id:cM.artistId||cL.artistId,artist:{name:cM.artist},date_added:new Date(cM.created),album:{id:cL.id,cover:cL.coverArt,name:cL.name,year:cL.year,compilationState:cM.artist!==cL.artist,artist:{id:cN.id,image:cO.coverArt,name:cO.name}}};}
+;return cI(cP);}
 );cJ.send();}
-,_getArtists:function(cP){var self=this;var cQ=new qx.io.request.Xhr(self._buildUrl(y));cQ.addListener(p,function(){var cR=cQ.getResponse()[V];for(var i=0;i<cR.artists.index.length;i++ ){for(var j=0;j<cR.artists.index[i].artist.length;j++ ){self.__mA[cR.artists.index[i].artist[j].id]=cR.artists.index[i].artist[j];}
+,_getArtists:function(cQ){var self=this;var cR=new qx.io.request.Xhr(self._buildUrl(y));cR.addListener(p,function(){var cS=cR.getResponse()[V];for(var i=0;i<cS.artists.index.length;i++ ){for(var j=0;j<cS.artists.index[i].artist.length;j++ ){self.__mA[cS.artists.index[i].artist[j].id]=cS.artists.index[i].artist[j];}
 ;}
-;return cP();}
-);cQ.send();}
-,_getPlaylists:function(cS){var self=this;self.__cP.playlists=[];var cT=new qx.io.request.Xhr(this._buildUrl(z));cT.addListener(p,function(){var cU=cT.getResponse()[V];if(!cU.playlists||!cU.playlists.playlist){return cS();}
-;Promise.all(cU.playlists.playlist.map(function(cV){return new Promise(function(cW,cX){self._getPlaylist(cV.id,function(da){var cY=[];if(da.entry){cY=da.entry.map(function(db){return db.id;}
+;return cQ();}
+);cR.send();}
+,_getPlaylists:function(cT){var self=this;self.__cP.playlists=[];var cU=new qx.io.request.Xhr(this._buildUrl(z));cU.addListener(p,function(){var cV=cU.getResponse()[V];if(!cV.playlists||!cV.playlists.playlist){return cT();}
+;Promise.all(cV.playlists.playlist.map(function(cW){return new Promise(function(cX,cY){self._getPlaylist(cW.id,function(db){var da=[];if(db.entry){da=db.entry.map(function(dc){return dc.id;}
 );}
-;self.__cP.playlists.push({id:da.id,name:da.name,songs:cY});return cW();}
+;self.__cP.playlists.push({id:db.id,name:db.name,songs:da});return cX();}
 );}
 );}
-)).then(cS);}
-);cT.send();}
-,_getPlaylist:function(de,dc){var dd=new qx.io.request.Xhr(this._buildUrl(s,{id:de}));dd.addListener(p,function(){var df=dd.getResponse()[V];return dc(df.playlist);}
-);dd.send();}
-,_getStarred:function(dg){var self=this;var dh=new qx.io.request.Xhr(this._buildUrl(bL));dh.addListener(p,function(){var di=dh.getResponse()[V];if(di.starred2&&di.starred2.song){for(var i=0;i<di.starred2.song.length;i++ ){if(!self.__cP.interactions[di.starred2.song[i].id]){self.__cP.interactions[di.starred2.song[i].id]={sing_id:di.starred2.song[i].id};}
-;self.__cP.interactions[di.starred2.song[i].id].liked=true;}
+)).then(cT);}
+);cU.send();}
+,_getPlaylist:function(df,dd){var de=new qx.io.request.Xhr(this._buildUrl(s,{id:df}));de.addListener(p,function(){var dg=de.getResponse()[V];return dd(dg.playlist);}
+);de.send();}
+,_getStarred:function(dh){var self=this;var di=new qx.io.request.Xhr(this._buildUrl(bL));di.addListener(p,function(){var dj=di.getResponse()[V];if(dj.starred2&&dj.starred2.song){for(var i=0;i<dj.starred2.song.length;i++ ){if(!self.__cP.interactions[dj.starred2.song[i].id]){self.__cP.interactions[dj.starred2.song[i].id]={sing_id:dj.starred2.song[i].id};}
+;self.__cP.interactions[dj.starred2.song[i].id].liked=true;}
 ;self.__cP.interactions=Object.values(self.__cP.interactions);}
-;return dg();}
-);dh.send();}
-,fetchData:function(dj){var self=this;self.__cP={playlists:[],interactions:[]};self._getArtists(function(){Promise.all(Object.keys(self.__mA).map(function(name,dk){return new Promise(function(dl,dm){self._getArtist(dk,dl);}
+;return dh();}
+);di.send();}
+,fetchData:function(dk){var self=this;self.__cP={playlists:[],interactions:[]};self._getArtists(function(){Promise.all(Object.keys(self.__mA).map(function(name,dl){return new Promise(function(dm,dn){self._getArtist(dl,dm);}
 );}
-)).then(function(){return Promise.all(Object.keys(self.__mz).map(function(name,dn){return new Promise(function(dp,dq){self._getAlbum(dn,dp);}
+)).then(function(){return Promise.all(Object.keys(self.__mz).map(function(name,dp){return new Promise(function(dq,dr){self._getAlbum(dp,dq);}
 );}
 ));}
-).then(function(){return new Promise(function(dr,ds){self._getPlaylists(dr);}
+).then(function(){return new Promise(function(ds,dt){self._getPlaylists(ds);}
 );}
-).then(function(){return new Promise(function(dt,du){self._getStarred(dt);}
+).then(function(){return new Promise(function(du,dv){self._getStarred(du);}
 );}
-).then(function(){return dj(self.__cP);}
+).then(function(){return dk(self.__cP);}
 );}
 );}
 ,isLastFmEnabled:function(){return this.__cP.useLastfm;}
-,disconnectFromLastFm:function(dv){var dw=new qx.io.remote.Request(bE,q,U);dw.setProhibitCaching(false);dw.setRequestHeader(bz,d);dw.setRequestHeader(B,d);dw.setRequestHeader(v,bQ+this.getToken());dw.addListener(F,function(e){dv();}
-);dw.send();}
-,getData:function(dx){if(this.__cP){return dx(this.__cP);}
-;this.fetchData(dx);}
+,disconnectFromLastFm:function(dw){var dx=new qx.io.remote.Request(bE,q,U);dx.setProhibitCaching(false);dx.setRequestHeader(bz,d);dx.setRequestHeader(B,d);dx.setRequestHeader(v,bQ+this.getToken());dx.addListener(F,function(e){dw();}
+);dx.send();}
+,getData:function(dy){if(this.__cP){return dy(this.__cP);}
+;this.fetchData(dy);}
 ,getSongs:function(){return this.__my;}
-,getSongById:function(dy){return this.__my[dy];}
-,getAlbumById:function(dz){return this.__mz[dz];}
-,getArtistById:function(dA){return this.__mA[dA];}
-,getGenreById:function(dC){var dB=k;for(var i=0;i<this.__cP.genres.length;i++ ){if(this.__cP.genres[i].id===dC){dB=this.__cP.genres[i].name;break;}
+,getSongById:function(dz){return this.__my[dz];}
+,getAlbumById:function(dA){return this.__mz[dA];}
+,getArtistById:function(dB){return this.__mA[dB];}
+,getArtistByName:function(name){var dC=Object.keys(this.__mA);for(var i=0;i<dC.length;i++ ){if(this.__mA[dC[i]]===name){return dC[i];}
 ;}
-;return dB;}
-,getPlaylistById:function(dD){for(var i=0;i<this.__cP.playlists.length;i++ ){if(this.__cP.playlists[i].id===dD){return this.__cP.playlists[i];}
+;return null;}
+,getGenreById:function(dE){var dD=k;for(var i=0;i<this.__cP.genres.length;i++ ){if(this.__cP.genres[i].id===dE){dD=this.__cP.genres[i].name;break;}
+;}
+;return dD;}
+,getPlaylistById:function(dF){for(var i=0;i<this.__cP.playlists.length;i++ ){if(this.__cP.playlists[i].id===dF){return this.__cP.playlists[i];}
 ;}
 ;return null;}
 ,getPlaylists:function(){return this.__cP.playlists;}
 ,getUserPreferences:function(){return this.__cP.currentUser.preferences;}
-,getUserPreferenceValue:function(dF){var dE=this.getUserPreferences();if(dE[dF]){return dE[dF];}
+,getUserPreferenceValue:function(dH){var dG=this.getUserPreferences();if(dG[dH]){return dG[dH];}
 ;return null;}
-,getPreferences:function(){var dG=qx.module.Cookie.get(I+this.__cP.currentUser.id);if(!dG){dG={};}
-else {dG=JSON.parse(dG);}
-;return dG;}
-,getPreferenceValue:function(dJ,dH){var dI=this.getPreferences();if(dI[dJ]){return dI[dJ];}
-;return dH===undefined?null:dH;}
-,savePreferences:function(dK){qx.module.Cookie.set(I+this.__cP.currentUser.id,JSON.stringify(dK),1000);}
-,scrobble:function(dL){var dM=new qx.io.request.Xhr(this._buildUrl(H,{id:dL,time:(new Date()).getTime(),submision:true}));dM.send();}
-,setPreferenceValue:function(dN,dO){var dP=this.getPreferences();dP[dN]=dO;this.savePreferences(dP);}
+,getPreferences:function(){var dI=qx.module.Cookie.get(I+this.__cP.currentUser.id);if(!dI){dI={};}
+else {dI=JSON.parse(dI);}
+;return dI;}
+,getPreferenceValue:function(dL,dJ){var dK=this.getPreferences();if(dK[dL]){return dK[dL];}
+;return dJ===undefined?null:dJ;}
+,savePreferences:function(dM){qx.module.Cookie.set(I+this.__cP.currentUser.id,JSON.stringify(dM),1000);}
+,scrobble:function(dN){var dO=new qx.io.request.Xhr(this._buildUrl(H,{id:dN,time:(new Date()).getTime(),submision:true}));dO.send();}
+,setPreferenceValue:function(dP,dQ){var dR=this.getPreferences();dR[dP]=dQ;this.savePreferences(dR);}
 ,getProfile:function(){return this.__cP.currentUser;}
 ,getSettings:function(){return this.__cP.settings;}
-,getSongInfo:function(dR,dQ){var dS=this.getSongById(dR);var self=this;this._getArtistInfo(dS.id,function(dT){dS.artist_info={};if(dT.biography){dS.artist_info.bio={full:dT.biography};}
-;if(dT.largeImageUrl){dS.artist_info.image=dT.largeImageUrl;}
-;self._getLyrics(dS.id,function(dU){return dQ(dS);}
+,getSongInfo:function(dT,dS){var dU=this.getSongById(dT);var self=this;this._getArtistInfo(dU.id,function(dV){dU.artist_info={};if(dV.biography){dU.artist_info.bio={full:dV.biography};}
+;if(dV.largeImageUrl){dU.artist_info.image=dV.largeImageUrl;}
+;self._getLyrics(dU.id,function(dW){return dS(dU);}
 );}
 );}
-,_getLyrics:function(dX,dV){var dW=new qx.io.request.Xhr(this._buildUrl(bR,{id:dX}));dW.addListener(p,function(){var dY=dW.getResponse()[V];return dV(dY.lyrics);}
-);dW.send();}
-,_getArtistInfo:function(ec,ea){var eb=new qx.io.request.Xhr(this._buildUrl(D,{id:ec}));eb.addListener(p,function(){var ed=eb.getResponse()[V];console.log(ed);return ea(ed.artistInfo);}
-);eb.send();}
-,getSongPlayInfo:function(eg,ee){var ef=new qx.io.remote.Request(bT,u,U);ef.setProhibitCaching(false);ef.setRequestHeader(v,bQ+this.getToken());ef.setRequestHeader(bz,d);ef.setRequestHeader(B,d);ef.setTimeout(60000);ef.setData(JSON.stringify({song:eg}));ef.addListener(F,function(e){ee(e.getContent());}
-);ef.addListener(bF,function(e){ee(false);}
-);ef.send();}
-,getSongUrl:function(ei,ej){var eh=this._buildUrl(bG,{id:ei,maxBitRate:320,estimateContentLength:false});return eh;}
+,_getLyrics:function(ea,dX){var dY=new qx.io.request.Xhr(this._buildUrl(bR,{id:ea}));dY.addListener(p,function(){var eb=dY.getResponse()[V];return dX(eb.lyrics);}
+);dY.send();}
+,_getArtistInfo:function(ee,ec){var ed=new qx.io.request.Xhr(this._buildUrl(D,{id:ee}));ed.addListener(p,function(){var ef=ed.getResponse()[V];console.log(ef);return ec(ef.artistInfo);}
+);ed.send();}
+,getSongPlayInfo:function(ei,eg){var eh=new qx.io.remote.Request(bT,u,U);eh.setProhibitCaching(false);eh.setRequestHeader(v,bQ+this.getToken());eh.setRequestHeader(bz,d);eh.setRequestHeader(B,d);eh.setTimeout(60000);eh.setData(JSON.stringify({song:ei}));eh.addListener(F,function(e){eg(e.getContent());}
+);eh.addListener(bF,function(e){eg(false);}
+);eh.send();}
+,getSongUrl:function(ek,el){var ej=this._buildUrl(bG,{id:ek,maxBitRate:320,estimateContentLength:false});return ej;}
 ,getToken:function(){if(!this.__mx){this.__mx=qx.bom.Cookie.get(K);}
 ;return this.__mx;}
-,ping:function(ek){if(!this._username){this._username=qx.bom.Cookie.get(Y);}
+,ping:function(em){if(!this._username){this._username=qx.bom.Cookie.get(Y);}
 ;if(!this._password){this._password=qx.bom.Cookie.get(bD);}
 ;if(!this._url){this._url=qx.bom.Cookie.get(o);}
-;var el=new qx.io.request.Xhr(this._buildUrl(G));el.addListener(p,function(e){return ek(true);}
-);el.addListener(bJ,function(e){return ek(false);}
-);el.send();}
-,scanLibrary:function(eo,em){var en=new qx.io.remote.Request(bO,u,U);en.setProhibitCaching(false);en.setRequestHeader(v,bQ+this.getToken());en.setRequestHeader(bz,d);en.setRequestHeader(B,d);en.setTimeout(300000);en.setData(JSON.stringify({media_path:eo}));en.addListener(F,function(e){em(e.getContent());}
-);en.addListener(bF,function(e){em(false);}
+;var en=new qx.io.request.Xhr(this._buildUrl(G));en.addListener(p,function(e){return em(true);}
+);en.addListener(bJ,function(e){return em(false);}
 );en.send();}
-,updateProfile:function(er,ep){var eq=new qx.io.remote.Request(bN,R,U);eq.setProhibitCaching(false);eq.setRequestHeader(v,bQ+this.getToken());eq.setRequestHeader(bz,d);eq.setRequestHeader(B,d);eq.setTimeout(60000);eq.setData(JSON.stringify({name:er.name,email:er.email,password:er.password}));eq.addListener(F,function(e){if(!e.getContent()){this.__cP.currentUser.name=er.name;this.__cP.currentUser.email=er.email;}
-;ep(e.getContent());}
-);eq.addListener(bF,function(e){ep(false);}
-);eq.send();}
-,favorite:function(es,et){var self=this;Promise.all(es.map(function(eu){return new Promise(function(ev,ex){var ew=new qx.io.request.Xhr(self._buildUrl(N,{id:eu}));ew.addListener(p,ev);ew.send();}
+,scanLibrary:function(eq,eo){var ep=new qx.io.remote.Request(bO,u,U);ep.setProhibitCaching(false);ep.setRequestHeader(v,bQ+this.getToken());ep.setRequestHeader(bz,d);ep.setRequestHeader(B,d);ep.setTimeout(300000);ep.setData(JSON.stringify({media_path:eq}));ep.addListener(F,function(e){eo(e.getContent());}
+);ep.addListener(bF,function(e){eo(false);}
+);ep.send();}
+,updateProfile:function(et,er){var es=new qx.io.remote.Request(bN,R,U);es.setProhibitCaching(false);es.setRequestHeader(v,bQ+this.getToken());es.setRequestHeader(bz,d);es.setRequestHeader(B,d);es.setTimeout(60000);es.setData(JSON.stringify({name:et.name,email:et.email,password:et.password}));es.addListener(F,function(e){if(!e.getContent()){this.__cP.currentUser.name=et.name;this.__cP.currentUser.email=et.email;}
+;er(e.getContent());}
+);es.addListener(bF,function(e){er(false);}
+);es.send();}
+,favorite:function(eu,ev){var self=this;Promise.all(eu.map(function(ew){return new Promise(function(ex,ez){var ey=new qx.io.request.Xhr(self._buildUrl(N,{id:ew}));ey.addListener(p,ex);ey.send();}
 );}
-)).then(function(){var ey=[];for(var i=0;i<es.length;i++ ){ey.push({song_id:es[i]});}
-;et(ey);}
+)).then(function(){var eA=[];for(var i=0;i<eu.length;i++ ){eA.push({song_id:eu[i]});}
+;ev(eA);}
 );}
-,unfavorite:function(ez,eA){var self=this;Promise.all(ez.map(function(eB){return new Promise(function(eC,eE){var eD=new qx.io.request.Xhr(self._buildUrl(bM,{id:eB}));eD.addListener(p,eC);eD.send();}
+,unfavorite:function(eB,eC){var self=this;Promise.all(eB.map(function(eD){return new Promise(function(eE,eG){var eF=new qx.io.request.Xhr(self._buildUrl(bM,{id:eD}));eF.addListener(p,eE);eF.send();}
 );}
-)).then(function(){eA(true);}
+)).then(function(){eC(true);}
 );}
-,updateSong:function(eH,eF){var eG=new qx.io.remote.Request(bI,R,U);eG.setProhibitCaching(false);eG.setRequestHeader(v,bQ+this.getToken());eG.setRequestHeader(bz,d);eG.setRequestHeader(B,d);eG.setTimeout(60000);eG.setData(JSON.stringify(eH));eG.addListener(F,function(e){eF(e.getContent());}
-);eG.addListener(bF,function(e){eF(false);}
-);eG.send();}
-,downloadSongs:function(eI){var eJ=[W+this.getToken(),];for(var i=0;i<eI.length;i++ ){eJ.push(M+eI[i]);}
-;eJ=S+eJ.join(bA);window.open(Q+eJ);}
+,updateSong:function(eJ,eH){var eI=new qx.io.remote.Request(bI,R,U);eI.setProhibitCaching(false);eI.setRequestHeader(v,bQ+this.getToken());eI.setRequestHeader(bz,d);eI.setRequestHeader(B,d);eI.setTimeout(60000);eI.setData(JSON.stringify(eJ));eI.addListener(F,function(e){eH(e.getContent());}
+);eI.addListener(bF,function(e){eH(false);}
+);eI.send();}
+,downloadSongs:function(eK){var eL=[W+this.getToken(),];for(var i=0;i<eK.length;i++ ){eL.push(M+eK[i]);}
+;eL=S+eL.join(bA);window.open(Q+eL);}
 ,supportsEditing:function(){return false;}
 }});}
 )();
@@ -14142,7 +14145,7 @@ else {var dl=this.getSelectedItems();}
 ;var self=this;qooxtunes.ui.dlg.WaitPopup.show(this.tr(U));this.__mv.getData(function(eb){var ea=[];var ed={};for(var i=0;i<eb.interactions.length;i++ ){var dW=eb.interactions[i];if(!dW){continue;}
 ;if(!ed[dW.song_id]){ed[dW.song_id]={playCount:0,liked:false};}
 ;ed[dW.song_id].playCount+=dW.play_count;ed[dW.song_id].liked=dW.liked;}
-;var ee=self.__mv.getSongs();for(var ec in ee){var dY=ee[ec],dX=dY.album.artist;dX=self.__mv.getArtistById(dY.artist_id);ea.push({songId:dY.id,searchValue:[dY.title,dX.name,dY.album.artist.name,dY.album.name,dY.genre].join(cJ),nowPlaying:null,title:dY.title,artist:dX.name,albumArtist:dY.album.artist.name,album:dY.album.name,disc:dY.disc,track:dY.track,genre:dY.genre,year:dY.album.year,compilation:Boolean(dY.album.compilationState),duration:qooxtunes.util.Time.intToStr(dY.length),playCount:ed[dY.id]&&ed[dY.id].playCount?ed[dY.id].playCount:cz,dateAdded:dY.date_added,liked:ed[dY.id]&&ed[dY.id].liked?qx.util.ResourceManager.getInstance().toUri(d):cz});}
+;var ee=self.__mv.getSongs();for(var ec in ee){var dX=ee[ec];;var dY=dX.artist?dX.artist.name:self.__mv.getArtistById(dX.artist_id).name;ea.push({songId:dX.id,searchValue:[dX.title,dY,dX.album.artist.name,dX.album.name,dX.genre].join(cJ),nowPlaying:null,title:dX.title,artist:dY,albumArtist:dX.album.artist.name,album:dX.album.name,disc:dX.disc,track:dX.track,genre:dX.genre,year:dX.album.year,compilation:Boolean(dX.album.compilationState),duration:qooxtunes.util.Time.intToStr(dX.length),playCount:ed[dX.id]&&ed[dX.id].playCount?ed[dX.id].playCount:cz,dateAdded:dX.date_added,liked:ed[dX.id]&&ed[dX.id].liked?qx.util.ResourceManager.getInstance().toUri(d):cz});}
 ;self.__vY.setDataAsMapArray(ea,false,false);self.__vY.sortByColumn(self.__wa[X],true);self.__vT=ea;self.__wb=self.__vT;self.updateTotalDuration();qooxtunes.ui.dlg.WaitPopup.hide();}
 );}
 ,loadPlaylist:function(eg){this.resetSelection();var ef=[];if(eg===null){return this.__sw=null;}

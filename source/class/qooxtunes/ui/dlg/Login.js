@@ -110,13 +110,6 @@ qx.Class.define("qooxtunes.ui.dlg.Login",
           return;
         }
 
-        console.log('attempting to login: ', {
-          username: email,
-          password: password,
-          url: url,
-          serverType: serverType
-        })
-
         this.__api = qooxtunes.api.API.get(serverType);
 
         var self = this;
