@@ -760,7 +760,6 @@ qx.Class.define("qooxtunes.ui.ctl.table.Songs",
       },
 
       onFavoriteCommand: function(e) {
-        qooxtunes.ui.dlg.WaitPopup.show(this.tr("Please wait..."));
         var selectedItems = this.getSelectedItems(),
           selectionRange = this.getSelectedIndices(),
           favoriteIds = {};
@@ -808,7 +807,14 @@ qx.Class.define("qooxtunes.ui.ctl.table.Songs",
             self.onChangeSelection();
           }
 
-          qooxtunes.ui.dlg.WaitPopup.hide();
+          var message = 'Successfully favorited songs!';
+          switch (this.__favoriteButton.getLabel().toLowerCase()) {
+            case 'unfavorite':
+              message = 'Successfully unfavorited songs!';
+              break;
+          }
+
+          qooxtunes.ui.dlg.Toast.go(message);
         });
       },
 
