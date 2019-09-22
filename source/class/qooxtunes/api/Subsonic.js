@@ -259,6 +259,16 @@ qx.Class.define("qooxtunes.api.Subsonic",
         request.addListener('success', function () {
           var artistData = request.getResponse()['subsonic-response'];
 
+          if (!artistData.artist) {
+            return callback();
+          }
+
+          if (!artistData.artist.album) {
+            artistData.album = [];
+
+            return callback(artistData);
+          }
+
           for (var i = 0; i < artistData.artist.album.length; i++) {
             self.__albums[artistData.artist.album[i].id] = artistData.artist.album[i];
           }
@@ -276,6 +286,10 @@ qx.Class.define("qooxtunes.api.Subsonic",
         }));
         request.addListener('success', function () {
           var albumData = request.getResponse()['subsonic-response'];
+
+          if (!albumData.album) {
+            return callback();
+          }
 
           for (var i = 0; i < albumData.album.song.length; i++) {
             var song = albumData.album.song[i];
