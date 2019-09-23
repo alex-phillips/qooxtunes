@@ -291,6 +291,10 @@ qx.Class.define("qooxtunes.api.Subsonic",
             return callback();
           }
 
+          if (!albumData.album.song) {
+            return callback();
+          }
+
           for (var i = 0; i < albumData.album.song.length; i++) {
             var song = albumData.album.song[i];
             var album = self.__albums[id];
