@@ -308,7 +308,7 @@ qx.Class.define("qooxtunes.api.Subsonic",
             if (song.playCount > 0) {
               self.__data.interactions[song.id] = {
                 song_id: song.id,
-                playCount: song.playCount,
+                play_count: song.playCount,
                 liked: false
               }
             }
