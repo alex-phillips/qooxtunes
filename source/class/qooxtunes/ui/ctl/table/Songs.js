@@ -808,7 +808,7 @@ qx.Class.define("qooxtunes.ui.ctl.table.Songs",
           }
 
           var message = 'Successfully favorited songs!';
-          switch (this.__favoriteButton.getLabel().toLowerCase()) {
+          switch (self.__favoriteButton.getLabel().toLowerCase()) {
             case 'unfavorite':
               message = 'Successfully unfavorited songs!';
               break;
