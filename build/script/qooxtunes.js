@@ -20,7 +20,7 @@ qx.$$g = {}
 
 qx.$$loader = {
   parts : {"boot":[0]},
-  packages : {"0":{"uris":["__out__:qooxtunes.0672f163941d.js"]}},
+  packages : {"0":{"uris":["__out__:qooxtunes.b9472c8abee3.js"]}},
   urisBefore : [],
   cssBefore : [],
   boot : "boot",
@@ -10542,7 +10542,7 @@ else {return -1;}
 ,_getAlbum:function(cK,cI){var self=this;var cJ=new qx.io.request.Xhr(self._buildUrl(b,{id:cK}));cJ.addListener(p,function(){var cP=cJ.getResponse()[V];if(!cP.album){return cI();}
 ;for(var i=0;i<cP.album.song.length;i++ ){var cM=cP.album.song[i];var cL=self.__mz[cK];var cN=self.__mA[cM.artistId]||self.__mA[cL.artistId];var cO=self.__mA[cL.artistId];if(!cN){console.log(w+cM.artistId,cM);}
 ;if(cM.playCount>0){self.__cP.interactions[cM.id]={song_id:cM.id,playCount:cM.playCount,liked:false};}
-;self.__my[cM.id]={id:cM.id,title:cM.title,year:cM.year,disc:cM.discNumber===0?k:cM.discNumber,track:cM.track,rating:null,search_value:cM.title+bB+cM.artist+bB+self.__mz[cM.albumId],genre:cM.genre_id?self.getGenreById(cM.genre_id):k,length:cM.duration||0,artist_id:cM.artistId||cL.artistId,artist:{name:cM.artist},date_added:new Date(cM.created),album:{id:cL.id,cover:cL.coverArt,name:cL.name,year:cL.year,compilationState:cM.artist!==cL.artist,artist:{id:cN.id,image:cO.coverArt,name:cO.name}}};}
+;self.__my[cM.id]={id:cM.id,title:cM.title,year:cM.year,disc:cM.discNumber===0?k:cM.discNumber,track:cM.track,rating:null,search_value:cM.title+bB+cM.artist+bB+self.__mz[cM.albumId],genre:cM.genre||cL.genre,length:cM.duration||0,artist_id:cM.artistId||cL.artistId,artist:{name:cM.artist},date_added:new Date(cM.created),album:{id:cL.id,cover:cL.coverArt,name:cL.name,year:cL.year,compilationState:cM.artist!==cL.artist,artist:{id:cN.id,image:cO.coverArt,name:cO.name}}};}
 ;return cI(cP);}
 );cJ.send();}
 ,_getArtists:function(cQ){var self=this;var cR=new qx.io.request.Xhr(self._buildUrl(y));cR.addListener(p,function(){var cS=cR.getResponse()[V];for(var i=0;i<cS.artists.index.length;i++ ){for(var j=0;j<cS.artists.index[i].artist.length;j++ ){self.__mA[cS.artists.index[i].artist[j].id]=cS.artists.index[i].artist[j];}
@@ -14224,7 +14224,7 @@ else {for(var j=0;j<fi.length;j++ ){self.__vY.setValue(self.__wa[ci],fg[fi[j].so
 ;}
 ;}
 ;self.onChangeSelection();}
-;var fh=cp;switch(this.__wt.getLabel().toLowerCase()){case cq:fh=cn;break;};qooxtunes.ui.dlg.Toast.go(fh);}
+;var fh=cp;switch(self.__wt.getLabel().toLowerCase()){case cq:fh=cn;break;};qooxtunes.ui.dlg.Toast.go(fh);}
 );}
 ,onDownloadCommand:function(e){var fk=this.getSelectedItems();if(fk.length<1){return;}
 ;var fl=[];for(var i=0;i<fk.length;i++ ){fl.push(fk[i].songId);}

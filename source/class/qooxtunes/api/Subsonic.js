@@ -317,7 +317,7 @@ qx.Class.define("qooxtunes.api.Subsonic",
               track: song.track,
               rating: null,
               search_value: song.title + ' ' + song.artist + ' ' + self.__albums[song.albumId],
-              genre: song.genre_id ? self.getGenreById(song.genre_id) : '',
+              genre: song.genre || album.genre,
               length: song.duration || 0,
               artist_id: song.artistId || album.artistId,
               artist: {
