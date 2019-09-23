@@ -20,7 +20,7 @@ qx.$$g = {}
 
 qx.$$loader = {
   parts : {"boot":[0]},
-  packages : {"0":{"uris":["__out__:qooxtunes.b9472c8abee3.js"]}},
+  packages : {"0":{"uris":["__out__:qooxtunes.f7f435dd0a42.js"]}},
   urisBefore : [],
   cssBefore : [],
   boot : "boot",
@@ -14122,7 +14122,7 @@ else {bd=bc;}
 else {var dq=this.getSelectedItems();}
 ;for(var i=0;i<dq.length;i++ ){dp+=qooxtunes.util.Time.durationStringToInt(dq[i].duration);}
 ;this.setAdditionalStatusBarText(c+qooxtunes.util.Time.totalDurationString(dp));}
-,buildTableModel:function(){this.__vY=new qx.ui.table.model.Simple();this.__wa={};this.__vY.setColumns([r,ck,de,this.tr(cD),this.tr(cl),this.tr(Y),this.tr(cS),this.tr(cL),this.tr(f),this.tr(D),this.tr(p),this.tr(cw),this.tr(P),this.tr(w),this.tr(X),this.tr(I)],[y,M,dc,o,W,cs,cQ,k,cH,S,G,v,C,A,cG,ci,]);this.__wa[y]=0;this.__wa[M]=1;this.__wa[dc]=2;this.__wa[o]=3;this.__wa[W]=4;this.__wa[cs]=5;this.__wa[cQ]=6;this.__wa[k]=7;this.__wa[cH]=8;this.__wa[S]=9;this.__wa[G]=10;this.__wa[v]=11;this.__wa[C]=12;this.__wa[A]=13;this.__wa[cG]=14;this.__wa[ci]=15;var self=this;function dr(a,b,ds){if(!ds){return 0;}
+,buildTableModel:function(){this.__vY=new qx.ui.table.model.Simple();this.__wa={};this.__vY.setColumns([r,ck,de,this.tr(cD),this.tr(P),this.tr(cl),this.tr(Y),this.tr(cS),this.tr(f),this.tr(cL),this.tr(D),this.tr(p),this.tr(cw),this.tr(w),this.tr(X),this.tr(I)],[y,M,dc,o,C,W,cs,cQ,cH,k,S,G,v,A,cG,ci,]);this.__wa[y]=0;this.__wa[M]=1;this.__wa[dc]=2;this.__wa[o]=3;this.__wa[C]=4;this.__wa[W]=5;this.__wa[cs]=6;this.__wa[cQ]=7;this.__wa[cH]=8;this.__wa[k]=9;this.__wa[S]=10;this.__wa[G]=11;this.__wa[v]=12;this.__wa[A]=13;this.__wa[cG]=14;this.__wa[ci]=15;var self=this;function dr(a,b,ds){if(!ds){return 0;}
 ;var du=0;for(var i=0;i<ds.length;i++ ){var dt=a[ds[i]];var dv=b[ds[i]];if(ds[i]===self.__wa[C]){dt=qooxtunes.util.Time.durationStringToInt(dt);dv=qooxtunes.util.Time.durationStringToInt(dv);}
 ;if(dt&&isNaN(dt)){dt=dt.toLowerCase().replace(/^(a|an|the)\s+/,cC);}
 ;if(dv&&isNaN(dv)){dv=dv.toLowerCase().replace(/^(a|an|the)\s+/,cC);}

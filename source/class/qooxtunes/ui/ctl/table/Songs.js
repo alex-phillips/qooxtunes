@@ -148,15 +148,15 @@ qx.Class.define("qooxtunes.ui.ctl.table.Songs",
             "_SearchValue",
             "",
             this.tr("Title"),
+            this.tr("Duration"),
             this.tr("Artist"),
             this.tr("Album Artist"),
             this.tr("Album"),
-            this.tr("Disc"),
             this.tr("Track"),
+            this.tr("Disc"),
             this.tr("Genre"),
             this.tr("Year"),
             this.tr("Compilation"),
-            this.tr("Duration"),
             this.tr("Plays"),
             this.tr("Date Added"),
             this.tr("Favorite")
@@ -166,15 +166,15 @@ qx.Class.define("qooxtunes.ui.ctl.table.Songs",
             'searchValue',
             'nowPlaying',
             'title',
+            'duration',
             'artist',
             'albumArtist',
             'album',
-            'disc',
             'track',
+            'disc',
             'genre',
             'year',
             'compilation',
-            'duration',
             'playCount',
             'dateAdded',
             'liked',
@@ -185,15 +185,15 @@ qx.Class.define("qooxtunes.ui.ctl.table.Songs",
         this.__columnIndex['searchValue'] = 1;
         this.__columnIndex['nowPlaying'] = 2;
         this.__columnIndex['title'] = 3;
-        this.__columnIndex['artist'] = 4;
-        this.__columnIndex['albumArtist'] = 5;
-        this.__columnIndex['album'] = 6;
-        this.__columnIndex['disc'] = 7;
+        this.__columnIndex['duration'] = 4;
+        this.__columnIndex['artist'] = 5;
+        this.__columnIndex['albumArtist'] = 6;
+        this.__columnIndex['album'] = 7;
         this.__columnIndex['track'] = 8;
-        this.__columnIndex['genre'] = 9;
-        this.__columnIndex['year'] = 10;
-        this.__columnIndex['compilation'] = 11;
-        this.__columnIndex['duration'] = 12;
+        this.__columnIndex['disc'] = 9;
+        this.__columnIndex['genre'] = 10;
+        this.__columnIndex['year'] = 11;
+        this.__columnIndex['compilation'] = 12;
         this.__columnIndex['playCount'] = 13;
         this.__columnIndex['dateAdded'] = 14;
         this.__columnIndex['liked'] = 15;
