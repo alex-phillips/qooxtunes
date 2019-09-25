@@ -34,7 +34,7 @@ qx.Class.define("qooxtunes.Application",
        *
        * @lint ignoreDeprecated(alert)
        */
-      main: function() {
+      main: function () {
         // Call super class
         this.base(arguments);
 
@@ -54,7 +54,7 @@ qx.Class.define("qooxtunes.Application",
         this.setUpLogin();
       },
 
-      close: function() {
+      close: function () {
         this.base(arguments);
 
         if (this.__loggedIn && qooxtunes.util.Preferences.getInstance().get('confirmClosing', false)) {
@@ -62,17 +62,17 @@ qx.Class.define("qooxtunes.Application",
         }
       },
 
-      logout: function() {
+      logout: function () {
         var self = this;
-        this.__api.logout(function(err) {
+        this.__api.logout(function (err) {
           self.__loggedIn = false;
           window.location.reload();
         });
       },
 
-      setUpLogin: function() {
+      setUpLogin: function () {
         var cl = new qx.ui.container.Composite(new qx.ui.layout.Canvas);
-        this.getRoot().add(cl, {edge: 0});
+        this.getRoot().add(cl, { edge: 0 });
 
         // this.branding_img = new qx.ui.basic.Image ('diesel/image/diesel.png');
         // cl.add (this.branding_img, { bottom : 2, right : 2 });
@@ -82,14 +82,14 @@ qx.Class.define("qooxtunes.Application",
         this.login.init();
       },
 
-      setUpUI: function() {
+      setUpUI: function () {
         this.__api = qooxtunes.api.API.get();
         this.__loggedIn = true;
         this.playbackControl = qooxtunes.ui.ctl.PlaybackControl.getInstance();
         this.getRoot().add(this.playbackControl, { top: 41, left: 8, right: 8 });
 
         this.tvMain = new qooxtunes.ui.tabview.Main();
-        this.getRoot().add(this.tvMain, {top: 125, left: 8, right: 8, bottom: 8});
+        this.getRoot().add(this.tvMain, { top: 125, left: 8, right: 8, bottom: 8 });
 
         /*
          * Set up 'logout' button with yes/no dialog
@@ -109,6 +109,17 @@ qx.Class.define("qooxtunes.Application",
         menubar.addListener('logout', this.logout, this);
         frame.add(menubar);
         this.getRoot().add(frame);
+
+        this.getRoot().addListener("keypress", this.onKeypress, this);
+      },
+
+      onKeypress: function (e) {
+        var key = e.getKeyIdentifier().toLowerCase();
+        switch (key) {
+          case 'space':
+            qooxtunes.ui.ctl.PlaybackControl.getInstance().onPlayButtonPress();
+            break;
+        }
       }
     }
   });

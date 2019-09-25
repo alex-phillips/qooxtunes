@@ -20,7 +20,7 @@ qx.$$g = {}
 
 qx.$$loader = {
   parts : {"boot":[0]},
-  packages : {"0":{"uris":["__out__:qooxtunes.44e4ec0d3bc3.js"]}},
+  packages : {"0":{"uris":["__out__:qooxtunes.1f8afd30171f.js"]}},
   urisBefore : [],
   cssBefore : [],
   boot : "boot",
@@ -8121,14 +8121,15 @@ else {top+=q;}
 ,members:{useElement:function(c){qx.html.Element.prototype.useElement.call(this,c);this.setRoot(true);qx.html.Element._modified[this.$$hash]=this;}
 }});}
 )();
-(function(){var a="qooxtunes.Application",b='login',c='logout',d="",e='confirmClosing';qx.Class.define(a,{extend:qx.application.Standalone,members:{__mv:null,__mw:false,main:function(){qx.application.Standalone.prototype.main.call(this);{}
+(function(){var a="qooxtunes.Application",b='login',c="keypress",d="",f='logout',g='space',h='confirmClosing';qx.Class.define(a,{extend:qx.application.Standalone,members:{__mv:null,__mw:false,main:function(){qx.application.Standalone.prototype.main.call(this);{}
 ;this.setUpLogin();}
-,close:function(){qx.application.Standalone.prototype.close.call(this);if(this.__mw&&qooxtunes.util.Preferences.getInstance().get(e,false)){return d;}
+,close:function(){qx.application.Standalone.prototype.close.call(this);if(this.__mw&&qooxtunes.util.Preferences.getInstance().get(h,false)){return d;}
 ;}
-,logout:function(){var self=this;this.__mv.logout(function(f){self.__mw=false;window.location.reload();}
+,logout:function(){var self=this;this.__mv.logout(function(i){self.__mw=false;window.location.reload();}
 );}
-,setUpLogin:function(){var g=new qx.ui.container.Composite(new qx.ui.layout.Canvas);this.getRoot().add(g,{edge:0});this.login=new qooxtunes.ui.dlg.Login();this.login.addListener(b,this.setUpUI,this);this.login.init();}
-,setUpUI:function(){this.__mv=qooxtunes.api.API.get();this.__mw=true;this.playbackControl=qooxtunes.ui.ctl.PlaybackControl.getInstance();this.getRoot().add(this.playbackControl,{top:41,left:8,right:8});this.tvMain=new qooxtunes.ui.tabview.Main();this.getRoot().add(this.tvMain,{top:125,left:8,right:8,bottom:8});var h=new qx.ui.container.Composite(new qx.ui.layout.Grow());var menubar=new qooxtunes.ui.ctl.MenuBar();menubar.addListener(c,this.logout,this);h.add(menubar);this.getRoot().add(h);}
+,setUpLogin:function(){var j=new qx.ui.container.Composite(new qx.ui.layout.Canvas);this.getRoot().add(j,{edge:0});this.login=new qooxtunes.ui.dlg.Login();this.login.addListener(b,this.setUpUI,this);this.login.init();}
+,setUpUI:function(){this.__mv=qooxtunes.api.API.get();this.__mw=true;this.playbackControl=qooxtunes.ui.ctl.PlaybackControl.getInstance();this.getRoot().add(this.playbackControl,{top:41,left:8,right:8});this.tvMain=new qooxtunes.ui.tabview.Main();this.getRoot().add(this.tvMain,{top:125,left:8,right:8,bottom:8});var k=new qx.ui.container.Composite(new qx.ui.layout.Grow());var menubar=new qooxtunes.ui.ctl.MenuBar();menubar.addListener(f,this.logout,this);k.add(menubar);this.getRoot().add(k);this.getRoot().addListener(c,this.onKeypress,this);}
+,onKeypress:function(e){var l=e.getKeyIdentifier().toLowerCase();switch(l){case g:qooxtunes.ui.ctl.PlaybackControl.getInstance().onPlayButtonPress();break;};}
 }});}
 )();
 (function(){var a="qooxtunes.util.Preferences",b='',c='object',d='local_preferences',e='singleton',f='.';qx.Class.define(a,{type:e,extend:qx.core.Object,construct:function(){qx.core.Object.call(this);var g=qx.module.Cookie.get(d);if(g){g=JSON.parse(g);}
