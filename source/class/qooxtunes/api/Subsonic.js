@@ -450,13 +450,13 @@ qx.Class.define("qooxtunes.api.Subsonic",
         };
 
         self._getArtists(function () {
-          Promise.all(Object.keys(self.__artists).map(function (name, id) {
+          Promise.all(Object.keys(self.__artists).map(function (id) {
             return new Promise(function (resolve, reject) {
               self._getArtist(id, resolve);
             });
           }))
             .then(function () {
-              return Promise.all(Object.keys(self.__albums).map(function (name, id) {
+              return Promise.all(Object.keys(self.__albums).map(function (id) {
                 return new Promise(function (resolve, reject) {
                   self._getAlbum(id, resolve);
                 });

@@ -20,7 +20,7 @@ qx.$$g = {}
 
 qx.$$loader = {
   parts : {"boot":[0]},
-  packages : {"0":{"uris":["__out__:qooxtunes.1f8afd30171f.js"]}},
+  packages : {"0":{"uris":["__out__:qooxtunes.3b3ff4b00116.js"]}},
   urisBefore : [],
   cssBefore : [],
   boot : "boot",
@@ -10566,9 +10566,9 @@ else {return -1;}
 ;self.__cP.interactions=Object.values(self.__cP.interactions);}
 ;return dh();}
 );di.send();}
-,fetchData:function(dk){var self=this;self.__cP={playlists:[],interactions:[]};self._getArtists(function(){Promise.all(Object.keys(self.__pq).map(function(name,dl){return new Promise(function(dm,dn){self._getArtist(dl,dm);}
+,fetchData:function(dk){var self=this;self.__cP={playlists:[],interactions:[]};self._getArtists(function(){Promise.all(Object.keys(self.__pq).map(function(dl){return new Promise(function(dm,dn){self._getArtist(dl,dm);}
 );}
-)).then(function(){return Promise.all(Object.keys(self.__pp).map(function(name,dp){return new Promise(function(dq,dr){self._getAlbum(dp,dq);}
+)).then(function(){return Promise.all(Object.keys(self.__pp).map(function(dp){return new Promise(function(dq,dr){self._getAlbum(dp,dq);}
 );}
 ));}
 ).then(function(){return new Promise(function(ds,dt){self._getPlaylists(ds);}
