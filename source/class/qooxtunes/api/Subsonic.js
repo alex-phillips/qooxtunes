@@ -232,6 +232,7 @@ qx.Class.define("qooxtunes.api.Subsonic",
       login: function (data, callback) {
         this._username = data.username;
         this._password = data.password;
+        this.params.v = data.version || this.params.v;
         this._url = data.url.replace(/\/$/, '');
 
         var self = this;
@@ -239,6 +240,7 @@ qx.Class.define("qooxtunes.api.Subsonic",
           if (result) {
             qx.bom.Cookie.set('username', self._username, 365);
             qx.bom.Cookie.set('password', self._password, 365);
+            qx.bom.Cookie.set('version', self.params.v, 365);
           }
           return callback(result);
         });
@@ -248,6 +250,7 @@ qx.Class.define("qooxtunes.api.Subsonic",
         qx.bom.Cookie.del('url');
         qx.bom.Cookie.del('username');
         qx.bom.Cookie.del('password');
+        qx.bom.Cookie.del('version');
         callback();
       },
 
@@ -437,6 +440,34 @@ qx.Class.define("qooxtunes.api.Subsonic",
         request.send();
       },
 
+      _getUser: function (callback) {
+        var self = this;
+        var request = new qx.io.request.Xhr(this._buildUrl('getUser', {
+          username: self._username
+        }));
+        request.addListener('success', function () {
+          var data = request.getResponse()['subsonic-response'];
+          console.log(data)
+          return callback();
+          if (data.starred2 && data.starred2.song) {
+            for (var i = 0; i < data.starred2.song.length; i++) {
+              if (!self.__data.interactions[data.starred2.song[i].id]) {
+                self.__data.interactions[data.starred2.song[i].id] = {
+                  sing_id: data.starred2.song[i].id
+                };
+              }
+
+              self.__data.interactions[data.starred2.song[i].id].liked = true;
+            }
+
+            self.__data.interactions = Object.values(self.__data.interactions);
+          }
+
+          return callback();
+        });
+        request.send();
+      },
+
       /**
        * Fetch data from server and build local song data
        *
@@ -470,6 +501,11 @@ qx.Class.define("qooxtunes.api.Subsonic",
             .then(function () {
               return new Promise(function (resolve, reject) {
                 self._getStarred(resolve);
+              });
+            })
+            .then(function () {
+              return new Promise(function (resolve, reject) {
+                self._getUser(resolve);
               });
             })
             .then(function () {
@@ -688,13 +724,17 @@ qx.Class.define("qooxtunes.api.Subsonic",
       },
 
       getSongUrl: function (songId, time) {
-        var url = this._buildUrl('stream', {
+        if (qooxtunes.util.Preferences.getInstance().get('player.advanced', false)) {
+          return this._buildUrl('download', {
+            id: songId,
+          });
+        }
+
+        return this._buildUrl('stream', {
           id: songId,
           maxBitRate: 320,
           estimateContentLength: false
         });
-
-        return url;
       },
 
       /**
@@ -722,6 +762,9 @@ qx.Class.define("qooxtunes.api.Subsonic",
         if (!this._password) {
           this._password = qx.bom.Cookie.get('password');
         }
+
+        this.params.v = qx.bom.Cookie.get('version') || this.params.v;
+
         if (!this._url) {
           this._url = qx.bom.Cookie.get('url');
         }
