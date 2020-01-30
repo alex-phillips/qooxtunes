@@ -450,76 +450,37 @@ qx.Class.define("qooxtunes.api.Subsonic",
         };
 
         self._getArtists(function () {
-          var artists = JSON.parse(JSON.stringify(self.__artists));
-          var albums = JSON.parse(JSON.stringify(self.__albums));
-
-          function retrieveArtist(callback) {
-            if (artists.length === 0) {
-              return;
-            }
-
-            new Promise(function(resolve, reject) {
-              var id = artists.unshift();
-              self._getArtist(artist, function () {
-                retrieveArtist(resolve);
-              })
-            }).then(callback);
-          }
-
-          function retrieveAlbums(callback) {
-            if (albums.length === 0) {
-              return;
-            }
-
-            new Promise(function(resolve, reject) {
-              var id = albums.unshift();
-              self._getArtist(id, function () {
-                retrieveArtist(resolve);
-              })
-            }).then(callback);
-          }
-
-          retrieveArtist()
-            .then(retrieveAlbums)
-            .then(function () {
-              return new Promise(function (resolve, reject) {
-                self._getPlaylists(resolve);
+          var taskProcessor = new qooxtunes.util.Concurrently(20);
+          taskProcessor.onTasksComplete(function () {
+            console.log('task complete')
+            taskProcessor.onTasksComplete(function () {
+              self._getPlaylists(function () {
+                self._getStarred(function () {
+                  callback(self.__data)
+                })
               });
-            })
-            .then(function () {
-              return new Promise(function (resolve, reject) {
-                self._getStarred(resolve);
-              });
-            })
-            .then(function () {
-              return callback(self.__data);
-            })
+            });
 
-          // Promise.all(Object.keys(self.__artists).map(function (id) {
-          //   return new Promise(function (resolve, reject) {
-          //     self._getArtist(id, resolve);
-          //   });
-          // }))
-          //   .then(function () {
-          //     return Promise.all(Object.keys(self.__albums).map(function (id) {
-          //       return new Promise(function (resolve, reject) {
-          //         self._getAlbum(id, resolve);
-          //       });
-          //     }))
-          //   })
-          //   .then(function () {
-          //     return new Promise(function (resolve, reject) {
-          //       self._getPlaylists(resolve);
-          //     });
-          //   })
-          //   .then(function () {
-          //     return new Promise(function (resolve, reject) {
-          //       self._getStarred(resolve);
-          //     });
-          //   })
-          //   .then(function () {
-          //     return callback(self.__data);
-          //   })
+            Object.keys(self.__albums).map(function (id) {
+              taskProcessor.task(function () {
+                return new Promise(function (resolve, reject) {
+                  self._getAlbum(id, resolve);
+                })
+              })
+            });
+
+            taskProcessor.run();
+          });
+
+          Object.keys(self.__artists).map(function (id) {
+            taskProcessor.task(function () {
+              return new Promise(function (resolve, reject) {
+                self._getArtist(id, resolve);
+              })
+            })
+          });
+
+          taskProcessor.run();
         });
       },
 
