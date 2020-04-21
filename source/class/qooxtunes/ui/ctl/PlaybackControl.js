@@ -124,8 +124,9 @@ qx.Class.define("qooxtunes.ui.ctl.PlaybackControl", {
       var self = this;
       this.__currentSong = this.__api.getSongById(id);
 
+      var artist = this.__currentSong.artist ? this.__currentSong.artist.name : this.__api.getArtistById(this.__currentSong.artist_id).name;
       this.__titleLabel.setValue(this.__currentSong.title);
-      this.__artistLabel.setValue(this.__api.getArtistById(this.__currentSong.artist_id).name + ' - ' + this.__currentSong.album.name);
+      this.__artistLabel.setValue(artist + ' - ' + this.__currentSong.album.name);
       this.__totalTimeLabel.setValue(qooxtunes.util.Time.intToStr(this.__currentSong.length));
       qooxtunes.ui.dlg.ArtworkViewer.getInstance().setSource(this.__api.getCoverArt(this.__currentSong.id));
       self.__scrubber.set({
