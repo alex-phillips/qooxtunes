@@ -450,38 +450,30 @@ qx.Class.define("qooxtunes.api.Subsonic",
         };
 
         self._getArtists(function () {
-          var taskProcessor = new qooxtunes.util.Concurrently(20);
-          taskProcessor.onTasksComplete(function () {
-            console.log('task complete')
-            taskProcessor.onTasksComplete(function () {
+          qooxtunes.util.Limiter.run(20, Object.keys(self.__artists).map(function (id) {
+            return function () {
+              return new Promise(function (resolve, reject) {
+                self._getArtist(id, resolve);
+              })
+            }
+          }))
+            .then(function () {
+              return qooxtunes.util.Limiter.run(20, Object.keys(self.__albums).map(function (id) {
+                return function () {
+                  return new Promise(function (resolve, reject) {
+                    self._getAlbum(id, resolve);
+                  })
+                }
+              }))
+            })
+            .then(function () {
               self._getPlaylists(function () {
                 self._getStarred(function () {
                   callback(self.__data)
                 })
-              });
-            });
-
-            Object.keys(self.__albums).map(function (id) {
-              taskProcessor.task(function () {
-                return new Promise(function (resolve, reject) {
-                  self._getAlbum(id, resolve);
-                })
-              })
-            });
-
-            taskProcessor.run();
-          });
-
-          Object.keys(self.__artists).map(function (id) {
-            taskProcessor.task(function () {
-              return new Promise(function (resolve, reject) {
-                self._getArtist(id, resolve);
               })
             })
-          });
-
-          taskProcessor.run();
-        });
+          })
       },
 
       isLastFmEnabled: function () {
