@@ -1,9 +1,14 @@
 {
-  "name": "client",
-  "version": "0.1.0",
-  "repository" : {},
-  "devDependencies": {
-    "grunt": "~0.4.2",
-    "grunt-contrib-clean": "~0.5.0"
+  "name": "qooxtunes2",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@qooxdoo/framework": "^7.7.2"
   }
 }

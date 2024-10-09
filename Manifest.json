@@ -1,34 +1,31 @@
 {
-  "info" : 
+ "$schema": "https://qooxdoo.org/schema/Manifest-2-0-0.json",
+  "info" :
   {
-    "name" : "client",
-
-    "summary" : "Custom Application",
-    "description" : "This is a skeleton for a custom application with qooxdoo.",
-    
-    "homepage" : "http://some.homepage.url/",
-
-    "license" : "SomeLicense",
-    "authors" : 
-    [
-      {
-        "name" : "First Author (uid)",
-        "email" : "first.author@some.domain"
-      }
-    ],
-
-    "version" : "master",
-    "qooxdoo-versions": ["5.0.3"]
+    "name" : "qooxtunes",
+    "summary" : "",
+    "description" : "",
+    "homepage" : "",
+    "license" : "MIT license",
+    "authors" : [
+  {
+    "name": "",
+    "email": ""
+  }
+],
+    "version" : "1.0.0"
   },
-  
-  "provides" : 
+
+  "provides" :
   {
     "namespace"   : "qooxtunes",
     "encoding"    : "utf-8",
     "class"       : "source/class",
     "resource"    : "source/resource",
-    "translation" : "source/translation",
-    "type"        : "application"
+    "translation" : "source/translation"
+  },
+
+  "requires": {
+    "@qooxdoo/framework": "^7.7.2"
   }
 }
-

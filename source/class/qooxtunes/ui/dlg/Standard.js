@@ -1,24 +1,23 @@
-qx.Class.define("qooxtunes.ui.dlg.Standard",
-  {
-    extend: qx.ui.window.Window,
+qx.Class.define("qooxtunes.ui.dlg.Standard", {
+  extend: qx.ui.window.Window,
 
-    construct: function(caption, icon, center) {
-      this.base(arguments, caption, icon);
+  construct(caption, icon, center) {
+    super(caption, icon);
 
-      this.set({
-        modal: true,
-        allowMinimize: false,
-        allowMaximize: false,
-        showClose: false,
-        showMaximize: false,
-        showMinimize: false,
-        resizable: false,
-        contentPadding: 0,
-        layout: new qx.ui.layout.Canvas()
-      });
+    this.set({
+      modal: true,
+      allowMinimize: false,
+      allowMaximize: false,
+      showClose: false,
+      showMaximize: false,
+      showMinimize: false,
+      resizable: false,
+      contentPadding: 0,
+      layout: new qx.ui.layout.Canvas(),
+    });
 
-      if (center || (center == null)) {
-        this.addListener('appear', this.center, this);
-      }
+    if (center || center == null) {
+      this.addListener("appear", this.center, this);
     }
-  });
+  },
+});

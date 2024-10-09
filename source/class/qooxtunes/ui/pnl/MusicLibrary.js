@@ -1,72 +1,76 @@
-qx.Class.define("qooxtunes.ui.pnl.MusicLibrary",
-  {
-    extend: qx.ui.container.Composite,
+qx.Class.define("qooxtunes.ui.pnl.MusicLibrary", {
+  extend: qx.ui.container.Composite,
 
-    construct: function() {
-      this.base(arguments);
-      this.init();
+  construct() {
+    super();
+    this.init();
+  },
+
+  events: {
+    doneEditingPlaylist: "qx.event.type.Data",
+  },
+
+  members: {
+    __libraryTable: null,
+
+    getTable() {
+      return this.__libraryTable;
     },
 
-    events: {
-      doneEditingPlaylist: 'qx.event.type.Data'
+    clear_table_selection() {
+      this.__libraryTable.resetSelection();
     },
 
-    members: {
-      __libraryTable: null,
+    init() {
+      this.setLayout(new qx.ui.layout.Canvas());
 
-      getTable: function() {
-        return this.__libraryTable;
-      },
+      var pane = new qx.ui.splitpane.Pane("horizontal");
 
-      clear_table_selection: function() {
-        this.__libraryTable.resetSelection();
-      },
+      this.__spc_library = new qx.ui.container.Composite(
+        new qx.ui.layout.Canvas()
+      ).set({
+        decorator: "main",
+      });
 
-      init: function() {
-        this.setLayout(new qx.ui.layout.Canvas());
+      this.__libraryTable = new qooxtunes.ui.ctl.table.Songs();
+      this.__spc_library.add(this.__libraryTable, { edge: 0 });
 
-        var pane = new qx.ui.splitpane.Pane("horizontal");
+      this.__spc_playlist = new qx.ui.container.Composite(
+        new qx.ui.layout.VBox()
+      ).set({
+        width: 300,
+        maxWidth: 500,
+        decorator: "main",
+      });
 
-        this.__spc_library = new qx.ui.container.Composite(new qx.ui.layout.Canvas()).set({
-          decorator: "main"
-        });
+      this.__tb_playlist = new qx.ui.toolbar.ToolBar();
+      this.__tb_playlist.setSpacing(4);
 
-        this.__libraryTable = new qooxtunes.ui.ctl.table.Songs();
-        this.__spc_library.add(this.__libraryTable, {edge: 0});
+      this.__lb_playlist = new qx.ui.basic.Label("");
+      this.__lb_playlist.setFont(
+        new qx.bom.Font(24, ["Tahoma", "Lucida Sans Unicode", "sans-serif"])
+      );
+      this.__lb_playlist.setAlignY("middle");
+      this.__tb_playlist.add(this.__lb_playlist, { flex: 1 });
 
-        this.__spc_playlist = new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
-          width: 300,
-          maxWidth: 500,
-          decorator: "main"
-        });
+      this.__tb_playlist.addSpacer();
 
-        this.__tb_playlist = new qx.ui.toolbar.ToolBar();
-        this.__tb_playlist.setSpacing(4);
+      var p1 = new qx.ui.toolbar.Part();
+      this.__b_done = new qx.ui.toolbar.Button(this.tr("Done"));
+      // this.__b_done.addListener('execute', this.on_b_done_execute, this);
 
-        this.__lb_playlist = new qx.ui.basic.Label('');
-        this.__lb_playlist.setFont(new qx.bom.Font(24, ['Tahoma', 'Lucida Sans Unicode', 'sans-serif']));
-        this.__lb_playlist.setAlignY("middle");
-        this.__tb_playlist.add(this.__lb_playlist, {flex: 1});
+      p1.add(this.__b_done);
+      this.__tb_playlist.add(p1);
+      this.__spc_playlist.add(this.__tb_playlist);
 
-        this.__tb_playlist.addSpacer();
+      pane.add(this.__spc_library, 1);
+      pane.add(this.__spc_playlist, 0);
 
-        var p1 = new qx.ui.toolbar.Part();
-        this.__b_done = new qx.ui.toolbar.Button(this.tr("Done"));
-        // this.__b_done.addListener('execute', this.on_b_done_execute, this);
+      this.__spc_playlist.exclude();
 
-        p1.add(this.__b_done);
-        this.__tb_playlist.add(p1);
-        this.__spc_playlist.add(this.__tb_playlist);
+      this.add(pane, { edge: 0 });
 
-        pane.add(this.__spc_library, 1);
-        pane.add(this.__spc_playlist, 0);
-
-        this.__spc_playlist.exclude();
-
-        this.add(pane, {edge: 0});
-
-        this.__libraryTable.loadAll();
-      }
-    }
-
-  });
+      this.__libraryTable.loadAll();
+    },
+  },
+});

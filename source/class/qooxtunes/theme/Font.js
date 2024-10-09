@@ -8,11 +8,8 @@
 
 ************************************************************************ */
 
-qx.Theme.define("qooxtunes.theme.Font",
-{
-  extend : qx.theme.indigo.Font,
+qx.Theme.define("qooxtunes.theme.Font", {
+  extend: qx.theme.indigo.Font,
 
-  fonts :
-  {
-  }
+  fonts: {},
 });

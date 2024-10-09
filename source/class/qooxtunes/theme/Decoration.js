@@ -9,23 +9,23 @@
 ************************************************************************ */
 
 qx.Theme.define("qooxtunes.theme.Decoration", {
-    extend: qx.theme.indigo.Decoration,
+  extend: qx.theme.indigo.Decoration,
 
-    decorations: {
-        "rounded": {
-            include: "main",
+  decorations: {
+    rounded: {
+      include: "main",
 
-            style: {
-                radius: 5
-            }
-        },
+      style: {
+        radius: 5,
+      },
+    },
 
-        "rounded_slider": {
-            include: "main",
+    rounded_slider: {
+      include: "main",
 
-            style: {
-                radius: 3
-            }
-        }
-    }
+      style: {
+        radius: 3,
+      },
+    },
+  },
 });

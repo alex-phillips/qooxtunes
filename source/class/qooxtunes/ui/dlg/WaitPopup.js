@@ -1,26 +1,25 @@
 qx.Class.define("qooxtunes.ui.dlg.WaitPopup", {
   extend: qx.ui.popup.Popup,
 
-  type: 'singleton',
+  type: "singleton",
 
   statics: {
-
-    show: function(message) {
+    show(message) {
       var dlg = qooxtunes.ui.dlg.WaitPopup.getInstance();
       dlg.__message.setLabel(message);
       dlg.__blocker.block();
       dlg.show();
     },
 
-    hide: function() {
+    hide() {
       var dlg = qooxtunes.ui.dlg.WaitPopup.getInstance();
       dlg.__blocker.unblock();
       dlg.hide();
-    }
+    },
   },
 
-  construct: function() {
-    this.base(arguments);
+  construct() {
+    super();
 
     this.__blocker = new qx.bom.Blocker();
     // this.__blocker.setBlockerColor("#D5D5D5");
@@ -30,7 +29,7 @@ qx.Class.define("qooxtunes.ui.dlg.WaitPopup", {
       height: 64,
       width: 140,
       autoHide: false,
-      layout: new qx.ui.layout.Canvas()
+      layout: new qx.ui.layout.Canvas(),
     });
 
     this.set({
@@ -38,30 +37,33 @@ qx.Class.define("qooxtunes.ui.dlg.WaitPopup", {
       width: 200,
       autoHide: false,
       layout: new qx.ui.layout.Canvas(),
-      opacity: 0.8
+      opacity: 0.8,
     });
 
-    this.__message = new qx.ui.basic.Atom(this.tr('Please wait...'), 'qooxtunes/loader.gif');
+    this.__message = new qx.ui.basic.Atom(
+      this.tr("Please wait..."),
+      "qooxtunes/loader.gif"
+    );
     this.__message.set({
       height: 64,
       width: 200,
-      backgroundColor: '#000',
-      textColor: '#fff',
-      center: true
+      backgroundColor: "#000",
+      textColor: "#fff",
+      center: true,
     });
 
     this.add(this.__message, {
       top: 0,
-      left: 0
+      left: 0,
     });
 
-    this.addListener('appear', this.center, this);
+    this.addListener("appear", this.center, this);
   },
 
   members: {
     __blocker: null,
 
-    center: function() {
+    center() {
       var parent = this.getLayoutParent();
       if (parent) {
         var bounds = parent.getBounds();
@@ -78,7 +80,6 @@ qx.Class.define("qooxtunes.ui.dlg.WaitPopup", {
           this.moveTo(left, top);
         }
       }
-    }
-  }
-
+    },
+  },
 });

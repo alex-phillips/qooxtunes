@@ -1,9 +1,6 @@
-/.idea/
-/node_modules/
-/node_modules/
-/qx/*
-/source/script/
-qooxdoo-5.0.2-sdk.zip
-qooxdoo-5.0.2-sdk/
-qooxdoo-*/
-venv/
+# .gitignore template for skeleton-based apps
+/compiled
+/qx_packages
+.package-cache.json
+.history/
+node_modules/
